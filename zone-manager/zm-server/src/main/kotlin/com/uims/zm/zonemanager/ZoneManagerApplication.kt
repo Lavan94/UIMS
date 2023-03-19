@@ -1,11 +1,11 @@
-package com.uims.zm.zmserver
+package com.uims.zm.zonemanager
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-class ZmServerApplication
+class ZoneManagerApplication
 
 fun main(args: Array<String>) {
-    runApplication<ZmServerApplication>(*args)
+    runApplication<ZoneManagerApplication>(*args)
 }

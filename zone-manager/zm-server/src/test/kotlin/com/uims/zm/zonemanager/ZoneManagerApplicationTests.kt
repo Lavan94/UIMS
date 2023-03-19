@@ -1,10 +1,10 @@
-package com.uims.zm.zmserver
+package com.uims.zm.zonemanager
 
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest
-class ZmServerApplicationTests {
+class ZoneManagerApplicationTests {
 
     @Test
     fun contextLoads() {

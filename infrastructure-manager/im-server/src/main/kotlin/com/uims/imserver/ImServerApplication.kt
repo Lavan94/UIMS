@@ -1,4 +1,4 @@
-package com.uims.im.imserver
+package com.uims.imserver
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
@@ -7,5 +7,5 @@ import org.springframework.boot.runApplication
 class ImServerApplication
 
 fun main(args: Array<String>) {
-	runApplication<ImServerApplication>(*args)
+    runApplication<ImServerApplication>(*args)
 }
