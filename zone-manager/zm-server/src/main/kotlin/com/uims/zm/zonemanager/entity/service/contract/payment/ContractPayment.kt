@@ -7,7 +7,7 @@ import java.util.*
 
 @Entity
 @Table(name = "contract_payment")
-open class ContractPayment {
+open class ContractPayment<T> where T : Service {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
@@ -24,5 +24,5 @@ open class ContractPayment {
 
     @ManyToOne(targetEntity = ContractPaymentHistory::class)
     @JoinColumn(name = "contract_payment_history_id", referencedColumnName = "id")
-    open var contractPaymentHistory: ContractPaymentHistory? = null
+    open var contractPaymentHistory: ContractPaymentHistory<T>? = null
 }

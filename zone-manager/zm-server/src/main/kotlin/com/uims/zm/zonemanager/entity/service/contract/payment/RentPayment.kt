@@ -7,7 +7,7 @@ import jakarta.persistence.Table
 
 @Entity
 @Table(name = "rent_payment")
-class RentPayment : ContractPayment() {
+class RentPayment : ContractPayment<RentService>() {
     @Column(name = "months_rented", nullable = false)
     var monthsRented: Int = 0
 }

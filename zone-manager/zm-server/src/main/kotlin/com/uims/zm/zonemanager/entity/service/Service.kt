@@ -17,5 +17,5 @@ open class Service {
 
     @ManyToOne
     @JoinColumn(name = "service_provider_id", referencedColumnName = "id")
-    open var serviceProvider: ServiceProvider? = null
+    open var serviceProvider: ServiceProvider<Service>? = null
 }

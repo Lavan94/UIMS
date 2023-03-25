@@ -8,7 +8,7 @@ import java.util.*
 
 @Entity
 @Table(name = "service_provider")
-class ServiceProvider {
+class ServiceProvider<T> where T : Service {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
@@ -22,8 +22,8 @@ class ServiceProvider {
     var legalOwner: LegalOwner? = null
 
     @OneToMany(targetEntity = Service::class, mappedBy = "serviceProvider")
-    var serviceList: List<Service>? = null;
+    var serviceList: List<T>? = null;
 
     @OneToMany(targetEntity = ServiceContract::class, mappedBy = "contractor")
-    var contractList: List<ServiceContract>? = null
+    var contractList: List<ServiceContract<T>>? = null
 }

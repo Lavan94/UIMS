@@ -1,13 +1,14 @@
 package com.uims.zm.zonemanager.entity.service.contract
 
 import com.uims.zm.zonemanager.entity.owner.Owner
+import com.uims.zm.zonemanager.entity.service.Service
 import com.uims.zm.zonemanager.entity.service.provider.ServiceProvider
 import jakarta.persistence.*
 import java.util.*
 
 @Entity
 @Table(name = "service_contract")
-class ServiceContract {
+class ServiceContract<T> where T : Service {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
@@ -15,7 +16,7 @@ class ServiceContract {
 
     @ManyToOne(targetEntity = ServiceProvider::class)
     @JoinColumn(name = "service_provider_id", referencedColumnName = "id")
-    var contractor: ServiceProvider? = null
+    var contractor: ServiceProvider<T>? = null
 
     @MapsId
     @OneToOne(targetEntity = Owner::class)
@@ -23,5 +24,5 @@ class ServiceContract {
     var contractee: Owner? = null
 
     @OneToMany(targetEntity = ContractPaymentHistory::class, mappedBy = "serviceContract")
-    var contractPaymentHistory: List<ContractPaymentHistory>? = null
+    var contractPaymentHistory: List<ContractPaymentHistory<T>>? = null
 }

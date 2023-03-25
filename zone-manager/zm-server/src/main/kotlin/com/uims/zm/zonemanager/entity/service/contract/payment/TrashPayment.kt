@@ -6,7 +6,7 @@ import java.util.*
 
 @Entity
 @Table(name = "trash_payment")
-class TrashPayment : ContractPayment(){
+class TrashPayment : ContractPayment<TrashService>(){
     @Column(name = "recycled_weight", nullable = false)
     var recycledWeight: Double = 0.0
 

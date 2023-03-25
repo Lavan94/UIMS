@@ -6,7 +6,7 @@ import jakarta.persistence.Table
 
 @Entity
 @Table(name = "water_payment")
-class WaterPayment : ContractPayment() {
+class WaterPayment : ContractPayment<WaterService>() {
     @Column(name = "hot_water_consumption", nullable = false)
     var hotWaterConsumption: Double = 0.0
 

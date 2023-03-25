@@ -6,7 +6,7 @@ import java.util.*
 
 @Entity
 @Table(name = "electricity_payment")
-class ElectricityPayment : ContractPayment() {
+class ElectricityPayment : ContractPayment<ElectricityService>() {
     @Column(name = "electricity_consumption", nullable = false)
     var electricityConsumption: Double = 0.0
 }
