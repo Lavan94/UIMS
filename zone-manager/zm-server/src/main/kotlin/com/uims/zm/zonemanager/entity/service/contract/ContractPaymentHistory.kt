@@ -7,16 +7,16 @@ import java.util.*
 
 @Entity
 @Table(name = "contract_payment_history")
-open class ContractPaymentHistory<T> where T : Service {
+open class ContractPaymentHistory<S> where S : Service {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
     open var id: UUID? = null
 
     @OneToMany(targetEntity = ContractPayment::class, mappedBy = "contractPaymentHistory")
-    open var contractPayments: List<ContractPayment<T>>? = null
+    open var contractPayments: List<ContractPayment<S>>? = null
 
     @ManyToOne(targetEntity = ServiceContract::class)
     @JoinColumn(name = "service_contract_id")
-    open var serviceContract: ServiceContract<T>? = null
+    open var serviceContract: ServiceContract<S>? = null
 }

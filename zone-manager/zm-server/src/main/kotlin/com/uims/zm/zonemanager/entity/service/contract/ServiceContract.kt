@@ -8,7 +8,7 @@ import java.util.*
 
 @Entity
 @Table(name = "service_contract")
-class ServiceContract<T> where T : Service {
+class ServiceContract<S> where S : Service {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
@@ -16,7 +16,7 @@ class ServiceContract<T> where T : Service {
 
     @ManyToOne(targetEntity = ServiceProvider::class)
     @JoinColumn(name = "service_provider_id", referencedColumnName = "id")
-    var contractor: ServiceProvider<T>? = null
+    var contractor: ServiceProvider<S>? = null
 
     @MapsId
     @OneToOne(targetEntity = Owner::class)
@@ -24,5 +24,5 @@ class ServiceContract<T> where T : Service {
     var contractee: Owner? = null
 
     @OneToMany(targetEntity = ContractPaymentHistory::class, mappedBy = "serviceContract")
-    var contractPaymentHistory: List<ContractPaymentHistory<T>>? = null
+    var contractPaymentHistory: List<ContractPaymentHistory<S>>? = null
 }
