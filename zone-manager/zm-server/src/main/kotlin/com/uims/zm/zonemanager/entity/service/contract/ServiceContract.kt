@@ -1,5 +1,6 @@
 package com.uims.zm.zonemanager.entity.service.contract
 
+import ContractPaymentHistory
 import com.uims.zm.zonemanager.entity.owner.Owner
 import com.uims.zm.zonemanager.entity.service.Service
 import com.uims.zm.zonemanager.entity.service.provider.ServiceProvider
@@ -22,6 +23,6 @@ open class ServiceContract<T> where T : Service {
     @ManyToOne(targetEntity = ServiceProvider::class)
     var contractor: ServiceProvider<T>? = null
 
-//    @MapKeyColumn(name = "contract_id")
-//    var contractHistory: Map<Contract, List<ContractPayment<T>>>
+    @OneToMany(targetEntity = ContractPaymentHistory::class)
+    var contractHistory: List<ContractPaymentHistory<T>>? = null
 }
