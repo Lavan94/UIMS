@@ -7,7 +7,7 @@ import jakarta.persistence.Table
 
 @Entity
 @Table(name = "internet_payment")
-open class InternetPayment : ContractPayment<InternetService>() {
+class InternetPayment : ContractPayment() {
     @Column(name = "price", nullable = false)
     var price: Double = 0.0
 }

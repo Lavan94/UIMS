@@ -12,16 +12,16 @@ open class Owner {
     open var id: UUID? = null
 
     @Column(name = "name", nullable = false)
-    var name: String = ""
+    open var name: String = ""
 
     @Column(name = "password", nullable = false)
-    var password: String = ""
+    open var password: String = ""
 
     @Column(name = "email", nullable = false)
-    var email: String = "";
+    open var email: String = "";
 
     @MapsId
     @ManyToOne
     @JoinColumn(name = "address_id")
-    var address: Address? = null;
+    open var address: Address? = null;
 }

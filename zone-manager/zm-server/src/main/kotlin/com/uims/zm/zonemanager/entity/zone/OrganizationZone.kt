@@ -5,7 +5,7 @@ import jakarta.persistence.*
 
 @Entity
 @Table(name = "organization_zone")
-open class OrganizationZone : Zone() {
+class OrganizationZone : Zone() {
     @MapsId
     @OneToOne
     @JoinColumn(name = "owner_id", nullable = true)

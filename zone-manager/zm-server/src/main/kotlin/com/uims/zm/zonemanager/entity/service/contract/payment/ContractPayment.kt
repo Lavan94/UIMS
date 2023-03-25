@@ -1,12 +1,13 @@
 package com.uims.zm.zonemanager.entity.service.contract.payment
 
+import ContractPaymentHistory
 import com.uims.zm.zonemanager.entity.service.Service
 import jakarta.persistence.*
 import java.util.*
 
 @Entity
 @Table(name = "contract_payment")
-open class ContractPayment<T> where T : Service {
+open class ContractPayment {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
@@ -14,10 +15,14 @@ open class ContractPayment<T> where T : Service {
 
     @MapsId
     @OneToOne(targetEntity = Service::class)
-    @JoinColumn(name="service_id", nullable = true)
-    var service: T? = null
+    @JoinColumn(name = "service_id", nullable = true)
+    open var service: Service? = null
 
     @Enumerated(EnumType.STRING)
     @Column(name = "payment_status", nullable = true)
-    var paymentStatus: ContractPaymentStatus? = null
+    open var paymentStatus: ContractPaymentStatus? = null
+
+//    @ManyToOne(targetEntity = ContractPaymentHistory::class)
+//    @JoinColumn(name = "contract_payment_history_id", referencedColumnName = "id")
+//    open var contractPaymentHistory: ContractPaymentHistory? = null
 }

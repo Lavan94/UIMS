@@ -12,8 +12,8 @@ open class Zone {
     open var id: UUID? = null
 
     @Column(name = "name", nullable = false)
-    var name: String = ""
+    open var name: String = ""
 
     @Column(name = "geo_json", nullable = false)
-    var geoJson: String = ""
+    open var geoJson: String = ""
 }

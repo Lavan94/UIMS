@@ -6,7 +6,7 @@ import jakarta.persistence.Table
 
 @Entity
 @Table(name = "trash_service")
-open class TrashService : Service() {
+class TrashService : Service() {
     @Column(name = "weight_unit", nullable = true)
     var weightUnit: String? = null
 

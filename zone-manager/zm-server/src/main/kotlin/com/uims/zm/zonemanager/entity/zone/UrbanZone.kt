@@ -5,7 +5,7 @@ import jakarta.persistence.*
 
 @Entity
 @Table(name = "urban_zone")
-open class UrbanZone : Zone() {
+class UrbanZone : Zone() {
     @Enumerated(EnumType.STRING)
     @Column(name = "urban_type", nullable = true)
     var urbanType: UrbanZoneType? = null

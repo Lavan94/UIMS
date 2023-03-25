@@ -5,7 +5,7 @@ import java.util.*
 
 @Entity
 @Table(name = "individual_owner")
-open class IndividualOwner : Owner() {
+class IndividualOwner : Owner() {
     @Temporal(TemporalType.DATE)
     @Column(name = "dob", nullable = true)
     var dateOfBirth: Date? = null;

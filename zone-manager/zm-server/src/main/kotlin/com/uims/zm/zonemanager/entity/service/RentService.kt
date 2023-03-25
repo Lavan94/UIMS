@@ -6,7 +6,7 @@ import jakarta.persistence.Table
 
 @Entity
 @Table(name = "rent_service")
-open class RentService : Service() {
+class RentService : Service() {
     @Column(name = "surface", nullable = false)
     var surface: Double = 0.0
 

@@ -6,7 +6,7 @@ import jakarta.persistence.Table
 
 @Entity
 @Table(name = "electricity_service")
-open class ElectricityService : Service() {
+class ElectricityService : Service() {
     @Column(name = "price", nullable = false)
     var pricePerKwH: Double = 0.0
 }

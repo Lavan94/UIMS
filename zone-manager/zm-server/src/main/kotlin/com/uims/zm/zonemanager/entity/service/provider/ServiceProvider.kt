@@ -8,11 +8,11 @@ import java.util.*
 
 @Entity
 @Table(name = "service_provider")
-open class ServiceProvider<T> where T : Service {
+class ServiceProvider {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
-    open var id: UUID? = null
+    var id: UUID? = null
 
     @Column(name = "name", nullable = false)
     var name: String = ""
@@ -26,5 +26,5 @@ open class ServiceProvider<T> where T : Service {
     var serviceList: List<Service>? = null;
 
     @OneToMany(targetEntity = ServiceContract::class)
-    var contractList: List<ServiceContract<T>>? = null
+    var contractList: List<ServiceContract>? = null
 }
