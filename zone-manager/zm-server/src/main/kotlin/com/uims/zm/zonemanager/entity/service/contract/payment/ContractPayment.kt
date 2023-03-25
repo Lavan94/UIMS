@@ -1,7 +1,7 @@
 package com.uims.zm.zonemanager.entity.service.contract.payment
 
-import ContractPaymentHistory
 import com.uims.zm.zonemanager.entity.service.Service
+import com.uims.zm.zonemanager.entity.service.contract.ContractPaymentHistory
 import jakarta.persistence.*
 import java.util.*
 
@@ -22,7 +22,7 @@ open class ContractPayment {
     @Column(name = "payment_status", nullable = true)
     open var paymentStatus: ContractPaymentStatus? = null
 
-//    @ManyToOne(targetEntity = ContractPaymentHistory::class)
-//    @JoinColumn(name = "contract_payment_history_id", referencedColumnName = "id")
-//    open var contractPaymentHistory: ContractPaymentHistory? = null
+    @ManyToOne(targetEntity = ContractPaymentHistory::class)
+    @JoinColumn(name = "contract_payment_history_id", referencedColumnName = "id")
+    open var contractPaymentHistory: ContractPaymentHistory? = null
 }
