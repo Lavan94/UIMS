@@ -21,7 +21,7 @@ open class Owner {
     open var email: String = "";
 
     @MapsId
-    @ManyToOne
-    @JoinColumn(name = "address_id")
+    @ManyToOne(targetEntity = Address::class)
+    @JoinColumn(name = "address_id", referencedColumnName = "id")
     open var address: Address? = null;
 }

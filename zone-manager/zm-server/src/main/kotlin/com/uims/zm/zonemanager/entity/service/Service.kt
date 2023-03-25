@@ -1,5 +1,6 @@
 package com.uims.zm.zonemanager.entity.service
 
+import com.uims.zm.zonemanager.entity.service.provider.ServiceProvider
 import jakarta.persistence.*
 import java.util.*
 
@@ -13,4 +14,8 @@ open class Service {
 
     @Column(name = "currency", nullable = true)
     open var currency: Currency? = null
+
+    @ManyToOne
+    @JoinColumn(name = "service_provider_id", referencedColumnName = "id")
+    open var serviceProvider: ServiceProvider? = null
 }

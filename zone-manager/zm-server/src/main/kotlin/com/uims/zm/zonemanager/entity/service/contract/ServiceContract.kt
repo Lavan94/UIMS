@@ -8,20 +8,21 @@ import java.util.*
 
 @Entity
 @Table(name = "service_contract")
-open class ServiceContract {
+class ServiceContract {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
-    open var id: UUID? = null
+    var id: UUID? = null
 
-//    @MapsId
-//    @OneToOne(targetEntity = Owner::class)
-//    @JoinColumn(name = "owner_id", nullable = true)
-//    var contractee: Owner? = null
+    @ManyToOne(targetEntity = ServiceProvider::class)
+    @JoinColumn(name = "service_provider_id", referencedColumnName = "id")
+    var contractor: ServiceProvider? = null
 
-//    @ManyToOne(targetEntity = ServiceProvider::class)
-//    var contractor: ServiceProvider? = null
-//
+    @MapsId
+    @OneToOne(targetEntity = Owner::class)
+    @JoinColumn(name = "owner_id", referencedColumnName = "id", nullable = true)
+    var contractee: Owner? = null
+
 //    @OneToMany(targetEntity = ContractPaymentHistory::class, mappedBy = "serviceContract")
-//    var contractHistory: List<ContractPaymentHistory>? = null
+//    var contractPaymentHistory: List<ContractPaymentHistory>? = null
 }

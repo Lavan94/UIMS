@@ -16,4 +16,11 @@ open class Zone {
 
     @Column(name = "geo_json", nullable = false)
     open var geoJson: String = ""
+
+    @ManyToOne
+    @JoinColumn(name = "zone_id")
+    open var parentZone: Zone? = null
+
+    @OneToMany(targetEntity = Zone::class, mappedBy = "parentZone")
+    open var zoneList: List<Zone>? = null
 }

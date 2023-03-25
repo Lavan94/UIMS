@@ -14,7 +14,4 @@ class OrganizationZone : Zone() {
     @Enumerated(EnumType.STRING)
     @Column(name = "organization_type", nullable = true)
     var zoneType: OrganizationZoneType? = null
-
-    @OneToMany(targetEntity = Zone::class)
-    var zoneList: List<Zone>? = null
 }
