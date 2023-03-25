@@ -6,7 +6,7 @@ import jakarta.persistence.Table
 
 @Entity
 @Table(name = "internet_service")
-open class InternetService : Service() {
+class InternetService : Service() {
     @Column(name = "bandwidth_unit", nullable = true)
     var bandwidthUnit: String? = null
 

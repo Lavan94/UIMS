@@ -4,7 +4,7 @@ import jakarta.persistence.*
 
 @Entity
 @Table(name = "legal_owner")
-open class LegalOwner : Owner() {
+class LegalOwner : Owner() {
     @Enumerated(EnumType.STRING)
     @Column(name = "legal_type", nullable = false)
     var legalType: LegalOwnerType = LegalOwnerType.PRIVATE_ENTITY

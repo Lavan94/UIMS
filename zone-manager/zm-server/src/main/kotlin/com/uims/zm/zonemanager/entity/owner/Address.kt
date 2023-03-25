@@ -5,11 +5,11 @@ import java.util.*
 
 @Entity
 @Table(name = "address")
-open class Address {
+class Address {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
-    open var id: UUID? = null
+    var id: UUID? = null
 
     @Column(name = "street", nullable = false)
     var street: String = ""

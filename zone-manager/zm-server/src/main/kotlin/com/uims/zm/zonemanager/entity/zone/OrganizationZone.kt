@@ -5,7 +5,7 @@ import jakarta.persistence.*
 
 @Entity
 @Table(name = "organization_zone")
-open class OrganizationZone : Zone() {
+class OrganizationZone : Zone() {
     @MapsId
     @OneToOne
     @JoinColumn(name = "owner_id", nullable = true)
@@ -14,7 +14,4 @@ open class OrganizationZone : Zone() {
     @Enumerated(EnumType.STRING)
     @Column(name = "organization_type", nullable = true)
     var zoneType: OrganizationZoneType? = null
-
-    @OneToMany(targetEntity = Zone::class)
-    var zoneList: List<Zone>? = null
 }

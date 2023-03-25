@@ -6,7 +6,7 @@ import java.util.*
 
 @Entity
 @Table(name = "contract")
-open class Contract {
+class Contract {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
