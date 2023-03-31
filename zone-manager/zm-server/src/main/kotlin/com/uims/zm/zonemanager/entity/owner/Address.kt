@@ -5,27 +5,27 @@ import java.util.*
 
 @Entity
 @Table(name = "address")
-class Address {
+class Address(
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
-    var id: UUID? = null
+    var id: UUID? = null,
 
     @Column(name = "street", nullable = false)
-    var street: String = ""
+    var street: String = "",
 
     @Column(name = "number", nullable = false)
-    var number: Int = -1;
+    var number: Int = -1,
 
     @Column(name = "zip", nullable = false)
-    var zip: String = ""
+    var zip: String = "",
 
     @Column(name = "city", nullable = false)
-    var city: String = ""
+    var city: String = "",
 
     @Column(name = "county", nullable = false)
-    var county: String = ""
+    var county: String = "",
 
     @Column(name = "country", nullable = false)
-    var country: String = ""
-}
+    var country: String = "",
+) {}
