@@ -6,17 +6,21 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MapDisplayComponent } from './map-display/map-display.component';
 import {MatIconModule} from "@angular/material/icon";
 import {MatCardModule} from "@angular/material/card";
+import { OrganizationDisplayComponent } from './organization-display/organization-display.component';
+import {MatTabsModule} from "@angular/material/tabs";
 
 @NgModule({
   declarations: [
     AppComponent,
-    MapDisplayComponent
+    MapDisplayComponent,
+    OrganizationDisplayComponent
   ],
     imports: [
         BrowserModule,
         BrowserAnimationsModule,
         MatIconModule,
-        MatCardModule
+        MatCardModule,
+        MatTabsModule
     ],
   providers: [],
   bootstrap: [AppComponent]
