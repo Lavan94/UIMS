@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./organization-display.component.scss']
 })
 export class OrganizationDisplayComponent {
-
+  selectedTab: string = "";
 }

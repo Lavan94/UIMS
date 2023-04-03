@@ -1,13 +1,22 @@
-<mat-tab-group animationDuration="500ms">
-  <mat-tab label="Sector View">
-  1
-  </mat-tab>
+<div class="organization-content-container">
+    <mat-button-toggle-group [(ngModel)]="selectedTab" class="organization-header">
+      <mat-button-toggle class="sector-header" value="sector">Sector</mat-button-toggle>
+      <mat-button-toggle class="neighborhood-header" value="neighborhood">Neighborhood</mat-button-toggle>
+      <mat-button-toggle class="complex-header" value="complex">Complex</mat-button-toggle>
+    </mat-button-toggle-group>
+  <div class="organization-content">
+    <mat-card class="organization-header-tab-content" *ngIf="selectedTab==='sector'">
+      <mat-card-title>
+        Sector
+      </mat-card-title>
+    </mat-card>
+    <mat-card class="organization-header-tab-content" *ngIf="selectedTab==='neighborhood'">
+      <mat-card-title>Neighborhood</mat-card-title>
+    </mat-card>
+    <mat-card class="organization-header-tab-content" *ngIf="selectedTab==='complex'">
+      <mat-card-title>Complex</mat-card-title>
+    </mat-card>
+  </div>
+</div>
 
-  <mat-tab label="Neighborhood View">
-2
-  </mat-tab>
 
-  <mat-tab label="Complex View">
-3
-  </mat-tab>
-</mat-tab-group>

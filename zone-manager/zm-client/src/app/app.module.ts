@@ -8,6 +8,8 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatCardModule} from "@angular/material/card";
 import { OrganizationDisplayComponent } from './organization-display/organization-display.component';
 import {MatTabsModule} from "@angular/material/tabs";
+import {MatButtonToggleModule} from "@angular/material/button-toggle";
+import {FormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -15,13 +17,15 @@ import {MatTabsModule} from "@angular/material/tabs";
     MapDisplayComponent,
     OrganizationDisplayComponent
   ],
-    imports: [
-        BrowserModule,
-        BrowserAnimationsModule,
-        MatIconModule,
-        MatCardModule,
-        MatTabsModule
-    ],
+  imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
+    MatIconModule,
+    MatCardModule,
+    MatTabsModule,
+    MatButtonToggleModule,
+    FormsModule
+  ],
   providers: [],
   bootstrap: [AppComponent]
 })
