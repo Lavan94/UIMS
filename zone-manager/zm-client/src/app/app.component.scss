@@ -20,19 +20,11 @@
   @include full-size;
   @include init-position;
 
-  display: grid;
-  grid-template-rows: 0.5fr 0.5fr;
-  grid-template-columns: auto;
-
 }
 
 .map-container {
   @include full-size;
   @include shadow;
-
-
-  grid-row: auto;
-  grid-column: auto;
 
   margin: 20px;
 }
@@ -40,9 +32,6 @@
 .organization-container {
   @include full-size;
   @include shadow;
-
-  grid-row: auto;
-  grid-column: auto;
 
   margin: 20px;
 

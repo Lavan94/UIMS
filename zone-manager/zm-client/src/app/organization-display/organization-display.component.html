@@ -1,22 +1,23 @@
-<div class="organization-content-container">
-    <mat-button-toggle-group [(ngModel)]="selectedTab" class="organization-header">
-      <mat-button-toggle class="sector-header" value="sector">Sector</mat-button-toggle>
-      <mat-button-toggle class="neighborhood-header" value="neighborhood">Neighborhood</mat-button-toggle>
-      <mat-button-toggle class="complex-header" value="complex">Complex</mat-button-toggle>
-    </mat-button-toggle-group>
-  <div class="organization-content">
-    <mat-card class="organization-header-tab-content" *ngIf="selectedTab==='sector'">
-      <mat-card-title>
-        Sector
-      </mat-card-title>
+<mat-tab-group backgroundColor="primary" color="accent" dynamicHeight>
+  <mat-tab label="Sector">
+    <mat-card class="sector-container">
+      <mat-card-content>
+        Content
+      </mat-card-content>
     </mat-card>
-    <mat-card class="organization-header-tab-content" *ngIf="selectedTab==='neighborhood'">
-      <mat-card-title>Neighborhood</mat-card-title>
+  </mat-tab>
+  <mat-tab label="Neighborhood">
+    <mat-card class="neighborhood-container">
+      <mat-card-content>
+        Content
+      </mat-card-content>
     </mat-card>
-    <mat-card class="organization-header-tab-content" *ngIf="selectedTab==='complex'">
-      <mat-card-title>Complex</mat-card-title>
+  </mat-tab>
+  <mat-tab label="Complex">
+    <mat-card class="complex-container">
+      <mat-card-content>
+        Content
+      </mat-card-content>
     </mat-card>
-  </div>
-</div>
-
-
+  </mat-tab>
+</mat-tab-group>
