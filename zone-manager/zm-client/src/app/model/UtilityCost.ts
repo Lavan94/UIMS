@@ -1,4 +1,4 @@
-class UtilityCost {
+export class UtilityCost {
   constructor(
     id: string,
     hotWaterCost: number,

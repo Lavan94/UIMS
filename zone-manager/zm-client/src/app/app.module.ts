@@ -10,6 +10,9 @@ import { OrganizationDisplayComponent } from './organization-display/organizatio
 import {MatTabsModule} from "@angular/material/tabs";
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
 import {FormsModule} from "@angular/forms";
+import {MatLegacyPaginatorModule} from "@angular/material/legacy-paginator";
+import {MatListModule} from "@angular/material/list";
+import {MatLegacyButtonModule} from "@angular/material/legacy-button";
 
 @NgModule({
   declarations: [
@@ -24,7 +27,10 @@ import {FormsModule} from "@angular/forms";
     MatCardModule,
     MatTabsModule,
     MatButtonToggleModule,
-    FormsModule
+    FormsModule,
+    MatLegacyPaginatorModule,
+    MatListModule,
+    MatLegacyButtonModule
   ],
   providers: [],
   bootstrap: [AppComponent]

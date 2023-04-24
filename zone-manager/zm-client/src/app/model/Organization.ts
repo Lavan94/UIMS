@@ -1,35 +1,38 @@
-class Sector {
+import {UtilityCost} from "./UtilityCost";
+import {Owner} from "./Owner";
+
+export class Sector {
   constructor(
-    id: string,
-    name: string,
-    children: Neighborhood []
+    public id: string,
+    public name: string,
+    public neighborhoods: Neighborhood []
   ) {}
 }
 
-class Neighborhood {
+export class Neighborhood {
   constructor(
-    id: string,
-    name: string,
-    parentId: string,
-    children: (Complex | UrbanZone) []
+    public id: string,
+    public name: string,
+    public parentId: string,
+    public children: (Complex | UrbanZone) []
   ) {}
 }
 
-class Complex {
+export class Complex {
   constructor(
-    id: string,
-    name: string,
-    parentId: string,
-    children: UrbanZone[]
+    public id: string,
+    public name: string,
+    public parentId: string,
+    public children: UrbanZone[]
   ) {}
 }
 
-class UrbanZone {
+export class UrbanZone {
   constructor(
-    id: string,
-    owner: Owner,
-    type: string,
-    parentId: string,
-    utilityCosts: UtilityCost[]
+    public id: string,
+    public owner: Owner,
+    public type: string,
+    public parentId: string,
+    public utilityCosts: UtilityCost[]
   ) {}
 }

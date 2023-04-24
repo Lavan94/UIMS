@@ -1,23 +1,59 @@
-<mat-tab-group backgroundColor="primary" color="accent" dynamicHeight>
-  <mat-tab label="Sector">
-    <mat-card class="sector-container">
-      <mat-card-content>
-        Content
-      </mat-card-content>
-    </mat-card>
+<mat-tab-group [selectedIndex]="selectedIndex.value" (selectedIndexChange)="selectedIndex.setValue($event)"
+               backgroundColor="primary" color="accent" dynamicHeight>
+  <mat-tab [label]="'Sectors'">
+    <div class="sector-container">
+        <mat-selection-list [multiple]="false">
+          <mat-list-option *ngFor="let sector of sectorList" (click)="clickSector(sector)">
+              {{sector.name}}
+          </mat-list-option>
+        </mat-selection-list>
+    </div>
   </mat-tab>
-  <mat-tab label="Neighborhood">
-    <mat-card class="neighborhood-container">
-      <mat-card-content>
-        Content
-      </mat-card-content>
-    </mat-card>
+  <mat-tab [label]="neighborhoodTabName" [disabled]="neighborhoodDisabled">
+    <div class="neighborhood-container">
+        <mat-selection-list [multiple]="false">
+          <mat-list-option *ngFor="let neighborhood of selectedSectorNeighborhoods" (click)="clickNeighborhood(neighborhood)">
+              {{neighborhood.name}}
+          </mat-list-option>
+        </mat-selection-list>
+    </div>
   </mat-tab>
-  <mat-tab label="Complex">
-    <mat-card class="complex-container">
-      <mat-card-content>
-        Content
-      </mat-card-content>
-    </mat-card>
+  <mat-tab [label]="complexAndUrbanZoneTabName" [disabled]="complexDisabled">
+    <div class="complex-container">
+        <mat-card class="complex-section">
+          <mat-card-title>
+            Complexes
+          </mat-card-title>
+          <mat-card-content style="width: auto">
+            <mat-selection-list>
+              <mat-list-option *ngFor="let complex of selectedNeighborhoodComplexes">
+                  {{complex.name}}
+              </mat-list-option>
+            </mat-selection-list>
+          </mat-card-content>
+        </mat-card>
+        <mat-card class="urban-section">
+          <mat-card-title>
+            Urban Zones
+          </mat-card-title>
+          <mat-card-content>
+            <mat-selection-list>
+              <mat-list-option class="sub-section" *ngFor="let urbanZone of selectedNeighborhoodUrbanZones">
+                  {{urbanZone.id}} : {{urbanZone.type}}
+              </mat-list-option>
+              <mat-list-item *ngFor="let urbanZone of selectedNeighborhoodUrbanZones">
+                <button mat-button>
+                  {{urbanZone.id}} : {{urbanZone.type}}
+                </button>
+              </mat-list-item>
+            </mat-selection-list>
+          </mat-card-content>
+        </mat-card>
+    </div>
+  </mat-tab>
+  <mat-tab [label]="urbanZoneName" [disabled]="urbanZoneDisabled">
+    <div class="sector-container">
+          Urban Zone
+    </div>
   </mat-tab>
 </mat-tab-group>

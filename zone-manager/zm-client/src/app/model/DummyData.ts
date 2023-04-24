@@ -1,4 +1,7 @@
-export const SECTORS = [
+import {Complex, Neighborhood, Sector, UrbanZone} from "./Organization";
+import {UtilityCost} from "./UtilityCost";
+
+export const SECTORS: Sector[] = [
   new Sector('1', 'Zona Nord', [
     new Neighborhood("1a", "Brazda lui Novac", "1", [
       new Complex("1a1", "Complexul Baba Novac", "1a", []),
