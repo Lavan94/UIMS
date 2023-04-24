@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {SECTORS} from "../model/DummyData";
 import {Complex, Neighborhood, Sector, UrbanZone} from "../model/Organization";
-import {PageEvent} from "@angular/material/paginator";
 import {FormControl} from "@angular/forms";
 
 const DEFAULT_NEIGHBORHOOD_NAME = 'Neighborhoods';
@@ -13,7 +12,7 @@ const DEFAULT_URBAN_ZONE_NAME = 'Urban Zone';
   templateUrl: './organization-display.component.html',
   styleUrls: ['./organization-display.component.scss']
 })
-export class OrganizationDisplayComponent implements OnInit {
+export class OrganizationDisplayComponent {
   selectedIndex = new FormControl(0);
 
   sectorList: Sector[] = SECTORS;
@@ -31,25 +30,17 @@ export class OrganizationDisplayComponent implements OnInit {
   urbanZoneTabName = DEFAULT_URBAN_ZONE_NAME;
   selectedUrbanZone: UrbanZone = new UrbanZone();
 
-  ngOnInit(): void {
-  }
-
-  handlePageChange($event: PageEvent) {
-
-  }
-
   clickSector(sector: Sector) {
     this.selectedSectorNeighborhoods = sector.neighborhoods
     this.neighborhoodTabName = sector.name + ' ' + DEFAULT_NEIGHBORHOOD_NAME;
     this.selectedIndex.setValue(1);
     this.neighborhoodDisabled = false;
-  }
 
-  handleTabChange(index: any) {
-    if (index == 1) {
-      this.complexDisabled = true;
-      return;
-    }
+    this.complexDisabled = true;
+    this.complexAndUrbanZoneTabName = DEFAULT_COMPLEX_AND_URBAN_ZONE_NAME;
+
+    this.urbanZoneDisabled = true;
+    this.urbanZoneTabName = DEFAULT_URBAN_ZONE_NAME;
   }
 
   clickNeighborhood(neighborhood: Neighborhood) {
@@ -60,6 +51,9 @@ export class OrganizationDisplayComponent implements OnInit {
     this.selectedIndex.setValue(2);
     this.complexAndUrbanZoneTabName = neighborhood.name + ' ' + DEFAULT_COMPLEX_AND_URBAN_ZONE_NAME
     this.complexDisabled = false;
+
+    this.urbanZoneDisabled = true;
+    this.urbanZoneTabName = DEFAULT_URBAN_ZONE_NAME;
   }
 
   clickUrbanZone(urbanZone: UrbanZone) {

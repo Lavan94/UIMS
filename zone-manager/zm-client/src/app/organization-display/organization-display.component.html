@@ -1,9 +1,5 @@
 <mat-tab-group [selectedIndex]="selectedIndex.value" (selectedIndexChange)="selectedIndex.setValue($event)"
                backgroundColor="primary" color="accent" dynamicHeight>
-  <mat-tab [label]="urbanZoneTabName" [disabled]="false">
-    <app-organization-urban-zone></app-organization-urban-zone>
-  </mat-tab>
-
   <mat-tab [label]="'Sectors'">
     <div class="sector-container">
         <mat-selection-list [multiple]="false">
@@ -58,6 +54,8 @@
         </mat-selection-list>
       </mat-expansion-panel>
     </div>
-
+  </mat-tab>
+  <mat-tab [label]="urbanZoneTabName" [disabled]="urbanZoneDisabled">
+    <app-organization-urban-zone [currentUrbanZone]="this.selectedUrbanZone"></app-organization-urban-zone>
   </mat-tab>
 </mat-tab-group>
