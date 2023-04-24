@@ -2,7 +2,12 @@
   <div class="map-container">
     <app-map-display></app-map-display>
   </div>
-  <mat-card class="organization-container">
+  <mat-expansion-panel class="organization-container" [expanded]="true">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Organization Panel
+      </mat-panel-title>
+    </mat-expansion-panel-header>
     <app-organization-display></app-organization-display>
-  </mat-card>
+  </mat-expansion-panel>
 </div>

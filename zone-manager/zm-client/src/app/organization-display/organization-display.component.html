@@ -20,36 +20,32 @@
   </mat-tab>
   <mat-tab [label]="complexAndUrbanZoneTabName" [disabled]="complexDisabled">
     <div class="complex-container">
-        <mat-card class="complex-section">
-          <mat-card-title>
+      <mat-expansion-panel class="complex-section" [expanded]="true">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
             Complexes
-          </mat-card-title>
-          <mat-card-content style="width: auto">
-            <mat-selection-list>
-              <mat-list-option *ngFor="let complex of selectedNeighborhoodComplexes">
-                  {{complex.name}}
-              </mat-list-option>
-            </mat-selection-list>
-          </mat-card-content>
-        </mat-card>
-        <mat-card class="urban-section">
-          <mat-card-title>
-            Urban Zones
-          </mat-card-title>
-          <mat-card-content>
-            <mat-selection-list>
-              <mat-list-option class="sub-section" *ngFor="let urbanZone of selectedNeighborhoodUrbanZones">
-                  {{urbanZone.id}} : {{urbanZone.type}}
-              </mat-list-option>
-              <mat-list-item *ngFor="let urbanZone of selectedNeighborhoodUrbanZones">
-                <button mat-button>
-                  {{urbanZone.id}} : {{urbanZone.type}}
-                </button>
-              </mat-list-item>
-            </mat-selection-list>
-          </mat-card-content>
-        </mat-card>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-selection-list class="sub-section" [multiple]="false">
+          <mat-list-option class="sub-section-option" *ngFor="let complex of selectedNeighborhoodComplexes">
+            {{complex.name}}
+          </mat-list-option>
+        </mat-selection-list>
+      </mat-expansion-panel>
+      <mat-expansion-panel class="urban-section" [expanded]="true">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+              Urban Zones
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-selection-list class="sub-section" [multiple]="false">
+          <mat-list-option class="sub-section-option" *ngFor="let urbanZone of selectedNeighborhoodUrbanZones">
+            {{urbanZone.id}} : {{urbanZone.type}}
+          </mat-list-option>
+        </mat-selection-list>
+      </mat-expansion-panel>
     </div>
+
   </mat-tab>
   <mat-tab [label]="urbanZoneName" [disabled]="urbanZoneDisabled">
     <div class="sector-container">

@@ -13,6 +13,7 @@ import {FormsModule} from "@angular/forms";
 import {MatLegacyPaginatorModule} from "@angular/material/legacy-paginator";
 import {MatListModule} from "@angular/material/list";
 import {MatLegacyButtonModule} from "@angular/material/legacy-button";
+import {MatExpansionModule} from "@angular/material/expansion";
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import {MatLegacyButtonModule} from "@angular/material/legacy-button";
     FormsModule,
     MatLegacyPaginatorModule,
     MatListModule,
-    MatLegacyButtonModule
+    MatLegacyButtonModule,
+    MatExpansionModule
   ],
   providers: [],
   bootstrap: [AppComponent]
