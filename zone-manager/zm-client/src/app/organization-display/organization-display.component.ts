@@ -28,8 +28,8 @@ export class OrganizationDisplayComponent implements OnInit {
   selectedNeighborhoodUrbanZones: UrbanZone[] = [];
 
   urbanZoneDisabled: boolean = true;
-  urbanZoneName = DEFAULT_URBAN_ZONE_NAME;
-  selectedUrbanZone: UrbanZone | null = null;
+  urbanZoneTabName = DEFAULT_URBAN_ZONE_NAME;
+  selectedUrbanZone: UrbanZone = new UrbanZone();
 
   ngOnInit(): void {
   }
@@ -60,5 +60,12 @@ export class OrganizationDisplayComponent implements OnInit {
     this.selectedIndex.setValue(2);
     this.complexAndUrbanZoneTabName = neighborhood.name + ' ' + DEFAULT_COMPLEX_AND_URBAN_ZONE_NAME
     this.complexDisabled = false;
+  }
+
+  clickUrbanZone(urbanZone: UrbanZone) {
+    this.selectedUrbanZone = urbanZone
+    this.urbanZoneDisabled = false
+    this.selectedIndex.setValue(3);
+    this.urbanZoneTabName = urbanZone.id + ':' + urbanZone.type + ' ' + DEFAULT_URBAN_ZONE_NAME
   }
 }

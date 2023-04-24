@@ -1,5 +1,9 @@
 <mat-tab-group [selectedIndex]="selectedIndex.value" (selectedIndexChange)="selectedIndex.setValue($event)"
                backgroundColor="primary" color="accent" dynamicHeight>
+  <mat-tab [label]="urbanZoneTabName" [disabled]="false">
+    <app-organization-urban-zone></app-organization-urban-zone>
+  </mat-tab>
+
   <mat-tab [label]="'Sectors'">
     <div class="sector-container">
         <mat-selection-list [multiple]="false">
@@ -34,7 +38,7 @@
               </mat-panel-title>
             </mat-expansion-panel-header>
             <mat-selection-list class="sub-section" [multiple]="false">
-              <mat-list-option class="sub-section-option accent" *ngFor="let urbanZone of complex.children">
+              <mat-list-option class="sub-section-option accent" *ngFor="let urbanZone of complex.children" (click)="clickUrbanZone(urbanZone)">
                 {{urbanZone.id}} : {{urbanZone.type}}
               </mat-list-option>
             </mat-selection-list>
@@ -48,17 +52,12 @@
           </mat-panel-title>
         </mat-expansion-panel-header>
         <mat-selection-list class="sub-section" [multiple]="false">
-          <mat-list-option class="sub-section-option" *ngFor="let urbanZone of selectedNeighborhoodUrbanZones">
+          <mat-list-option class="sub-section-option" *ngFor="let urbanZone of selectedNeighborhoodUrbanZones" (click)="clickUrbanZone(urbanZone)">
             {{urbanZone.id}} : {{urbanZone.type}}
           </mat-list-option>
         </mat-selection-list>
       </mat-expansion-panel>
     </div>
 
-  </mat-tab>
-  <mat-tab [label]="urbanZoneName" [disabled]="urbanZoneDisabled">
-    <div class="sector-container">
-          Urban Zone
-    </div>
   </mat-tab>
 </mat-tab-group>

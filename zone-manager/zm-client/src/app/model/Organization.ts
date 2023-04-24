@@ -29,10 +29,10 @@ export class Complex {
 
 export class UrbanZone {
   constructor(
-    public id: string,
-    public owner: Owner,
-    public type: string,
-    public parentId: string,
-    public utilityCosts: UtilityCost[]
+    public id: string = '',
+    public owner: Owner | null = null,
+    public type: string = '',
+    public parentId: string = '',
+    public utilityCosts: UtilityCost[] = []
   ) {}
 }

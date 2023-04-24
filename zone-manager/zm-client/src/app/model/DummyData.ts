@@ -1,6 +1,12 @@
 import {Complex, Neighborhood, Sector, UrbanZone} from "./Organization";
 import {UtilityCost} from "./UtilityCost";
 
+export const URBAN_ZONE_INSTANCE = new UrbanZone("1b1a", "Bloc I5", "Residential", "1b1", [
+    new UtilityCost("1b1a1", 56, 62, 70, 10, "Ron", new Date('15 Jan 2023 00:00:00 GMT'), "Month"),
+    new UtilityCost("1b1a2", 56, 62, 70, 10, "Ron", new Date('15 Feb 2023 00:00:00 GMT'), "Month"),
+    new UtilityCost("1b1a3", 56, 62, 70, 10, "Ron", new Date('15 Mar 2023 00:00:00 GMT'), "Month"),
+  ]);
+
 export const SECTORS: Sector[] = [
   new Sector('1', 'Zona Nord', [
     new Neighborhood("1a", "Brazda lui Novac", "1", [

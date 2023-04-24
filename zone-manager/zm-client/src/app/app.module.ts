@@ -14,12 +14,14 @@ import {MatLegacyPaginatorModule} from "@angular/material/legacy-paginator";
 import {MatListModule} from "@angular/material/list";
 import {MatLegacyButtonModule} from "@angular/material/legacy-button";
 import {MatExpansionModule} from "@angular/material/expansion";
+import { OrganizationUrbanZoneComponent } from './organization-display/organization-urban-zone/organization-urban-zone.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MapDisplayComponent,
-    OrganizationDisplayComponent
+    OrganizationDisplayComponent,
+    OrganizationUrbanZoneComponent
   ],
   imports: [
     BrowserModule,
