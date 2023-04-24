@@ -1,12 +1,12 @@
 export class UtilityCost {
   constructor(
-    id: string,
-    hotWaterCost: number,
-    coldWaterCost: number,
-    sewageCost: number,
-    trashCost: number,
-    currency: string,
-    date: Date,
-    unitOfTime: string
+    public id: string,
+    public hotWaterCost: number,
+    public coldWaterCost: number,
+    public sewageCost: number,
+    public trashCost: number,
+    public currency: string,
+    public date: Date,
+    public unitOfTime: string
   ) {}
 }

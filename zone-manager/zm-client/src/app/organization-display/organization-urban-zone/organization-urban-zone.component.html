@@ -1,6 +1,79 @@
-<p>organization-urban-zone works!</p>
-{{this.currentUrbanZone.id}}
-{{this.currentUrbanZone.type}}
-{{this.currentUrbanZone.owner}}
-{{this.currentUrbanZone.parentId}}
-{{this.currentUrbanZone.utilityCosts}}
+<mat-expansion-panel class="urban-zone-details" [expanded]="false">
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      Urban Zone Details
+    </mat-panel-title>
+  </mat-expansion-panel-header>
+  <mat-list>
+    <div class="left-column">
+      <mat-list-item>
+        <span matListItemTitle>Id</span>
+        <span matListItemLine>{{this.currentUrbanZone.id}}</span>
+      </mat-list-item>
+      <mat-list-item>
+        <span matListItemTitle>Type</span>
+        <span matListItemLine>{{this.currentUrbanZone.type}}</span>
+      </mat-list-item>
+      <mat-list-item>
+        <span matListItemTitle>Owner</span>
+        <span matListItemLine>{{this.currentUrbanZone.owner}}</span>
+      </mat-list-item>
+    </div>
+    <div class="right-column">
+      <mat-list-item>
+        <span matListItemTitle>Sector</span>
+        <span matListItemLine>{{this.currentUrbanZone.id}}</span>
+      </mat-list-item>
+      <mat-list-item>
+        <span matListItemTitle>Neighborhood</span>
+        <span matListItemLine>{{this.currentUrbanZone.type}}</span>
+      </mat-list-item>
+      <mat-list-item>
+        <span matListItemTitle>Complex</span>
+        <span matListItemLine>{{this.currentUrbanZone.owner}}</span>
+      </mat-list-item>
+    </div>
+  </mat-list>
+</mat-expansion-panel>
+<br>
+<mat-expansion-panel class="urban-zone-details" [expanded]="true">
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      Utility Payment History
+    </mat-panel-title>
+  </mat-expansion-panel-header>
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef> Id</th>
+      <td mat-cell *matCellDef="let element"> {{element.id}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="hotWater">
+      <th mat-header-cell *matHeaderCellDef> Hot Water</th>
+      <td mat-cell *matCellDef="let element"> {{element.hotWaterCost}} {{element.currency}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="coldWater">
+      <th mat-header-cell *matHeaderCellDef> Cold Water</th>
+      <td mat-cell *matCellDef="let element"> {{element.coldWaterCost}} {{element.currency}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="sewage">
+      <th mat-header-cell *matHeaderCellDef> Sewage</th>
+      <td mat-cell *matCellDef="let element"> {{element.sewageCost}} {{element.currency}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="trash">
+      <th mat-header-cell *matHeaderCellDef> Trash</th>
+      <td mat-cell *matCellDef="let element"> {{element.trashCost}} {{element.currency}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="date">
+      <th mat-header-cell *matHeaderCellDef> Date of Pay</th>
+      <td mat-cell *matCellDef="let element"> {{element.date.toLocaleDateString()}}</td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+</mat-expansion-panel>

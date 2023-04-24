@@ -15,6 +15,7 @@ import {MatListModule} from "@angular/material/list";
 import {MatLegacyButtonModule} from "@angular/material/legacy-button";
 import {MatExpansionModule} from "@angular/material/expansion";
 import { OrganizationUrbanZoneComponent } from './organization-display/organization-urban-zone/organization-urban-zone.component';
+import {MatTableModule} from "@angular/material/table";
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { OrganizationUrbanZoneComponent } from './organization-display/organizat
     MatLegacyPaginatorModule,
     MatListModule,
     MatLegacyButtonModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatTableModule
   ],
   providers: [],
   bootstrap: [AppComponent]
