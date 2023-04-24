@@ -26,11 +26,20 @@
             Complexes
           </mat-panel-title>
         </mat-expansion-panel-header>
-        <mat-selection-list class="sub-section" [multiple]="false">
-          <mat-list-option class="sub-section-option" *ngFor="let complex of selectedNeighborhoodComplexes">
-            {{complex.name}}
-          </mat-list-option>
-        </mat-selection-list>
+        <mat-accordion class="sub-section">
+          <mat-expansion-panel class="sub-section-option" *ngFor="let complex of selectedNeighborhoodComplexes">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                {{complex.name}}
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <mat-selection-list class="sub-section" [multiple]="false">
+              <mat-list-option class="sub-section-option accent" *ngFor="let urbanZone of complex.children">
+                {{urbanZone.id}} : {{urbanZone.type}}
+              </mat-list-option>
+            </mat-selection-list>
+          </mat-expansion-panel>
+        </mat-accordion>
       </mat-expansion-panel>
       <mat-expansion-panel class="urban-section" [expanded]="true">
         <mat-expansion-panel-header>

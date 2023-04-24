@@ -23,7 +23,20 @@ export const SECTORS: Sector[] = [
       ]),
       new UrbanZone("1b2", "Bloc H1", "Residential", "1b", []),
       new UrbanZone("1b3", "Bloc H2", "Residential", "1b", []),
-      new UrbanZone("1b4", "Bloc H3", "Residential", "1b", [])
+      new UrbanZone("1b4", "Bloc H3", "Residential", "1b", []),
+      new Complex("1b5", "Complexul Smit", "1b", [
+        new UrbanZone("1b5a", "Bloc I5", "Residential", "1b1", [
+          new UtilityCost("1b5a1", 56, 62, 70, 10, "Ron", new Date('15 Jan 2023 00:00:00 GMT'), "Month"),
+          new UtilityCost("1b5a2", 56, 62, 70, 10, "Ron", new Date('15 Feb 2023 00:00:00 GMT'), "Month"),
+          new UtilityCost("1b5a3", 56, 62, 70, 10, "Ron", new Date('15 Mar 2023 00:00:00 GMT'), "Month"),
+        ]),
+        new UrbanZone("1b5b", "Frizerie", "Commercial", "1b1", [
+          new UtilityCost("1b5b1", 26, 62, 70, 10, "Ron", new Date('15 Jun 2023 00:00:00 GMT'), "Month"),
+          new UtilityCost("1b5b2", 36, 62, 70, 10, "Ron", new Date('15 Jul 2023 00:00:00 GMT'), "Month"),
+          new UtilityCost("1b5b3", 36, 62, 70, 10, "Ron", new Date('15 Aug 2023 00:00:00 GMT'), "Month"),
+        ]),
+        new UrbanZone("1b5c", "Magazin la Scari", "Commercial", "1b1", []),
+      ]),
     ]),
     new Neighborhood("1c", "Craiovita Noua", "1", []),
     new Neighborhood("1d", "Craiovita Veche", "1", []),

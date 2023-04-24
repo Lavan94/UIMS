@@ -43,9 +43,9 @@
   border-radius: 8px;
 
   width: auto;
+  height: fit-content;
 
   background-color: #3F51B5;
-  height: auto;
 }
 
 .sector-container {
@@ -115,8 +115,24 @@ mat-list-option.sub-section-option{
   background-color: #C5CAE9;
   width: auto;
 }
+
+mat-list-option.sub-section-option.accent{
+  background-color: white;
+}
+
 mat-panel-title{
   width: auto;
   font-size: 16px;
   color: white;
+}
+
+mat-accordion.sub-section{
+  width: auto;
+  height: 100%;
+}
+
+mat-expansion-panel.sub-section-option{
+  background-color: #C5CAE9;
+  width: auto;
+  height: 100%
 }
