@@ -10,12 +10,11 @@ import { OrganizationDisplayComponent } from './organization-display/organizatio
 import {MatTabsModule} from "@angular/material/tabs";
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
 import {FormsModule} from "@angular/forms";
-import {MatLegacyPaginatorModule} from "@angular/material/legacy-paginator";
 import {MatListModule} from "@angular/material/list";
-import {MatLegacyButtonModule} from "@angular/material/legacy-button";
 import {MatExpansionModule} from "@angular/material/expansion";
 import { OrganizationUrbanZoneComponent } from './organization-display/organization-urban-zone/organization-urban-zone.component';
 import {MatTableModule} from "@angular/material/table";
+import {MatButtonModule} from '@angular/material/button';
 
 @NgModule({
   declarations: [
@@ -32,11 +31,10 @@ import {MatTableModule} from "@angular/material/table";
     MatTabsModule,
     MatButtonToggleModule,
     FormsModule,
-    MatLegacyPaginatorModule,
     MatListModule,
-    MatLegacyButtonModule,
     MatExpansionModule,
-    MatTableModule
+    MatTableModule,
+    MatButtonModule
   ],
   providers: [],
   bootstrap: [AppComponent]
