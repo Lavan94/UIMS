@@ -22,17 +22,7 @@ $iconRadius: 64px;
   background-color: #c5cae9;
 }
 
-.control-button:active {
-  z-index: 2;
-
-  border-radius: 100%;
-  width: $radius;
-  height: $radius;
-
-  background-color: #ffc107;
-}
-
-.mat-icon {
-  width: auto;
-  height: $iconRadius;
+.mat-icon{
+  transform: scale(2);
+  justify-content: center;
 }
