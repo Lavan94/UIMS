@@ -15,13 +15,15 @@ import {MatExpansionModule} from "@angular/material/expansion";
 import { OrganizationUrbanZoneComponent } from './organization-display/organization-urban-zone/organization-urban-zone.component';
 import {MatTableModule} from "@angular/material/table";
 import {MatButtonModule} from '@angular/material/button';
+import { MapControlContainerComponent } from './map-display/map-control-container/map-control-container.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MapDisplayComponent,
     OrganizationDisplayComponent,
-    OrganizationUrbanZoneComponent
+    OrganizationUrbanZoneComponent,
+    MapControlContainerComponent
   ],
   imports: [
     BrowserModule,
