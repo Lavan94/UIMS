@@ -19,6 +19,7 @@ import {MatTableModule} from "@angular/material/table";
 import {MatButtonModule} from '@angular/material/button';
 import {MapControlContainerComponent} from './map-display/map-control-container/map-control-container.component';
 import {HttpClientModule} from '@angular/common/http';
+import {MatDialogModule} from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,7 @@ import {HttpClientModule} from '@angular/common/http';
     MapDisplayComponent,
     OrganizationDisplayComponent,
     OrganizationUrbanZoneComponent,
-    MapControlContainerComponent
+    MapControlContainerComponent,
   ],
   imports: [
     BrowserModule,
@@ -40,6 +41,7 @@ import {HttpClientModule} from '@angular/common/http';
     MatExpansionModule,
     MatTableModule,
     MatButtonModule,
+    MatDialogModule,
     HttpClientModule,
   ],
   providers: [],

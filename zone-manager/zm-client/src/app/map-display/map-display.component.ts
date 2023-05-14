@@ -1,11 +1,16 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewContainerRef} from '@angular/core';
 import * as L from 'leaflet';
 import {MatIconRegistry} from '@angular/material/icon';
 import {DomSanitizer} from '@angular/platform-browser';
 import 'leaflet-draw';
-import {Layer} from "leaflet";
+import 'leaflet-editable';
+import {LatLng, Layer, LeafletMouseEvent, Point} from "leaflet";
 import {RANDOM_AREA} from "./GeoJsonDummyData";
 import {MapAction} from "./action/MapAction";
+import {MatDialog} from "@angular/material/dialog";
+import {DEFAULT_ZONE_STYLE, SELECTED_ZONE_STYLE} from "./zone-styles/ZoneStyles";
+
+let self: MapDisplayComponent;
 
 @Component({
   selector: 'app-map-display',
@@ -15,15 +20,19 @@ import {MapAction} from "./action/MapAction";
 export class MapDisplayComponent {
   public zoneButtons = [
     new MapAction('zone-add', this.drawPolygon),
-    new MapAction('zone-edit', ()=>{})
+    // new MapAction('zone-edit', this.editPolygon)
   ];
-  public toolButtons = [new MapAction('move-icon', ()=>{}), new MapAction('select-icon', ()=>{})];
+  public toolButtons = [
+    // new MapAction('move-icon', ()=>{}),
+    // new MapAction('select-icon', ()=>{})
+  ];
+  public selectedZone?: L.Polygon;
 
   private zoom: number | undefined;
   private centroid!: L.LatLngExpression;
   private map!: L.DrawMap;
   private drawHandler: any
-  private drawnItems = new L.FeatureGroup();
+  private drawnItems: L.FeatureGroup = new L.FeatureGroup();
   private drawControl = new L.Control.Draw({
     edit: {
       featureGroup: this.drawnItems
@@ -32,7 +41,8 @@ export class MapDisplayComponent {
 
   constructor(
     private domSanitizer: DomSanitizer,
-    private matIconRegistry: MatIconRegistry
+    private matIconRegistry: MatIconRegistry,
+    public dialog: MatDialog,
   ) {
   }
 
@@ -41,6 +51,7 @@ export class MapDisplayComponent {
   }
 
   private initMap(): void {
+    self = this;
     this.zoom = 12;
     this.centroid = [44.328543874089306, 23.817992421036475];
     this.map = L.map('map').setView(this.centroid, this.zoom);
@@ -50,15 +61,28 @@ export class MapDisplayComponent {
     this.map.doubleClickZoom.disable()
     this.map.addLayer(this.drawnItems);
 
-    var myLayer: Layer = L.geoJSON(RANDOM_AREA)
+    let myLayer: Layer = L.geoJSON(RANDOM_AREA)
+    myLayer.on('click',this.selectZone);
     this.drawnItems.addLayer(myLayer);
 
     this.map.on(L.Draw.Event.CREATED, e => {
       const layer = e.layer;
+      e.layer.setStyle(DEFAULT_ZONE_STYLE)
+      layer.on('click',this.selectZone);
       this.drawnItems.addLayer(layer);
     });
+
   }
 
+  selectZone(e: LeafletMouseEvent){
+    self.deselectAll();
+    e.target.setStyle(SELECTED_ZONE_STYLE);
+    self.selectedZone = e.target;
+  }
+
+  deselectAll(){
+    this.drawnItems.setStyle(DEFAULT_ZONE_STYLE)
+  }
 
   drawPolyLine() {
     this.drawHandler = new L.Draw.Polyline(this.map);
@@ -73,5 +97,4 @@ export class MapDisplayComponent {
   disableDraw() {
     this.drawHandler.disable()
   }
-
 }
