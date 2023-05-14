@@ -1,10 +1,9 @@
 <div id="map">
 </div>
 <div class="map-overlay">
-  <app-map-control-container class="map-control-left"></app-map-control-container>
-  <app-map-control-container class="map-control-right"></app-map-control-container>
+  <app-map-control-container [parentMap]="this" [mapActions]="toolButtons" class="map-control-left"></app-map-control-container>
+  <app-map-control-container [parentMap]="this" [mapActions]="zoneButtons" class="map-control-right"></app-map-control-container>
 </div>
 <br>
 <button mat-raised-button color="primary" (click)="drawPolyLine()">Draw Polyline</button>
-<button mat-raised-button color="primary" (click)="drawPolygon()">Draw Polygon</button>
 <button mat-raised-button color="accent" (click)="disableDraw()">Draw Cancel</button>

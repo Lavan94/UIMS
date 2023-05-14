@@ -5,6 +5,7 @@ import {DomSanitizer} from '@angular/platform-browser';
 import 'leaflet-draw';
 import {Layer} from "leaflet";
 import {RANDOM_AREA} from "./GeoJsonDummyData";
+import {MapAction} from "./action/MapAction";
 
 @Component({
   selector: 'app-map-display',
@@ -12,6 +13,12 @@ import {RANDOM_AREA} from "./GeoJsonDummyData";
   styleUrls: ['./map-display.component.scss']
 })
 export class MapDisplayComponent {
+  public zoneButtons = [
+    new MapAction('zone-add', this.drawPolygon),
+    new MapAction('zone-edit', ()=>{})
+  ];
+  public toolButtons = [new MapAction('move-icon', ()=>{}), new MapAction('select-icon', ()=>{})];
+
   private zoom: number | undefined;
   private centroid!: L.LatLngExpression;
   private map!: L.DrawMap;
@@ -22,7 +29,6 @@ export class MapDisplayComponent {
       featureGroup: this.drawnItems
     }
   });
-
 
   constructor(
     private domSanitizer: DomSanitizer,

@@ -1,7 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {DomSanitizer} from "@angular/platform-browser";
 import {MatIconRegistry} from "@angular/material/icon";
 import {IconPaths} from "../../icon-store/IconPaths";
+import {MapAction} from "../action/MapAction";
+import {MapDisplayComponent} from "../map-display.component";
 
 @Component({
   selector: 'app-map-control-container',
@@ -9,8 +11,8 @@ import {IconPaths} from "../../icon-store/IconPaths";
   styleUrls: ['./map-control-container.component.scss']
 })
 export class MapControlContainerComponent implements OnInit{
-
-  public iconNames: string[] = ['zone-add', 'zone-edit']
+  @Input() public mapActions: MapAction[] = [];
+  @Input() public parentMap?: MapDisplayComponent = undefined;
 
   constructor(private domSanitizer: DomSanitizer,
               private matIconRegistry: MatIconRegistry
@@ -32,5 +34,11 @@ export class MapControlContainerComponent implements OnInit{
         );
       });
     });
+  }
+
+  onClick(callback: Function) {
+    if(this.parentMap){
+      callback.call(this.parentMap);
+    }
   }
 }
