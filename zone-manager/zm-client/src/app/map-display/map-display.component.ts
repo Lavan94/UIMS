@@ -5,7 +5,6 @@ import {DomSanitizer} from '@angular/platform-browser';
 import 'leaflet-draw';
 import 'leaflet-editable';
 import {LatLng, Layer, LeafletMouseEvent, Point} from "leaflet";
-import {RANDOM_AREA} from "./GeoJsonDummyData";
 import {MapAction} from "./action/MapAction";
 import {MatDialog} from "@angular/material/dialog";
 import {DEFAULT_ZONE_STYLE, SELECTED_ZONE_STYLE} from "./zone-styles/ZoneStyles";
@@ -20,13 +19,13 @@ let self: MapDisplayComponent;
 export class MapDisplayComponent {
   public zoneButtons = [
     new MapAction('zone-add', this.drawPolygon),
-    // new MapAction('zone-edit', this.editPolygon)
+    new MapAction('zone-edit', this.editPolygon)
   ];
   public toolButtons = [
-    // new MapAction('move-icon', ()=>{}),
-    // new MapAction('select-icon', ()=>{})
+    new MapAction('move-icon', ()=>{}),
+    new MapAction('select-icon', ()=>{})
   ];
-  public selectedZone?: L.Polygon;
+  public selectedZone?: any;
 
   private zoom: number | undefined;
   private centroid!: L.LatLngExpression;
@@ -61,9 +60,9 @@ export class MapDisplayComponent {
     this.map.doubleClickZoom.disable()
     this.map.addLayer(this.drawnItems);
 
-    let myLayer: Layer = L.geoJSON(RANDOM_AREA)
-    myLayer.on('click',this.selectZone);
-    this.drawnItems.addLayer(myLayer);
+    // let myLayer: Layer = L.geoJSON(RANDOM_AREA)
+    // myLayer.on('click',this.selectZone);
+    // this.drawnItems.addLayer(myLayer);
 
     this.map.on(L.Draw.Event.CREATED, e => {
       const layer = e.layer;
@@ -77,6 +76,11 @@ export class MapDisplayComponent {
   selectZone(e: LeafletMouseEvent){
     self.deselectAll();
     e.target.setStyle(SELECTED_ZONE_STYLE);
+
+    if(self.selectedZone && self.selectedZone.editing._enabled) {
+      self.selectedZone.editing.disable()
+      e.target.editing.enable();
+    }
     self.selectedZone = e.target;
   }
 
@@ -87,6 +91,10 @@ export class MapDisplayComponent {
   drawPolyLine() {
     this.drawHandler = new L.Draw.Polyline(this.map);
     this.drawHandler.enable();
+  }
+
+  editPolygon() {
+    this.selectedZone.editing.enable()
   }
 
   drawPolygon() {

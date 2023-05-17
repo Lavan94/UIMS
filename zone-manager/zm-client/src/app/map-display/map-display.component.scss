@@ -31,6 +31,46 @@ $map-height: 500px;
   grid-column: 1;
 }
 
+.map-center-container {
+  height: auto;
+  width: auto;
+
+  grid-row: auto;
+  grid-column: 2;
+
+  display: grid;
+  grid-template-rows: 24px auto 48px;
+  grid-template-columns: auto;
+}
+
+.map-confirmation {
+  grid-row: 3;
+  grid-column: auto;
+  margin: auto;
+}
+
+.save-button {
+  width: 64px;
+  height: 32px;
+
+  margin: 8px;
+
+  z-index: 2;
+
+  border-radius: 16px;
+}
+
+.cancel-button {
+  width: 64px;
+  height: 32px;
+
+  margin: 8px;
+
+  z-index: 2;
+
+  border-radius: 16px;
+}
+
 .map-control-right {
   height: 100%;
   width: 100%;
