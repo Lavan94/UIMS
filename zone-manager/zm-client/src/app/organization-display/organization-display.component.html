@@ -1,6 +1,6 @@
 <mat-tab-group [selectedIndex]="selectedIndex.value" (selectedIndexChange)="selectedIndex.setValue($event)"
                backgroundColor="primary" color="accent" dynamicHeight>
-  <mat-tab [label]="'Sectors'">
+  <mat-tab [label]="sectorTabName">
     <div class="sector-container">
         <mat-selection-list [multiple]="false">
           <mat-list-option *ngFor="let sector of sectorList" (click)="clickSector(sector)">

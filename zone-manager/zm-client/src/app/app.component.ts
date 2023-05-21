@@ -7,4 +7,5 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'zm-client';
+  public city: string = "Craiova";
 }
