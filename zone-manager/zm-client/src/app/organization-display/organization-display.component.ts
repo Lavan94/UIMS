@@ -8,6 +8,8 @@ const DEFAULT_NEIGHBORHOOD_NAME = 'Neighborhoods';
 const DEFAULT_COMPLEX_AND_URBAN_ZONE_NAME: string = 'Complexes & Urban Zones'
 const DEFAULT_URBAN_ZONE_NAME = 'Overview';
 
+const TAB_NAME_LIST: string[] = [Sector.name, Neighborhood.name, Complex.name, UrbanZone.name];
+
 @Component({
   selector: 'app-organization-display',
   templateUrl: './organization-display.component.html',
@@ -32,6 +34,12 @@ export class OrganizationDisplayComponent {
   urbanZoneTabName = DEFAULT_URBAN_ZONE_NAME;
   selectedUrbanZone: UrbanZone = new UrbanZone();
 
+  @Output() public selectedOrganizationType: EventEmitter<string> = new EventEmitter<string>();
+
+  constructor() {
+    this.changeSelectedOrganizationType(Sector.name);
+  }
+
   clickSector(sector: Sector) {
     this.selectedSectorNeighborhoods = sector.neighborhoods
     this.neighborhoodTabName = DEFAULT_NEIGHBORHOOD_NAME;
@@ -45,6 +53,7 @@ export class OrganizationDisplayComponent {
     this.urbanZoneTabName = DEFAULT_URBAN_ZONE_NAME;
 
     this.sectorTabName = sector.name;
+    this.changeSelectedOrganizationType(Neighborhood.name);
   }
 
   clickNeighborhood(neighborhood: Neighborhood) {
@@ -59,6 +68,7 @@ export class OrganizationDisplayComponent {
     this.urbanZoneDisabled = true;
     this.urbanZoneTabName = DEFAULT_URBAN_ZONE_NAME;
     this.neighborhoodTabName = neighborhood.name
+    this.changeSelectedOrganizationType(Complex.name);
   }
 
   clickUrbanZone(urbanZone: UrbanZone) {
@@ -67,5 +77,15 @@ export class OrganizationDisplayComponent {
     this.selectedIndex.setValue(3);
     this.urbanZoneTabName = DEFAULT_URBAN_ZONE_NAME;
     this.complexAndUrbanZoneTabName = urbanZone.id + ':' + urbanZone.type + ' ';
+    this.changeSelectedOrganizationType(UrbanZone.name);
+  }
+
+  changeSelectedOrganizationType(type: string){
+    this.selectedOrganizationType.emit(type);
+  }
+
+  changeTab($event: number) {
+    this.selectedIndex.setValue($event);
+    this.changeSelectedOrganizationType(TAB_NAME_LIST[$event.valueOf()]);
   }
 }

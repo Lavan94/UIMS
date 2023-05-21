@@ -1,4 +1,4 @@
-<mat-tab-group [selectedIndex]="selectedIndex.value" (selectedIndexChange)="selectedIndex.setValue($event)"
+<mat-tab-group [selectedIndex]="selectedIndex.value" (selectedIndexChange)="changeTab($event)"
                backgroundColor="primary" color="accent" dynamicHeight>
   <mat-tab [label]="sectorTabName">
     <div class="sector-container">

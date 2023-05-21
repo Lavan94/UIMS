@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewContainerRef} from '@angular/core';
+import {Component, Input, OnInit, ViewContainerRef} from '@angular/core';
 import * as L from 'leaflet';
 import {MatIconRegistry} from '@angular/material/icon';
 import {DomSanitizer} from '@angular/platform-browser';
@@ -8,6 +8,10 @@ import {LatLng, Layer, LeafletMouseEvent, Point} from "leaflet";
 import {MapAction} from "./action/MapAction";
 import {MatDialog} from "@angular/material/dialog";
 import {DEFAULT_ZONE_STYLE, SELECTED_ZONE_STYLE} from "./zone-styles/ZoneStyles";
+import {
+  AddOrganizationDialogComponent
+} from "../organization-dialog/add-organization-dialog/add-organization-dialog.component";
+import {Sector} from "../model/Organization";
 
 let self: MapDisplayComponent;
 
@@ -27,6 +31,13 @@ export class MapDisplayComponent {
   ];
   public selectedZone?: any;
 
+  @Input() selectedOrganizationType: string = Sector.toString();
+
+  public editEnabled: boolean = false;
+  public editChoice?: string;
+
+  public drawEnabled: boolean = false;
+
   private zoom: number | undefined;
   private centroid!: L.LatLngExpression;
   private map!: L.DrawMap;
@@ -38,10 +49,6 @@ export class MapDisplayComponent {
     }
   });
 
-  public editEnabled: boolean = false;
-  public editChoice?: string;
-
-  public drawEnabled: boolean = false;
 
   constructor(
     private domSanitizer: DomSanitizer,
@@ -75,6 +82,15 @@ export class MapDisplayComponent {
       layer.on('click',this.selectZone);
       this.drawnItems.addLayer(layer);
       this.drawEnabled = false;
+
+      const dialogRef = this.dialog.open(AddOrganizationDialogComponent, {
+        data: {
+          organizationType: this.selectedOrganizationType,
+        }
+      });
+      dialogRef.afterClosed().subscribe(result => {
+        console.log(result);
+      })
     });
   }
 

@@ -20,6 +20,7 @@ import {MatButtonModule} from '@angular/material/button';
 import {MapControlContainerComponent} from './map-display/map-control-container/map-control-container.component';
 import {HttpClientModule} from '@angular/common/http';
 import {MatDialogModule} from '@angular/material/dialog';
+import { AddOrganizationDialogComponent } from './organization-dialog/add-organization-dialog/add-organization-dialog.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import {MatDialogModule} from '@angular/material/dialog';
     OrganizationDisplayComponent,
     OrganizationUrbanZoneComponent,
     MapControlContainerComponent,
+    AddOrganizationDialogComponent,
   ],
   imports: [
     BrowserModule,
