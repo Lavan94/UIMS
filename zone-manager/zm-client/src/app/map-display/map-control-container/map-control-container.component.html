@@ -1,0 +1,5 @@
+<div class="control-action-container">
+  <button *ngFor="let action of mapActions" color="primary" mat-icon-button class="control-button" (click)="onClick(action.callback)">
+    <mat-icon [svgIcon]="action.iconName"></mat-icon>
+  </button>
+</div>

@@ -1,13 +1,22 @@
 <div class="app-container">
-  <div class="map-container">
-    <app-map-display></app-map-display>
-  </div>
   <mat-expansion-panel class="organization-container" [expanded]="true">
-    <mat-expansion-panel-header>
+    <mat-expansion-panel-header style="margin: auto;">
       <mat-panel-title>
-        Organization Panel
+        {{city}}
       </mat-panel-title>
     </mat-expansion-panel-header>
-    <app-organization-display></app-organization-display>
+      <div class="map-container">
+        <app-map-display [selectedOrganizationType]="selectedOrganizationType"></app-map-display>
+      </div>
+    <app-organization-display (selectedOrganizationType)="onSelectedOrganizationTypeChange($event)"></app-organization-display>
   </mat-expansion-panel>
 </div>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
+      integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI="
+      crossorigin=""/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.css"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.js"></script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>

@@ -1,13 +1,80 @@
-.map-display {
-  height: 500px;
-  width: 100%;
-}
-
-.map-frame {
-  height: inherit;
-}
-
+$map-height: 500px;
 #map {
-  height: inherit;
+  height: $map-height;
+  width: 100%;
   border-radius: 20px;
+
+  z-index: 1;
+}
+
+.map-overlay {
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  position: absolute;
+
+  height: $map-height;
+  width: 100%;
+
+  display: grid;
+  grid-template-columns: 80px auto 80px;
+  grid-template-rows: auto;
+  gap: 16px;
+}
+
+.map-control-left {
+  height: 100%;
+  width: 100%;
+
+  grid-row: auto;
+  grid-column: 1;
+}
+
+.map-center-container {
+  height: auto;
+  width: auto;
+
+  grid-row: auto;
+  grid-column: 2;
+
+  display: grid;
+  grid-template-rows: 24px auto 48px;
+  grid-template-columns: auto;
+}
+
+.map-confirmation {
+  grid-row: 3;
+  grid-column: auto;
+  margin: auto;
+}
+
+.save-button {
+  width: 64px;
+  height: 32px;
+
+  margin: 8px;
+
+  z-index: 2;
+
+  border-radius: 16px;
+}
+
+.cancel-button {
+  width: 64px;
+  height: 32px;
+
+  margin: 8px;
+
+  z-index: 2;
+
+  border-radius: 16px;
+}
+
+.map-control-right {
+  height: 100%;
+  width: 100%;
+
+  grid-row: auto;
+  grid-column: 3;
 }
