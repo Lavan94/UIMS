@@ -4,12 +4,11 @@
   <app-map-control-container [parentMap]="this" [mapActions]="toolButtons" class="map-control-left"></app-map-control-container>
   <div class="map-center-container">
     <div class="map-confirmation">
-      <button mat-raised-button color="primary" class="save-button">Save</button>
-      <button mat-raised-button color="accent" class="cancel-button">Cancel</button>
+      <button *ngIf="this.editEnabled" mat-raised-button color="primary" class="save-button" (click)="saveEdit()">Save</button>
+      <button *ngIf="this.drawEnabled" mat-raised-button color="accent" class="cancel-button" (click)="disableDraw()">Cancel</button>
     </div>
   </div>
   <app-map-control-container [parentMap]="this" [mapActions]="zoneButtons" class="map-control-right"></app-map-control-container>
 </div>
 <br>
-<button mat-raised-button color="primary" (click)="drawPolyLine()">Draw Polyline</button>
-<button mat-raised-button color="accent" (click)="disableDraw()">Draw Cancel</button>
+<!--<button mat-raised-button color="primary" (click)="drawPolyLine()">Draw Polyline</button>-->

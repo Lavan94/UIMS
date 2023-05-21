@@ -38,6 +38,11 @@ export class MapDisplayComponent {
     }
   });
 
+  public editEnabled: boolean = false;
+  public editChoice?: string;
+
+  public drawEnabled: boolean = false;
+
   constructor(
     private domSanitizer: DomSanitizer,
     private matIconRegistry: MatIconRegistry,
@@ -69,8 +74,8 @@ export class MapDisplayComponent {
       e.layer.setStyle(DEFAULT_ZONE_STYLE)
       layer.on('click',this.selectZone);
       this.drawnItems.addLayer(layer);
+      this.drawEnabled = false;
     });
-
   }
 
   selectZone(e: LeafletMouseEvent){
@@ -93,16 +98,23 @@ export class MapDisplayComponent {
     this.drawHandler.enable();
   }
 
-  editPolygon() {
-    this.selectedZone.editing.enable()
-  }
-
   drawPolygon() {
     this.drawHandler = new L.Draw.Polygon(this.map);
     this.drawHandler.enable();
+    this.drawEnabled = true;
   }
 
   disableDraw() {
-    this.drawHandler.disable()
+    this.drawHandler.disable();
+    this.drawEnabled = false;
+  }
+
+  editPolygon() {
+    this.selectedZone.editing.enable();
+    this.editEnabled = true;
+  }
+  saveEdit() {
+    self.selectedZone.editing.disable();
+    self.editEnabled = false;
   }
 }
