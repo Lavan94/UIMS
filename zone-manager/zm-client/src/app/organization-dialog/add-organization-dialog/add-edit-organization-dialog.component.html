@@ -1,0 +1,13 @@
+<h1 mat-dialog-title>{{organizationType}}</h1>
+<mat-divider></mat-divider>
+<mat-dialog-content>
+  <app-sector-dialog *ngIf="organizationType === 'Sector'" [sector]="organization" ></app-sector-dialog>
+  <app-neighborhood-dialog *ngIf="organizationType === 'Neighborhood'" [neighborhood]="organization"></app-neighborhood-dialog>
+  <app-complex-dialog *ngIf="organizationType === 'Complex'" [complex]="organization"></app-complex-dialog>
+  <app-urban-zone-dialog *ngIf="organizationType === 'UrbanZone'" [urbanZone]="organization"></app-urban-zone-dialog>
+</mat-dialog-content>
+<mat-divider></mat-divider>
+<mat-dialog-actions>
+  <button mat-raised-button color="primary" [mat-dialog-close]="organization">Save</button>
+  <button mat-raised-button color="accent" [mat-dialog-close]="undefined">Cancel</button>
+</mat-dialog-actions>

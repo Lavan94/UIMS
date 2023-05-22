@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AddOrganizationDialogComponent } from './add-organization-dialog.component';
+import { AddEditOrganizationDialogComponent } from './add-edit-organization-dialog.component';
 
 describe('AddOrganizationDialogComponent', () => {
-  let component: AddOrganizationDialogComponent;
-  let fixture: ComponentFixture<AddOrganizationDialogComponent>;
+  let component: AddEditOrganizationDialogComponent;
+  let fixture: ComponentFixture<AddEditOrganizationDialogComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AddOrganizationDialogComponent ]
+      declarations: [ AddEditOrganizationDialogComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(AddOrganizationDialogComponent);
+    fixture = TestBed.createComponent(AddEditOrganizationDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

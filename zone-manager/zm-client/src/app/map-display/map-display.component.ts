@@ -1,16 +1,15 @@
-import {Component, Input, OnInit, ViewContainerRef} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import * as L from 'leaflet';
 import {MatIconRegistry} from '@angular/material/icon';
 import {DomSanitizer} from '@angular/platform-browser';
 import 'leaflet-draw';
-import 'leaflet-editable';
-import {LatLng, Layer, LeafletMouseEvent, Point} from "leaflet";
+import {LeafletMouseEvent} from "leaflet";
 import {MapAction} from "./action/MapAction";
 import {MatDialog} from "@angular/material/dialog";
 import {DEFAULT_ZONE_STYLE, SELECTED_ZONE_STYLE} from "./zone-styles/ZoneStyles";
 import {
-  AddOrganizationDialogComponent
-} from "../organization-dialog/add-organization-dialog/add-organization-dialog.component";
+  AddEditOrganizationDialogComponent
+} from "../organization-dialog/add-organization-dialog/add-edit-organization-dialog.component";
 import {Sector} from "../model/Organization";
 
 let self: MapDisplayComponent;
@@ -83,7 +82,7 @@ export class MapDisplayComponent {
       this.drawnItems.addLayer(layer);
       this.drawEnabled = false;
 
-      const dialogRef = this.dialog.open(AddOrganizationDialogComponent, {
+      const dialogRef = this.dialog.open(AddEditOrganizationDialogComponent, {
         data: {
           organizationType: this.selectedOrganizationType,
         }
