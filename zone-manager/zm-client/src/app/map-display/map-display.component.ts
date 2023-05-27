@@ -10,7 +10,8 @@ import {DEFAULT_ZONE_STYLE, SELECTED_ZONE_STYLE} from "./zone-styles/ZoneStyles"
 import {
   AddEditOrganizationDialogComponent
 } from "../organization-dialog/add-organization-dialog/add-edit-organization-dialog.component";
-import {Sector} from "../model/Organization";
+import {Complex, Neighborhood, Sector, UrbanZone} from "../model/Organization";
+import {OrganizationService} from "../organization-service/organization.service";
 
 let self: MapDisplayComponent;
 
@@ -52,6 +53,7 @@ export class MapDisplayComponent {
   constructor(
     private domSanitizer: DomSanitizer,
     private matIconRegistry: MatIconRegistry,
+    private organizationService: OrganizationService,
     public dialog: MatDialog,
   ) {
   }
@@ -87,8 +89,9 @@ export class MapDisplayComponent {
           organizationType: this.selectedOrganizationType,
         }
       });
-      dialogRef.afterClosed().subscribe(result => {
-        console.log(result);
+      dialogRef.afterClosed().subscribe((organizationResult: Sector | Neighborhood | Complex | UrbanZone) => {
+        console.log(organizationResult);
+        this.organizationService.addOrganization(organizationResult);
       })
     });
   }

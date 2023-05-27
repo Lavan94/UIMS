@@ -2,6 +2,7 @@ import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {SECTORS} from "../model/DummyData";
 import {Complex, Neighborhood, Sector, UrbanZone} from "../model/Organization";
 import {FormControl} from "@angular/forms";
+import {OrganizationService} from "../organization-service/organization.service";
 
 const DEFAULT_SECTOR_NAME = 'Sectors';
 const DEFAULT_NEIGHBORHOOD_NAME = 'Neighborhoods';
@@ -15,10 +16,10 @@ const TAB_NAME_LIST: string[] = [Sector.name, Neighborhood.name, Complex.name, U
   templateUrl: './organization-display.component.html',
   styleUrls: ['./organization-display.component.scss']
 })
-export class OrganizationDisplayComponent {
+export class OrganizationDisplayComponent implements OnInit{
   selectedIndex = new FormControl(0);
 
-  sectorList: Sector[] = SECTORS;
+  sectorList: Sector[] = [];
   sectorTabName: string = DEFAULT_SECTOR_NAME;
 
   neighborhoodDisabled: boolean = true;
@@ -36,8 +37,11 @@ export class OrganizationDisplayComponent {
 
   @Output() public selectedOrganizationType: EventEmitter<string> = new EventEmitter<string>();
 
-  constructor() {
+  constructor(private organizationService: OrganizationService) {}
+
+  ngOnInit() {
     this.changeSelectedOrganizationType(Sector.name);
+    this.sectorList = this.organizationService.fetchSectors();
   }
 
   clickSector(sector: Sector) {
