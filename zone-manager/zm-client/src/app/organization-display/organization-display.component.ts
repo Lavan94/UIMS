@@ -1,8 +1,11 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {SECTORS} from "../model/DummyData";
-import {Complex, Neighborhood, Sector, UrbanZone} from "../model/Organization";
 import {FormControl} from "@angular/forms";
 import {OrganizationService} from "../organization-service/organization.service";
+import {UrbanZone} from "../model/Organization/UrbanZone";
+import {Complex} from "../model/Organization/Complex";
+import {Neighborhood} from "../model/Organization/Neighborhood";
+import {Sector} from "../model/Organization/Sector";
 
 const DEFAULT_SECTOR_NAME = 'Sectors';
 const DEFAULT_NEIGHBORHOOD_NAME = 'Neighborhoods';

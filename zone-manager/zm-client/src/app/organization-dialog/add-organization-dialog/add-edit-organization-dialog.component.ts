@@ -1,9 +1,14 @@
 import {Component, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {Complex, Neighborhood, Sector, UrbanZone} from 'src/app/model/Organization';
+import {UrbanZone} from "../../model/Organization/UrbanZone";
+import {Complex} from "../../model/Organization/Complex";
+import {Neighborhood} from "../../model/Organization/Neighborhood";
+import {Sector} from "../../model/Organization/Sector";
+import {Organization} from "../../model/Organization/Organization";
 
 interface OrganizationDialogData {
   organizationType: string;
+  organizationParent: Organization;
 }
 
 @Component({
@@ -20,6 +25,10 @@ export class AddEditOrganizationDialogComponent {
     @Inject(MAT_DIALOG_DATA) public data: OrganizationDialogData) {
     this.organizationType = data.organizationType;
     this.organization = this.getDefaultOrganization();
+
+    if(this.organization){
+      this.organization.parent = data.organizationParent;
+    }
   }
 
   public getDefaultOrganization(){

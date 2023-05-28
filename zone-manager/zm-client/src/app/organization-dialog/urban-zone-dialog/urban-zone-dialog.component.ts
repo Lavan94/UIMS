@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {UrbanZone} from "../../model/Organization";
+import {UrbanZone} from "../../model/Organization/UrbanZone";
 
 @Component({
   selector: 'app-urban-zone-dialog',

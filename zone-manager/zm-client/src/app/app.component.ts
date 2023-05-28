@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {Sector} from "./model/Organization";
+import {Sector} from "./model/Organization/Sector";
 
 @Component({
   selector: 'app-root',
@@ -8,10 +8,4 @@ import {Sector} from "./model/Organization";
 })
 export class AppComponent {
   title = 'zm-client';
-  public city: string = "Craiova";
-  public selectedOrganizationType: string = Sector.name;
-
-  onSelectedOrganizationTypeChange($event: String) {
-    this.selectedOrganizationType = $event.valueOf();
-  }
 }

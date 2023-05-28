@@ -1,0 +1,13 @@
+<div class="app-container">
+  <mat-expansion-panel class="organization-container" [expanded]="true">
+    <mat-expansion-panel-header style="margin: auto;">
+      <mat-panel-title>
+        {{city}}
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <div class="map-container">
+      <app-map-display [selectedOrganizationType]="selectedOrganizationType"></app-map-display>
+    </div>
+    <app-organization-display (selectedOrganizationType)="onSelectedOrganizationTypeChange($event)"></app-organization-display>
+  </mat-expansion-panel>
+</div>

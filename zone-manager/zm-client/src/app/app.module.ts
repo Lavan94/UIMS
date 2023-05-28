@@ -28,6 +28,7 @@ import { UrbanZoneDialogComponent } from './organization-dialog/urban-zone-dialo
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import {MatSelectModule} from "@angular/material/select";
+import { OrganizationManagerComponent } from './organization-manager/organization-manager.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import {MatSelectModule} from "@angular/material/select";
     NeighborhoodDialogComponent,
     ComplexDialogComponent,
     UrbanZoneDialogComponent,
+    OrganizationManagerComponent,
   ],
   imports: [
     BrowserModule,

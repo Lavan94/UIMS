@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, Output} from '@angular/core';
 import * as L from 'leaflet';
 import {MatIconRegistry} from '@angular/material/icon';
 import {DomSanitizer} from '@angular/platform-browser';
@@ -10,8 +10,12 @@ import {DEFAULT_ZONE_STYLE, SELECTED_ZONE_STYLE} from "./zone-styles/ZoneStyles"
 import {
   AddEditOrganizationDialogComponent
 } from "../organization-dialog/add-organization-dialog/add-edit-organization-dialog.component";
-import {Complex, Neighborhood, Sector, UrbanZone} from "../model/Organization";
 import {OrganizationService} from "../organization-service/organization.service";
+import {UrbanZone} from "../model/Organization/UrbanZone";
+import {Complex} from "../model/Organization/Complex";
+import {Neighborhood} from "../model/Organization/Neighborhood";
+import {Sector} from "../model/Organization/Sector";
+import {Organization} from "../model/Organization/Organization";
 
 let self: MapDisplayComponent;
 
@@ -26,12 +30,20 @@ export class MapDisplayComponent {
     new MapAction('zone-edit', this.editPolygon)
   ];
   public toolButtons = [
-    new MapAction('move-icon', ()=>{}),
-    new MapAction('select-icon', ()=>{})
+    new MapAction('move-icon', () => {
+    }),
+    new MapAction('select-icon', () => {
+    })
   ];
   public selectedZone?: any;
 
   @Input() selectedOrganizationType: string = Sector.toString();
+  public selectedOrganization: Map<string, string> = new Map<string, string>([
+    [Sector.name, ''],
+    [Neighborhood.name, ''],
+    [Complex.name, ''],
+    [UrbanZone.name, ''],
+  ]);
 
   public editEnabled: boolean = false;
   public editChoice?: string;
@@ -48,7 +60,6 @@ export class MapDisplayComponent {
       featureGroup: this.drawnItems
     }
   });
-
 
   constructor(
     private domSanitizer: DomSanitizer,
@@ -73,41 +84,42 @@ export class MapDisplayComponent {
     this.map.doubleClickZoom.disable()
     this.map.addLayer(this.drawnItems);
 
-    // let myLayer: Layer = L.geoJSON(RANDOM_AREA)
-    // myLayer.on('click',this.selectZone);
-    // this.drawnItems.addLayer(myLayer);
-
     this.map.on(L.Draw.Event.CREATED, e => {
       const layer = e.layer;
       e.layer.setStyle(DEFAULT_ZONE_STYLE)
-      layer.on('click',this.selectZone);
+      layer.on('click', this.selectZone);
       this.drawnItems.addLayer(layer);
       this.drawEnabled = false;
+
+      const organizationParent = this.selectedOrganization.has(this.selectedOrganizationType) ?
+        this.selectedOrganization.get(this.selectedOrganizationType) : null;
 
       const dialogRef = this.dialog.open(AddEditOrganizationDialogComponent, {
         data: {
           organizationType: this.selectedOrganizationType,
+          organizationParent: organizationParent
         }
       });
-      dialogRef.afterClosed().subscribe((organizationResult: Sector | Neighborhood | Complex | UrbanZone) => {
+
+      dialogRef.afterClosed().subscribe((organizationResult: Organization) => {
         console.log(organizationResult);
         this.organizationService.addOrganization(organizationResult);
       })
     });
   }
 
-  selectZone(e: LeafletMouseEvent){
+  selectZone(e: LeafletMouseEvent) {
     self.deselectAll();
     e.target.setStyle(SELECTED_ZONE_STYLE);
 
-    if(self.selectedZone && self.selectedZone.editing._enabled) {
+    if (self.selectedZone && self.selectedZone.editing._enabled) {
       self.selectedZone.editing.disable()
       e.target.editing.enable();
     }
     self.selectedZone = e.target;
   }
 
-  deselectAll(){
+  deselectAll() {
     this.drawnItems.setStyle(DEFAULT_ZONE_STYLE)
   }
 
@@ -131,6 +143,7 @@ export class MapDisplayComponent {
     this.selectedZone.editing.enable();
     this.editEnabled = true;
   }
+
   saveEdit() {
     self.selectedZone.editing.disable();
     self.editEnabled = false;

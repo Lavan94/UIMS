@@ -1,6 +1,10 @@
 import {Injectable} from '@angular/core';
-import {Complex, Neighborhood, Sector, UrbanZone} from "../model/Organization";
 import {SECTORS} from "../model/DummyData";
+import {UrbanZone} from "../model/Organization/UrbanZone";
+import {Complex} from "../model/Organization/Complex";
+import {Neighborhood} from "../model/Organization/Neighborhood";
+import {Sector} from "../model/Organization/Sector";
+import {Organization} from "../model/Organization/Organization";
 
 @Injectable({
   providedIn: 'root'
@@ -55,11 +59,11 @@ export class OrganizationService {
     return urbanZone;
   }
 
-  addOrganization(organizationResult: Sector | Neighborhood | Complex | UrbanZone) {
+  addOrganization(organizationResult: Organization) {
     const orgType: string = organizationResult.constructor.name;
     if(organizationResult && this.orgMap.has(orgType)) {
       // @ts-ignore
-      this.orgMap.get(orgType).call(organizationResult);
+      this.orgMap.get(orgType).call(this, organizationResult);
       return;
     }
     console.log("Organization type not recognized & supported")
@@ -67,19 +71,21 @@ export class OrganizationService {
 
   public addSector(sector: Sector) {
     this.sectorList.push(sector);
+    console.log("REST-API Add Sector call")
   }
 
   public addNeighborhood(neighborhood: Neighborhood) {
     let parentSector = this.sectorList.find(parent => parent.id === neighborhood.parentId);
     if(!parentSector) return;
     parentSector.neighborhoods.push(neighborhood);
+    console.log("REST-API Add Neighborhood call")
   }
 
   public addComplex(complex: Complex) {
-    console.log('addComplex')
+    console.log("REST-API Add Complex call")
   }
 
   public addUrbanZone(urbanZone: UrbanZone) {
-    console.log('addUrbanZone')
+    console.log("REST-API Add Urban Zone call")
   }
 }
