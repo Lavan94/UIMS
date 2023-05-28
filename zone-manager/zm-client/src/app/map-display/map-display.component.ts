@@ -15,7 +15,11 @@ import {UrbanZone} from "../model/Organization/UrbanZone";
 import {Complex} from "../model/Organization/Complex";
 import {Neighborhood} from "../model/Organization/Neighborhood";
 import {Sector} from "../model/Organization/Sector";
-import {Organization} from "../model/Organization/Organization";
+import {
+  Organization,
+  ORGANIZATION_HIERARCHY,
+  URBAN_ZONE_UNDER_NEIGHBORHOOD_KEY
+} from "../model/Organization/Organization";
 
 let self: MapDisplayComponent;
 
@@ -38,11 +42,11 @@ export class MapDisplayComponent {
   public selectedZone?: any;
 
   @Input() selectedOrganizationType: string = Sector.toString();
-  public selectedOrganization: Map<string, string> = new Map<string, string>([
-    [Sector.name, ''],
-    [Neighborhood.name, ''],
-    [Complex.name, ''],
-    [UrbanZone.name, ''],
+  @Input() selectedOrganization: Map<string, Organization | null> = new Map<string, Organization | null>([
+    [Sector.name, null],
+    [Neighborhood.name, null],
+    [Complex.name, null],
+    [UrbanZone.name, null],
   ]);
 
   public editEnabled: boolean = false;
@@ -91,8 +95,9 @@ export class MapDisplayComponent {
       this.drawnItems.addLayer(layer);
       this.drawEnabled = false;
 
-      const organizationParent = this.selectedOrganization.has(this.selectedOrganizationType) ?
-        this.selectedOrganization.get(this.selectedOrganizationType) : null;
+      const organizationParentType = this.getParentOrganizationType();
+      const organizationParent = this.selectedOrganization.has(organizationParentType) ?
+        this.selectedOrganization.get(organizationParentType) : null;
 
       const dialogRef = this.dialog.open(AddEditOrganizationDialogComponent, {
         data: {
@@ -106,6 +111,16 @@ export class MapDisplayComponent {
         this.organizationService.addOrganization(organizationResult);
       })
     });
+  }
+
+  private getParentOrganizationType(): string {
+    if(this.selectedOrganizationType.constructor.name !== UrbanZone.name){
+      // @ts-ignore
+      return ORGANIZATION_HIERARCHY.has(this.selectedOrganizationType) ?
+        ORGANIZATION_HIERARCHY.get(this.selectedOrganizationType) : '';
+    }
+    // @ts-ignore
+    return ORGANIZATION_HIERARCHY.get(URBAN_ZONE_UNDER_NEIGHBORHOOD_KEY);
   }
 
   selectZone(e: LeafletMouseEvent) {

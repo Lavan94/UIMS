@@ -75,17 +75,23 @@ export class OrganizationService {
   }
 
   public addNeighborhood(neighborhood: Neighborhood) {
-    let parentSector = this.sectorList.find(parent => parent.id === neighborhood.parentId);
-    if(!parentSector) return;
-    parentSector.neighborhoods.push(neighborhood);
+    if(neighborhood.parent) {
+      neighborhood.parent.neighborhoods.push(neighborhood);
+    }
     console.log("REST-API Add Neighborhood call")
   }
 
   public addComplex(complex: Complex) {
+    if(complex.parent) {
+      complex.parent.children.push(complex);
+    }
     console.log("REST-API Add Complex call")
   }
 
   public addUrbanZone(urbanZone: UrbanZone) {
+    if(urbanZone.parent) {
+      urbanZone.parent.children.push(urbanZone);
+    }
     console.log("REST-API Add Urban Zone call")
   }
 }

@@ -6,6 +6,7 @@ import {UrbanZone} from "../model/Organization/UrbanZone";
 import {Complex} from "../model/Organization/Complex";
 import {Neighborhood} from "../model/Organization/Neighborhood";
 import {Sector} from "../model/Organization/Sector";
+import {Organization} from "../model/Organization/Organization";
 
 const DEFAULT_SECTOR_NAME = 'Sectors';
 const DEFAULT_NEIGHBORHOOD_NAME = 'Neighborhoods';
@@ -19,7 +20,7 @@ const TAB_NAME_LIST: string[] = [Sector.name, Neighborhood.name, Complex.name, U
   templateUrl: './organization-display.component.html',
   styleUrls: ['./organization-display.component.scss']
 })
-export class OrganizationDisplayComponent implements OnInit{
+export class OrganizationDisplayComponent implements OnInit {
   selectedIndex = new FormControl(0);
 
   sectorList: Sector[] = [];
@@ -39,8 +40,16 @@ export class OrganizationDisplayComponent implements OnInit{
   selectedUrbanZone: UrbanZone = new UrbanZone();
 
   @Output() public selectedOrganizationType: EventEmitter<string> = new EventEmitter<string>();
+  @Output() public selectedOrganization: EventEmitter<Map<string, Organization | null>> = new EventEmitter<Map<string, Organization | null>>();
+  private selectedOrganizationValue: Map<string, Organization | null> = new Map<string, Organization | null>([
+    [Sector.name, null],
+    [Neighborhood.name, null],
+    [Complex.name, null],
+    [UrbanZone.name, null],
+  ]);
 
-  constructor(private organizationService: OrganizationService) {}
+  constructor(private organizationService: OrganizationService) {
+  }
 
   ngOnInit() {
     this.changeSelectedOrganizationType(Sector.name);
@@ -61,6 +70,7 @@ export class OrganizationDisplayComponent implements OnInit{
 
     this.sectorTabName = sector.name;
     this.changeSelectedOrganizationType(Neighborhood.name);
+    this.updateSelectedOrganization(sector);
   }
 
   clickNeighborhood(neighborhood: Neighborhood) {
@@ -76,6 +86,7 @@ export class OrganizationDisplayComponent implements OnInit{
     this.urbanZoneTabName = DEFAULT_URBAN_ZONE_NAME;
     this.neighborhoodTabName = neighborhood.name
     this.changeSelectedOrganizationType(Complex.name);
+    this.updateSelectedOrganization(neighborhood);
   }
 
   clickUrbanZone(urbanZone: UrbanZone) {
@@ -85,10 +96,16 @@ export class OrganizationDisplayComponent implements OnInit{
     this.urbanZoneTabName = DEFAULT_URBAN_ZONE_NAME;
     this.complexAndUrbanZoneTabName = urbanZone.id + ':' + urbanZone.type + ' ';
     this.changeSelectedOrganizationType(UrbanZone.name);
+    this.updateSelectedOrganization(urbanZone);
   }
 
-  changeSelectedOrganizationType(type: string){
+  changeSelectedOrganizationType(type: string) {
     this.selectedOrganizationType.emit(type);
+  }
+
+  updateSelectedOrganization(organization: Organization) {
+    this.selectedOrganizationValue.set(organization.constructor.name, organization);
+    this.selectedOrganization.emit(this.selectedOrganizationValue);
   }
 
   changeTab($event: number) {

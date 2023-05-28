@@ -6,8 +6,14 @@
       </mat-panel-title>
     </mat-expansion-panel-header>
     <div class="map-container">
-      <app-map-display [selectedOrganizationType]="selectedOrganizationType"></app-map-display>
+      <app-map-display
+        [selectedOrganizationType]="selectedOrganizationType"
+        [selectedOrganization]="selectedOrganizationValue">
+      </app-map-display>
     </div>
-    <app-organization-display (selectedOrganizationType)="onSelectedOrganizationTypeChange($event)"></app-organization-display>
+    <app-organization-display
+      (selectedOrganizationType)="onSelectedOrganizationTypeChange($event)"
+      (selectedOrganization)="onSelectedOrganizationValueChange($event)">
+    </app-organization-display>
   </mat-expansion-panel>
 </div>
