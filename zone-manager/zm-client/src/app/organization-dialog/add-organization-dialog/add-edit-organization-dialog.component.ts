@@ -9,6 +9,7 @@ import {Organization} from "../../model/Organization/Organization";
 interface OrganizationDialogData {
   organizationType: string;
   organizationParent: Organization;
+  complexOrUrbanZone?: string;
 }
 
 @Component({
@@ -19,11 +20,13 @@ interface OrganizationDialogData {
 export class AddEditOrganizationDialogComponent {
   public organizationType: string = Sector.name;
   public organization?: any;
+  public complexOrUrbanZone?: string;
 
   constructor(
     public dialogRef: MatDialogRef<AddEditOrganizationDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: OrganizationDialogData) {
     this.organizationType = data.organizationType;
+    this.complexOrUrbanZone = data.complexOrUrbanZone;
     this.organization = this.getDefaultOrganization();
 
     if(this.organization){

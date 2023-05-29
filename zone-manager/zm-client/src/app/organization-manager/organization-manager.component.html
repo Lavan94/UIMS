@@ -8,12 +8,14 @@
     <div class="map-container">
       <app-map-display
         [selectedOrganizationType]="selectedOrganizationType"
-        [selectedOrganization]="selectedOrganizationValue">
+        [selectedOrganization]="selectedOrganizationValue"
+        [selectedToggleDisplay]="enableComplexUrbanZoneSelector">
       </app-map-display>
     </div>
     <app-organization-display
       (selectedOrganizationType)="onSelectedOrganizationTypeChange($event)"
-      (selectedOrganization)="onSelectedOrganizationValueChange($event)">
+      (selectedOrganization)="onSelectedOrganizationValueChange($event)"
+      (enableComplexUrbanZoneSelector)="onEnableComplexUrbanZoneSelector($event)">
     </app-organization-display>
   </mat-expansion-panel>
 </div>

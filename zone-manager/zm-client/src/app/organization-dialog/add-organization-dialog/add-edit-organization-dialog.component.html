@@ -3,8 +3,8 @@
 <mat-dialog-content>
   <app-sector-dialog *ngIf="organizationType === 'Sector'" [sector]="organization" ></app-sector-dialog>
   <app-neighborhood-dialog *ngIf="organizationType === 'Neighborhood'" [neighborhood]="organization"></app-neighborhood-dialog>
-  <app-complex-dialog *ngIf="organizationType === 'Complex'" [complex]="organization"></app-complex-dialog>
-  <app-urban-zone-dialog *ngIf="organizationType === 'UrbanZone'" [urbanZone]="organization"></app-urban-zone-dialog>
+  <app-complex-dialog *ngIf="complexOrUrbanZone && complexOrUrbanZone === 'Complex'" [complex]="organization"></app-complex-dialog>
+  <app-urban-zone-dialog *ngIf="complexOrUrbanZone && complexOrUrbanZone === 'UrbanZone'" [urbanZone]="organization"></app-urban-zone-dialog>
 </mat-dialog-content>
 <mat-divider></mat-divider>
 <mat-dialog-actions>

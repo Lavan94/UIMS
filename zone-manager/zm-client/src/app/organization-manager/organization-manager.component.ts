@@ -13,12 +13,17 @@ import {UrbanZone} from "../model/Organization/UrbanZone";
 export class OrganizationManagerComponent {
   public city: string = "Craiova";
   public selectedOrganizationType: string = Sector.name;
+  public enableComplexUrbanZoneSelector: boolean = false;
   public selectedOrganizationValue: Map<string, Organization | null> = new Map<string, Organization | null>([
     [Sector.name, null],
     [Neighborhood.name, null],
     [Complex.name, null],
     [UrbanZone.name, null],
   ]);
+
+  onEnableComplexUrbanZoneSelector($event: any){
+    this.enableComplexUrbanZoneSelector = $event.valueOf();
+  }
 
   onSelectedOrganizationTypeChange($event: string) {
     this.selectedOrganizationType = $event.valueOf();

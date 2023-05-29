@@ -41,6 +41,8 @@ export class OrganizationDisplayComponent implements OnInit {
 
   @Output() public selectedOrganizationType: EventEmitter<string> = new EventEmitter<string>();
   @Output() public selectedOrganization: EventEmitter<Map<string, Organization | null>> = new EventEmitter<Map<string, Organization | null>>();
+  @Output() public enableComplexUrbanZoneSelector: EventEmitter<boolean> = new EventEmitter<boolean>();
+
   private selectedOrganizationValue: Map<string, Organization | null> = new Map<string, Organization | null>([
     [Sector.name, null],
     [Neighborhood.name, null],
@@ -71,6 +73,8 @@ export class OrganizationDisplayComponent implements OnInit {
     this.sectorTabName = sector.name;
     this.changeSelectedOrganizationType(Neighborhood.name);
     this.updateSelectedOrganization(sector);
+
+    this.enableComplexUrbanZoneSelector.emit(false);
   }
 
   clickNeighborhood(neighborhood: Neighborhood) {
@@ -87,6 +91,8 @@ export class OrganizationDisplayComponent implements OnInit {
     this.neighborhoodTabName = neighborhood.name
     this.changeSelectedOrganizationType(Complex.name);
     this.updateSelectedOrganization(neighborhood);
+
+    this.enableComplexUrbanZoneSelector.emit(true);
   }
 
   clickUrbanZone(urbanZone: UrbanZone) {
@@ -111,5 +117,7 @@ export class OrganizationDisplayComponent implements OnInit {
   changeTab($event: number) {
     this.selectedIndex.setValue($event);
     this.changeSelectedOrganizationType(TAB_NAME_LIST[$event.valueOf()]);
+
+    this.enableComplexUrbanZoneSelector.emit(this.selectedIndex.getRawValue() === 2);
   }
 }

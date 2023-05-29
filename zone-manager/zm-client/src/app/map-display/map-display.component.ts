@@ -40,6 +40,8 @@ export class MapDisplayComponent {
     })
   ];
   public selectedZone?: any;
+  public selectedToggleValue: string = 'Complex';
+  @Input() selectedToggleDisplay: boolean = false;
 
   @Input() selectedOrganizationType: string = Sector.toString();
   @Input() selectedOrganization: Map<string, Organization | null> = new Map<string, Organization | null>([
@@ -101,8 +103,9 @@ export class MapDisplayComponent {
 
       const dialogRef = this.dialog.open(AddEditOrganizationDialogComponent, {
         data: {
-          organizationType: this.selectedOrganizationType,
-          organizationParent: organizationParent
+          organizationType: !this.selectedToggleDisplay ? this.selectedOrganizationType : this.selectedToggleValue,
+          organizationParent: organizationParent,
+          complexOrUrbanZone: this.selectedToggleDisplay ? this.selectedToggleValue : undefined
         }
       });
 

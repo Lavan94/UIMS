@@ -1,14 +1,32 @@
 <div id="map">
 </div>
 <div class="map-overlay">
-  <app-map-control-container [parentMap]="this" [mapActions]="toolButtons" class="map-control-left"></app-map-control-container>
+  <app-map-control-container [parentMap]="this" [mapActions]="toolButtons"
+                             class="map-control-left"></app-map-control-container>
   <div class="map-center-container">
     <div class="map-confirmation">
-      <button *ngIf="this.editEnabled" mat-raised-button color="primary" class="save-button" (click)="saveEdit()">Save</button>
-      <button *ngIf="this.drawEnabled" mat-raised-button color="accent" class="cancel-button" (click)="disableDraw()">Cancel</button>
+      <button *ngIf="this.editEnabled" mat-raised-button color="primary" class="save-button" (click)="saveEdit()">Save
+      </button>
+
+      <mat-button-toggle-group
+        *ngIf="this.drawEnabled && selectedToggleDisplay"
+        [(ngModel)]="selectedToggleValue"
+        class="group-container mat-elevation-z4">
+        <mat-button-toggle checked="true" class="group-button" value="Complex">
+          <b>Complex</b>
+        </mat-button-toggle>
+        <mat-button-toggle class="group-button" value="UrbanZone">
+          <b>Zone</b>
+        </mat-button-toggle>
+      </mat-button-toggle-group>
+
+      <button *ngIf="this.drawEnabled" mat-raised-button color="accent" class="cancel-button" (click)="disableDraw()">
+        Cancel
+      </button>
     </div>
   </div>
-  <app-map-control-container [parentMap]="this" [mapActions]="zoneButtons" class="map-control-right"></app-map-control-container>
+  <app-map-control-container [parentMap]="this" [mapActions]="zoneButtons"
+                             class="map-control-right"></app-map-control-container>
 </div>
 <br>
 <!--<button mat-raised-button color="primary" (click)="drawPolyLine()">Draw Polyline</button>-->
