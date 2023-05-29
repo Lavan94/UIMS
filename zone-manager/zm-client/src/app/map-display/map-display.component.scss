@@ -47,6 +47,7 @@ $map-height: 500px;
   grid-row: 3;
   grid-column: auto;
   margin: auto;
+  display: flex;
 }
 
 .save-button {
@@ -70,6 +71,29 @@ $map-height: 500px;
 
   border-radius: 16px;
 }
+
+.group-container{
+  width: auto;
+  height: 32px;
+
+  z-index: 2;
+
+  margin: 8px;
+
+  border-radius: 16px;
+  border-width: 0px;
+}
+
+.group-button{
+  width: auto;
+  background-color: #3f51b5;
+  color: white;
+}
+
+.mat-button-toggle-checked{
+  background-color: rgba(63, 81, 181, 0.75);
+}
+
 
 .map-control-right {
   height: 100%;

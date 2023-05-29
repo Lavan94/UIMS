@@ -1,7 +1,12 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {SECTORS} from "../model/DummyData";
-import {Complex, Neighborhood, Sector, UrbanZone} from "../model/Organization";
 import {FormControl} from "@angular/forms";
+import {OrganizationService} from "../organization-service/organization.service";
+import {UrbanZone} from "../model/Organization/UrbanZone";
+import {Complex} from "../model/Organization/Complex";
+import {Neighborhood} from "../model/Organization/Neighborhood";
+import {Sector} from "../model/Organization/Sector";
+import {Organization} from "../model/Organization/Organization";
 
 const DEFAULT_SECTOR_NAME = 'Sectors';
 const DEFAULT_NEIGHBORHOOD_NAME = 'Neighborhoods';
@@ -15,10 +20,10 @@ const TAB_NAME_LIST: string[] = [Sector.name, Neighborhood.name, Complex.name, U
   templateUrl: './organization-display.component.html',
   styleUrls: ['./organization-display.component.scss']
 })
-export class OrganizationDisplayComponent {
+export class OrganizationDisplayComponent implements OnInit {
   selectedIndex = new FormControl(0);
 
-  sectorList: Sector[] = SECTORS;
+  sectorList: Sector[] = [];
   sectorTabName: string = DEFAULT_SECTOR_NAME;
 
   neighborhoodDisabled: boolean = true;
@@ -35,9 +40,22 @@ export class OrganizationDisplayComponent {
   selectedUrbanZone: UrbanZone = new UrbanZone();
 
   @Output() public selectedOrganizationType: EventEmitter<string> = new EventEmitter<string>();
+  @Output() public selectedOrganization: EventEmitter<Map<string, Organization | null>> = new EventEmitter<Map<string, Organization | null>>();
+  @Output() public enableComplexUrbanZoneSelector: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-  constructor() {
+  private selectedOrganizationValue: Map<string, Organization | null> = new Map<string, Organization | null>([
+    [Sector.name, null],
+    [Neighborhood.name, null],
+    [Complex.name, null],
+    [UrbanZone.name, null],
+  ]);
+
+  constructor(private organizationService: OrganizationService) {
+  }
+
+  ngOnInit() {
     this.changeSelectedOrganizationType(Sector.name);
+    this.sectorList = this.organizationService.fetchSectors();
   }
 
   clickSector(sector: Sector) {
@@ -54,6 +72,9 @@ export class OrganizationDisplayComponent {
 
     this.sectorTabName = sector.name;
     this.changeSelectedOrganizationType(Neighborhood.name);
+    this.updateSelectedOrganization(sector);
+
+    this.enableComplexUrbanZoneSelector.emit(false);
   }
 
   clickNeighborhood(neighborhood: Neighborhood) {
@@ -69,6 +90,9 @@ export class OrganizationDisplayComponent {
     this.urbanZoneTabName = DEFAULT_URBAN_ZONE_NAME;
     this.neighborhoodTabName = neighborhood.name
     this.changeSelectedOrganizationType(Complex.name);
+    this.updateSelectedOrganization(neighborhood);
+
+    this.enableComplexUrbanZoneSelector.emit(true);
   }
 
   clickUrbanZone(urbanZone: UrbanZone) {
@@ -78,14 +102,22 @@ export class OrganizationDisplayComponent {
     this.urbanZoneTabName = DEFAULT_URBAN_ZONE_NAME;
     this.complexAndUrbanZoneTabName = urbanZone.id + ':' + urbanZone.type + ' ';
     this.changeSelectedOrganizationType(UrbanZone.name);
+    this.updateSelectedOrganization(urbanZone);
   }
 
-  changeSelectedOrganizationType(type: string){
+  changeSelectedOrganizationType(type: string) {
     this.selectedOrganizationType.emit(type);
+  }
+
+  updateSelectedOrganization(organization: Organization) {
+    this.selectedOrganizationValue.set(organization.constructor.name, organization);
+    this.selectedOrganization.emit(this.selectedOrganizationValue);
   }
 
   changeTab($event: number) {
     this.selectedIndex.setValue($event);
     this.changeSelectedOrganizationType(TAB_NAME_LIST[$event.valueOf()]);
+
+    this.enableComplexUrbanZoneSelector.emit(this.selectedIndex.getRawValue() === 2);
   }
 }

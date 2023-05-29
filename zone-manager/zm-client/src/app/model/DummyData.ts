@@ -1,5 +1,8 @@
-import {Complex, Neighborhood, Sector, UrbanZone} from "./Organization";
 import {UtilityCost} from "./UtilityCost";
+import {UrbanZone} from "./Organization/UrbanZone";
+import {Complex} from "./Organization/Complex";
+import {Neighborhood} from "./Organization/Neighborhood";
+import {Sector} from "./Organization/Sector";
 
 export const URBAN_ZONE_INSTANCE = new UrbanZone("1b1a", "Bloc I5", "Residential", "1b1", [
     new UtilityCost("1b1a1", 56, 62, 70, 10, "Ron", new Date('15 Jan 2023 00:00:00 GMT'), "Month"),

@@ -1,4 +1,4 @@
-import {UrbanZone} from "./Organization";
+import {UrbanZone} from "./Organization/UrbanZone";
 
 export class Owner {
   constructor(

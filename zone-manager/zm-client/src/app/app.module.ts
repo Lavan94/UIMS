@@ -20,7 +20,15 @@ import {MatButtonModule} from '@angular/material/button';
 import {MapControlContainerComponent} from './map-display/map-control-container/map-control-container.component';
 import {HttpClientModule} from '@angular/common/http';
 import {MatDialogModule} from '@angular/material/dialog';
-import { AddOrganizationDialogComponent } from './organization-dialog/add-organization-dialog/add-organization-dialog.component';
+import { AddEditOrganizationDialogComponent } from './organization-dialog/add-organization-dialog/add-edit-organization-dialog.component';
+import { SectorDialogComponent } from './organization-dialog/sector-dialog/sector-dialog.component';
+import { NeighborhoodDialogComponent } from './organization-dialog/neighborhood-dialog/neighborhood-dialog.component';
+import { ComplexDialogComponent } from './organization-dialog/complex-dialog/complex-dialog.component';
+import { UrbanZoneDialogComponent } from './organization-dialog/urban-zone-dialog/urban-zone-dialog.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import {MatSelectModule} from "@angular/material/select";
+import { OrganizationManagerComponent } from './organization-manager/organization-manager.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +37,12 @@ import { AddOrganizationDialogComponent } from './organization-dialog/add-organi
     OrganizationDisplayComponent,
     OrganizationUrbanZoneComponent,
     MapControlContainerComponent,
-    AddOrganizationDialogComponent,
+    AddEditOrganizationDialogComponent,
+    SectorDialogComponent,
+    NeighborhoodDialogComponent,
+    ComplexDialogComponent,
+    UrbanZoneDialogComponent,
+    OrganizationManagerComponent,
   ],
   imports: [
     BrowserModule,
@@ -38,6 +51,8 @@ import { AddOrganizationDialogComponent } from './organization-dialog/add-organi
     MatCardModule,
     MatTabsModule,
     MatButtonToggleModule,
+    MatFormFieldModule,
+    MatInputModule,
     FormsModule,
     MatListModule,
     MatExpansionModule,
@@ -45,6 +60,7 @@ import { AddOrganizationDialogComponent } from './organization-dialog/add-organi
     MatButtonModule,
     MatDialogModule,
     HttpClientModule,
+    MatSelectModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
