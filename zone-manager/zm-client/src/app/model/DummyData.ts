@@ -7,7 +7,7 @@ import {
   CRAIOVA_NE_SECTOR,
   CRAIOVA_NW_SECTOR,
   CRAIOVA_SE_SECTOR,
-  CRAIOVA_SW_SECTOR
+  CRAIOVA_SW_SECTOR, CRAIOVITA_NEIGHBORHOOD
 } from "../map-display/GeoJsonDummyData";
 
 export const URBAN_ZONE_INSTANCE = new UrbanZone("1b1a", "Bloc I5", "Residential", "1b1", [
@@ -22,8 +22,8 @@ export const SECTORS: Sector[] = [
       new Complex("1a1", "Complexul Baba Novac", "1a", []),
       new UrbanZone("1a2", "Bloc A25", "Residential", "1a", [])
     ]),
-    new Neighborhood("1b", "Severinului", "1", [
-      new Complex("1b1", "Complexul Groapa", "1b", [
+    new Neighborhood("1b", "Craiovita", "1", [
+      new Complex("1b1", "Orizont", "1b", [
         new UrbanZone("1b1a", "Bloc I5", "Residential", "1b1", [
           new UtilityCost("1b1a1", 56, 62, 70, 10, "Ron", new Date('15 Jan 2023 00:00:00 GMT'), "Month"),
           new UtilityCost("1b1a2", 56, 62, 70, 10, "Ron", new Date('15 Feb 2023 00:00:00 GMT'), "Month"),
@@ -52,7 +52,7 @@ export const SECTORS: Sector[] = [
         ]),
         new UrbanZone("1b5c", "Magazin la Scari", "Commercial", "1b1", []),
       ]),
-    ]),
+    ], undefined, CRAIOVITA_NEIGHBORHOOD),
     new Neighborhood("1c", "Craiovita Noua", "1", []),
     new Neighborhood("1d", "Craiovita Veche", "1", []),
     new Neighborhood("1e", "George Enescu", "1", []),

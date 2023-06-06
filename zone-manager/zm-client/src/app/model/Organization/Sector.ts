@@ -7,7 +7,7 @@ export class Sector implements Organization{
         public id: string = '',
         public name: string = '',
         public neighborhoods: Neighborhood [] = [],
-        public geoJson?: geoJson.GeoJsonObject
+        public geoJson?: geoJson.Feature
     ) {
     }
 }

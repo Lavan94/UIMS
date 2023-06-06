@@ -3,10 +3,10 @@ import * as L from 'leaflet';
 import {MatIconRegistry} from '@angular/material/icon';
 import {DomSanitizer} from '@angular/platform-browser';
 import 'leaflet-draw';
-import {LeafletMouseEvent} from "leaflet";
+import {Layer, LeafletMouseEvent} from "leaflet";
 import {MapAction} from "./action/MapAction";
 import {MatDialog} from "@angular/material/dialog";
-import {DEFAULT_ZONE_STYLE, SELECTED_ZONE_STYLE} from "./zone-styles/ZoneStyles";
+import {DEFAULT_ZONE_STYLE, NAVIGATE_INTO_ZONE_STYLE, SELECTED_ZONE_STYLE} from "./zone-styles/ZoneStyles";
 import {
   AddEditOrganizationDialogComponent
 } from "../organization-dialog/add-organization-dialog/add-edit-organization-dialog.component";
@@ -85,6 +85,7 @@ export class MapDisplayComponent {
     sectors.forEach(sector => {
       let sectorLayer = L.geoJson(sector.geoJson);
       sectorLayer.on('click', this.selectZone);
+      sectorLayer.on('dblclick', this.navigateIntoZone)
       sectorLayer.setStyle(DEFAULT_ZONE_STYLE)
       this.drawnItems.addLayer(sectorLayer);
     })
@@ -98,7 +99,6 @@ export class MapDisplayComponent {
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">',
     }).addTo(this.map);
-    this.map.doubleClickZoom.disable()
     this.map.addLayer(this.drawnItems);
 
     this.map.on(L.Draw.Event.CREATED, e => {
@@ -150,6 +150,25 @@ export class MapDisplayComponent {
       affectedZone.editing.enable();
     }
     self.selectedZone = affectedZone;
+  }
+
+  navigateIntoZone(e: LeafletMouseEvent){
+    const currentSector: Sector | undefined = self.organizationService.fetchSectors()
+      .find(sector => sector.geoJson && sector.geoJson.id && sector.geoJson.id === e.layer.feature.id);
+    if(currentSector){
+      console.log(e);
+      e.layer.setStyle(NAVIGATE_INTO_ZONE_STYLE)
+      self.drawnItems.clearLayers();
+      e.layer.on('click', undefined);
+      self.drawnItems.addLayer(e.layer);
+      currentSector.neighborhoods.forEach(neighborhood => {
+        let neighborhoodLayer = L.geoJson(neighborhood.geoJson);
+        neighborhoodLayer.setStyle(DEFAULT_ZONE_STYLE);
+        neighborhoodLayer.on('click', self.selectZone);
+        neighborhoodLayer.setZIndex(2);
+        self.drawnItems.addLayer(neighborhoodLayer);
+      })
+    }
   }
 
   deselectAll() {
