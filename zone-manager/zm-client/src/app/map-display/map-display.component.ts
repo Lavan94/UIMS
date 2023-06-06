@@ -83,7 +83,10 @@ export class MapDisplayComponent {
   private initDrawnItems() {
     const sectors = this.organizationService.fetchSectors();
     sectors.forEach(sector => {
-      this.drawnItems.addLayer(L.geoJson(sector.geoJson));
+      let sectorLayer = L.geoJson(sector.geoJson);
+      sectorLayer.on('click', this.selectZone);
+      sectorLayer.setStyle(DEFAULT_ZONE_STYLE)
+      this.drawnItems.addLayer(sectorLayer);
     })
   }
 
@@ -136,13 +139,17 @@ export class MapDisplayComponent {
 
   selectZone(e: LeafletMouseEvent) {
     self.deselectAll();
-    e.target.setStyle(SELECTED_ZONE_STYLE);
+    let affectedZone = e.target;
+    if(!e.target.editing){
+      affectedZone = e.layer;
+    }
+    affectedZone.setStyle(SELECTED_ZONE_STYLE);
 
     if (self.selectedZone && self.selectedZone.editing._enabled) {
       self.selectedZone.editing.disable()
-      e.target.editing.enable();
+      affectedZone.editing.enable();
     }
-    self.selectedZone = e.target;
+    self.selectedZone = affectedZone;
   }
 
   deselectAll() {
