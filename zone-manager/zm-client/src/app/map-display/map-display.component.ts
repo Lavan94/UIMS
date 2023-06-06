@@ -76,7 +76,15 @@ export class MapDisplayComponent {
   }
 
   ngOnInit(): void {
+    this.initDrawnItems()
     this.initMap();
+  }
+
+  private initDrawnItems() {
+    const sectors = this.organizationService.fetchSectors();
+    sectors.forEach(sector => {
+      this.drawnItems.addLayer(L.geoJson(sector.geoJson));
+    })
   }
 
   private initMap(): void {
