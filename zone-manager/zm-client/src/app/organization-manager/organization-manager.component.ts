@@ -20,6 +20,8 @@ export class OrganizationManagerComponent {
     [Complex.name, null],
     [UrbanZone.name, null],
   ]);
+  public selectedOrganization?: Organization;
+
   public mapSelectedSector: Sector | null = null;
 
   onEnableComplexUrbanZoneSelector($event: any){
@@ -36,5 +38,9 @@ export class OrganizationManagerComponent {
 
   navigatedSectorEvent($event: Sector) {
     this.mapSelectedSector = $event
+  }
+
+  onSelectedOrganizationEmitEvent($event: Organization) {
+    this.selectedOrganization = $event;
   }
 }

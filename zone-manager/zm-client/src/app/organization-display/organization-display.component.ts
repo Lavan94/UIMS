@@ -58,6 +58,8 @@ export class OrganizationDisplayComponent implements OnInit {
   @Output() public selectedOrganization: EventEmitter<Map<string, Organization | null>> = new EventEmitter<Map<string, Organization | null>>();
   @Output() public enableComplexUrbanZoneSelector: EventEmitter<boolean> = new EventEmitter<boolean>();
 
+  @Output() public selectedOrganizationEmitter: EventEmitter<Organization> = new EventEmitter<Organization>();
+
   private selectedOrganizationValue: Map<string, Organization | null> = new Map<string, Organization | null>([
     [Sector.name, null],
     [Neighborhood.name, null],
@@ -127,6 +129,7 @@ export class OrganizationDisplayComponent implements OnInit {
   updateSelectedOrganization(organization: Organization) {
     this.selectedOrganizationValue.set(organization.constructor.name, organization);
     this.selectedOrganization.emit(this.selectedOrganizationValue);
+    this.selectedOrganizationEmitter.emit(organization);
   }
 
   changeTab($event: number) {

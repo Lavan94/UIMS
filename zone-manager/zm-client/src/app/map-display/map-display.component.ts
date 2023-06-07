@@ -42,6 +42,11 @@ export class MapDisplayComponent {
   public selectedZone?: any;
   public selectedToggleValue: string = 'Complex';
 
+  private selectedSector?: Sector;
+  private selectedNeighborhood?: Neighborhood;
+  private selectedComplex?: Complex;
+  private selectedUrbanZone?: UrbanZone;
+
   @Input() selectedToggleDisplay: boolean = false;
   @Input() selectedOrganizationType: string = Sector.toString();
   @Input() selectedOrganization: Map<string, Organization | null> = new Map<string, Organization | null>([
@@ -50,6 +55,28 @@ export class MapDisplayComponent {
     [Complex.name, null],
     [UrbanZone.name, null],
   ]);
+
+  @Input() set setSelectedOrganization(organization: Organization | undefined){
+    if(!organization) return;
+    switch (organization.constructor.name){
+      case Sector.name:{
+        this.selectedSector = organization as Sector;
+        this.navigateIntoSector(L.geoJson(this.selectedSector.geoJson), this.selectedSector)
+        break;
+      }
+      case Neighborhood.name:{
+        break;
+      }
+      case Complex.name:{
+        break;
+      }
+      case UrbanZone.name:{
+        break;
+      }
+      default:
+        return;
+    }
+  }
 
   @Output() navigatedSectorEmitter: EventEmitter<Sector> = new EventEmitter<Sector>();
   @Output() navigatedNeighborhoodEmitter: EventEmitter<Neighborhood> = new EventEmitter<Neighborhood>();
@@ -160,20 +187,24 @@ export class MapDisplayComponent {
     const currentSector: Sector | undefined = self.organizationService.fetchSectors()
       .find(sector => sector.geoJson && sector.geoJson.id && sector.geoJson.id === e.layer.feature.id);
     if(currentSector){
-      console.log(e);
-      e.layer.setStyle(NAVIGATE_INTO_ZONE_STYLE)
-      self.drawnItems.clearLayers();
-      e.layer.on('click', undefined);
-      self.drawnItems.addLayer(e.layer);
-      currentSector.neighborhoods.forEach(neighborhood => {
-        let neighborhoodLayer = L.geoJson(neighborhood.geoJson);
-        neighborhoodLayer.setStyle(DEFAULT_ZONE_STYLE);
-        neighborhoodLayer.on('click', self.selectZone);
-        neighborhoodLayer.setZIndex(2);
-        self.drawnItems.addLayer(neighborhoodLayer);
-      });
-      self.navigatedSectorEmitter.emit(currentSector);
+      self.navigateIntoSector(e.layer, currentSector);
     }
+  }
+
+  navigateIntoSector(layer: any, sector: Sector){
+    console.log(layer);
+    layer.setStyle(NAVIGATE_INTO_ZONE_STYLE)
+    this.drawnItems.clearLayers();
+    layer.on('click', undefined);
+    this.drawnItems.addLayer(layer);
+    sector.neighborhoods.forEach(neighborhood => {
+      let neighborhoodLayer = L.geoJson(neighborhood.geoJson);
+      neighborhoodLayer.setStyle(DEFAULT_ZONE_STYLE);
+      neighborhoodLayer.on('click', this.selectZone);
+      neighborhoodLayer.setZIndex(2);
+      this.drawnItems.addLayer(neighborhoodLayer);
+    });
+    this.navigatedSectorEmitter.emit(sector);
   }
 
   deselectAll() {
