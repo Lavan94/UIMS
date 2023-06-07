@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnInit, Output, QueryList, ViewChildren} from '@angular/core';
 import {SECTORS} from "../model/DummyData";
 import {FormControl} from "@angular/forms";
 import {OrganizationService} from "../organization-service/organization.service";
@@ -7,6 +7,7 @@ import {Complex} from "../model/Organization/Complex";
 import {Neighborhood} from "../model/Organization/Neighborhood";
 import {Sector} from "../model/Organization/Sector";
 import {Organization} from "../model/Organization/Organization";
+import {MatListOption} from "@angular/material/list";
 
 const DEFAULT_SECTOR_NAME = 'Sectors';
 const DEFAULT_NEIGHBORHOOD_NAME = 'Neighborhoods';
@@ -38,6 +39,20 @@ export class OrganizationDisplayComponent implements OnInit {
   urbanZoneDisabled: boolean = true;
   urbanZoneTabName = DEFAULT_URBAN_ZONE_NAME;
   selectedUrbanZone: UrbanZone = new UrbanZone();
+
+  private _mapSelectedSector: Sector | null = null;
+
+  @ViewChildren('sectorElem') sectorElements?: QueryList<MatListOption>;
+
+  @Input() set mapSelectedSector(sector: Sector | null) {
+    console.log(sector)
+    this._mapSelectedSector = sector;
+    if (sector) {
+      console.log(this.sectorElements);
+      this.selectSector(sector.name);
+      this.clickSector(sector);
+    }
+  }
 
   @Output() public selectedOrganizationType: EventEmitter<string> = new EventEmitter<string>();
   @Output() public selectedOrganization: EventEmitter<Map<string, Organization | null>> = new EventEmitter<Map<string, Organization | null>>();
@@ -119,5 +134,18 @@ export class OrganizationDisplayComponent implements OnInit {
     this.changeSelectedOrganizationType(TAB_NAME_LIST[$event.valueOf()]);
 
     this.enableComplexUrbanZoneSelector.emit(this.selectedIndex.getRawValue() === 2);
+  }
+
+  selectSector(content: string) {
+    if (!this.sectorElements) return;
+    const result: MatListOption | undefined = this.sectorElements.find(sectorElem => {
+      if (sectorElem && sectorElem._elementRef && sectorElem._elementRef.nativeElement && sectorElem._elementRef.nativeElement.textContent) {
+        return sectorElem._elementRef.nativeElement.textContent.includes(content)
+      }
+      return false;
+    });
+    if(result){
+      result.selected = true
+    }
   }
 }

@@ -1,4 +1,4 @@
-import {Component, Input, Output} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import * as L from 'leaflet';
 import {MatIconRegistry} from '@angular/material/icon';
 import {DomSanitizer} from '@angular/platform-browser';
@@ -41,8 +41,8 @@ export class MapDisplayComponent {
   ];
   public selectedZone?: any;
   public selectedToggleValue: string = 'Complex';
-  @Input() selectedToggleDisplay: boolean = false;
 
+  @Input() selectedToggleDisplay: boolean = false;
   @Input() selectedOrganizationType: string = Sector.toString();
   @Input() selectedOrganization: Map<string, Organization | null> = new Map<string, Organization | null>([
     [Sector.name, null],
@@ -50,6 +50,11 @@ export class MapDisplayComponent {
     [Complex.name, null],
     [UrbanZone.name, null],
   ]);
+
+  @Output() navigatedSectorEmitter: EventEmitter<Sector> = new EventEmitter<Sector>();
+  @Output() navigatedNeighborhoodEmitter: EventEmitter<Neighborhood> = new EventEmitter<Neighborhood>();
+  @Output() navigatedComplexEmitter: EventEmitter<Complex> = new EventEmitter<Complex>();
+  @Output() navigatedUrbanZoneEmitter: EventEmitter<UrbanZone> = new EventEmitter<UrbanZone>();
 
   public editEnabled: boolean = false;
   public editChoice?: string;
@@ -72,8 +77,7 @@ export class MapDisplayComponent {
     private matIconRegistry: MatIconRegistry,
     private organizationService: OrganizationService,
     public dialog: MatDialog,
-  ) {
-  }
+  ) {}
 
   ngOnInit(): void {
     this.initDrawnItems()
@@ -167,7 +171,8 @@ export class MapDisplayComponent {
         neighborhoodLayer.on('click', self.selectZone);
         neighborhoodLayer.setZIndex(2);
         self.drawnItems.addLayer(neighborhoodLayer);
-      })
+      });
+      self.navigatedSectorEmitter.emit(currentSector);
     }
   }
 
