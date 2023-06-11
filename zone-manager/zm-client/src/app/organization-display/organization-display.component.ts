@@ -26,15 +26,18 @@ export class OrganizationDisplayComponent implements OnInit {
 
   sectorList: Sector[] = [];
   sectorTabName: string = DEFAULT_SECTOR_NAME;
+  private selectedSector?: Sector;
 
   neighborhoodDisabled: boolean = true;
   neighborhoodTabName: string = DEFAULT_NEIGHBORHOOD_NAME;
   selectedSectorNeighborhoods: Neighborhood[] = [];
+  private selectedNeighborhood?: Neighborhood;
 
   complexDisabled: boolean = true;
   complexAndUrbanZoneTabName = DEFAULT_COMPLEX_AND_URBAN_ZONE_NAME;
   selectedNeighborhoodComplexes: Complex[] = [];
   selectedNeighborhoodUrbanZones: UrbanZone[] = [];
+  private selectedComplex?: Complex;
 
   urbanZoneDisabled: boolean = true;
   urbanZoneTabName = DEFAULT_URBAN_ZONE_NAME;
@@ -54,28 +57,19 @@ export class OrganizationDisplayComponent implements OnInit {
     }
   }
 
-  @Output() public selectedOrganizationType: EventEmitter<string> = new EventEmitter<string>();
-  @Output() public selectedOrganization: EventEmitter<Map<string, Organization | null>> = new EventEmitter<Map<string, Organization | null>>();
   @Output() public enableComplexUrbanZoneSelector: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   @Output() public selectedOrganizationEmitter: EventEmitter<Organization> = new EventEmitter<Organization>();
-
-  private selectedOrganizationValue: Map<string, Organization | null> = new Map<string, Organization | null>([
-    [Sector.name, null],
-    [Neighborhood.name, null],
-    [Complex.name, null],
-    [UrbanZone.name, null],
-  ]);
 
   constructor(private organizationService: OrganizationService) {
   }
 
   ngOnInit() {
-    this.changeSelectedOrganizationType(Sector.name);
     this.sectorList = this.organizationService.fetchSectors();
   }
 
   clickSector(sector: Sector) {
+    this.selectedSector = sector;
     this.selectedSectorNeighborhoods = sector.neighborhoods
     this.neighborhoodTabName = DEFAULT_NEIGHBORHOOD_NAME;
     this.selectedIndex.setValue(1);
@@ -88,13 +82,13 @@ export class OrganizationDisplayComponent implements OnInit {
     this.urbanZoneTabName = DEFAULT_URBAN_ZONE_NAME;
 
     this.sectorTabName = sector.name;
-    this.changeSelectedOrganizationType(Neighborhood.name);
     this.updateSelectedOrganization(sector);
 
     this.enableComplexUrbanZoneSelector.emit(false);
   }
 
   clickNeighborhood(neighborhood: Neighborhood) {
+    this.selectedNeighborhood = neighborhood;
     this.selectedNeighborhoodComplexes = neighborhood.children
       .filter(child => child instanceof Complex).map(child => child as Complex);
     this.selectedNeighborhoodUrbanZones = neighborhood.children
@@ -106,7 +100,6 @@ export class OrganizationDisplayComponent implements OnInit {
     this.urbanZoneDisabled = true;
     this.urbanZoneTabName = DEFAULT_URBAN_ZONE_NAME;
     this.neighborhoodTabName = neighborhood.name
-    this.changeSelectedOrganizationType(Complex.name);
     this.updateSelectedOrganization(neighborhood);
 
     this.enableComplexUrbanZoneSelector.emit(true);
@@ -114,27 +107,39 @@ export class OrganizationDisplayComponent implements OnInit {
 
   clickUrbanZone(urbanZone: UrbanZone) {
     this.selectedUrbanZone = urbanZone;
+    this.selectedUrbanZone = urbanZone;
     this.urbanZoneDisabled = false;
     this.selectedIndex.setValue(3);
     this.urbanZoneTabName = DEFAULT_URBAN_ZONE_NAME;
     this.complexAndUrbanZoneTabName = urbanZone.id + ':' + urbanZone.type + ' ';
-    this.changeSelectedOrganizationType(UrbanZone.name);
     this.updateSelectedOrganization(urbanZone);
   }
 
-  changeSelectedOrganizationType(type: string) {
-    this.selectedOrganizationType.emit(type);
-  }
-
-  updateSelectedOrganization(organization: Organization) {
-    this.selectedOrganizationValue.set(organization.constructor.name, organization);
-    this.selectedOrganization.emit(this.selectedOrganizationValue);
+  updateSelectedOrganization(organization: Organization | undefined) {
     this.selectedOrganizationEmitter.emit(organization);
   }
 
   changeTab($event: number) {
     this.selectedIndex.setValue($event);
-    this.changeSelectedOrganizationType(TAB_NAME_LIST[$event.valueOf()]);
+    const organizationType = TAB_NAME_LIST[$event.valueOf()];
+    switch (organizationType){
+      case Sector.name:{
+        this.updateSelectedOrganization(this.selectedSector);
+        break;
+      }
+      case Neighborhood.name:{
+        this.updateSelectedOrganization(this.selectedNeighborhood ? this.selectedNeighborhood : this.selectedSector);
+        break;
+      }
+      case Complex.name:{
+        this.updateSelectedOrganization(this.selectedComplex);
+        break;
+      }
+      case UrbanZone.name:{
+        this.updateSelectedOrganization(this.selectedUrbanZone);
+        break;
+      }
+    }
 
     this.enableComplexUrbanZoneSelector.emit(this.selectedIndex.getRawValue() === 2);
   }

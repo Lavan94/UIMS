@@ -3,7 +3,7 @@ import * as L from 'leaflet';
 import {MatIconRegistry} from '@angular/material/icon';
 import {DomSanitizer} from '@angular/platform-browser';
 import 'leaflet-draw';
-import {Layer, LeafletMouseEvent} from "leaflet";
+import {LeafletMouseEvent} from "leaflet";
 import {MapAction} from "./action/MapAction";
 import {MatDialog} from "@angular/material/dialog";
 import {DEFAULT_ZONE_STYLE, NAVIGATE_INTO_ZONE_STYLE, SELECTED_ZONE_STYLE} from "./zone-styles/ZoneStyles";
@@ -41,6 +41,7 @@ export class MapDisplayComponent {
   ];
   public selectedZone?: any;
   public selectedToggleValue: string = 'Complex';
+  public selectedOrganizationType: string = Sector.name;
 
   private selectedSector?: Sector;
   private selectedNeighborhood?: Neighborhood;
@@ -48,29 +49,31 @@ export class MapDisplayComponent {
   private selectedUrbanZone?: UrbanZone;
 
   @Input() selectedToggleDisplay: boolean = false;
-  @Input() selectedOrganizationType: string = Sector.toString();
-  @Input() selectedOrganization: Map<string, Organization | null> = new Map<string, Organization | null>([
-    [Sector.name, null],
-    [Neighborhood.name, null],
-    [Complex.name, null],
-    [UrbanZone.name, null],
-  ]);
 
   @Input() set setSelectedOrganization(organization: Organization | undefined){
     if(!organization) return;
     switch (organization.constructor.name){
       case Sector.name:{
-        this.selectedSector = organization as Sector;
+        const inputSelectedSector = organization as Sector;
+        if(this.selectedSector && this.selectedSector.id === inputSelectedSector.id){
+          this.selectedOrganizationType = Sector.name
+          break;
+        }
+        this.selectedSector = inputSelectedSector;
+        this.selectedOrganizationType = Neighborhood.name
         this.navigateIntoSector(L.geoJson(this.selectedSector.geoJson), this.selectedSector)
         break;
       }
       case Neighborhood.name:{
+        this.selectedOrganizationType = Complex.name
         break;
       }
       case Complex.name:{
+        this.selectedOrganizationType = UrbanZone.name
         break;
       }
       case UrbanZone.name:{
+        this.selectedOrganizationType = UrbanZone.name
         break;
       }
       default:
@@ -139,9 +142,29 @@ export class MapDisplayComponent {
       this.drawnItems.addLayer(layer);
       this.drawEnabled = false;
 
+      let organizationParent;
       const organizationParentType = this.getParentOrganizationType();
-      const organizationParent = this.selectedOrganization.has(organizationParentType) ?
-        this.selectedOrganization.get(organizationParentType) : null;
+      switch (organizationParentType){
+        case Sector.name:{
+          organizationParent = this.selectedSector;
+          break;
+        }
+        case Neighborhood.name:{
+          organizationParent = this.selectedNeighborhood;
+          break;
+        }
+        case Complex.name:{
+          organizationParent = this.selectedComplex;
+          break;
+        }
+        case UrbanZone.name:{
+          organizationParent = this.selectedUrbanZone;
+          break;
+        }
+        default:
+          organizationParent = undefined;
+          break;
+      }
 
       const dialogRef = this.dialog.open(AddEditOrganizationDialogComponent, {
         data: {

@@ -25,7 +25,7 @@ export class AddEditOrganizationDialogComponent {
   constructor(
     public dialogRef: MatDialogRef<AddEditOrganizationDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: OrganizationDialogData) {
-    this.organizationType = data.organizationType;
+    this.organizationType = data.organizationParent ? data.organizationType : Sector.name;
     this.complexOrUrbanZone = data.complexOrUrbanZone;
     this.organization = this.getDefaultOrganization();
 

@@ -8,16 +8,12 @@
     <div class="map-container">
       <app-map-display
         [setSelectedOrganization]="selectedOrganization"
-        [selectedOrganizationType]="selectedOrganizationType"
-        [selectedOrganization]="selectedOrganizationValue"
         [selectedToggleDisplay]="enableComplexUrbanZoneSelector"
         (navigatedSectorEmitter)="navigatedSectorEvent($event)">
       </app-map-display>
     </div>
     <app-organization-display
       [mapSelectedSector]="mapSelectedSector"
-      (selectedOrganizationType)="onSelectedOrganizationTypeChange($event)"
-      (selectedOrganization)="onSelectedOrganizationValueChange($event)"
       (selectedOrganizationEmitter)="onSelectedOrganizationEmitEvent($event)"
       (enableComplexUrbanZoneSelector)="onEnableComplexUrbanZoneSelector($event)">
     </app-organization-display>
