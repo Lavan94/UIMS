@@ -4,7 +4,7 @@ import {Complex} from "./Organization/Complex";
 import {Neighborhood} from "./Organization/Neighborhood";
 import {Sector} from "./Organization/Sector";
 import {
-  BRAZDA_LUI_NOVAC_NEIGBORHOOD,
+  BRAZDA_LUI_NOVAC_NEIGBORHOOD, CERNELE_INDUSTRIAL_NEIGHBORHOOD,
   CRAIOVA_NE_SECTOR,
   CRAIOVA_NW_SECTOR,
   CRAIOVA_SE_SECTOR,
@@ -19,10 +19,6 @@ export const URBAN_ZONE_INSTANCE = new UrbanZone("1b1a", "Bloc I5", "Residential
 
 export const SECTORS: Sector[] = [
   new Sector('1', 'Zona North-West', [
-    new Neighborhood("1a", "Brazda lui Novac", "1", [
-      new Complex("1a1", "Complexul Baba Novac", "1a", []),
-      new UrbanZone("1a2", "Bloc A25", "Residential", "1a", [])
-    ]),
     new Neighborhood("1b", "Craiovita", "1", [
       new Complex("1b1", "Orizont", "1b", [
         new UrbanZone("1b1a", "Bloc I5", "Residential", "1b1", [
@@ -54,9 +50,10 @@ export const SECTORS: Sector[] = [
         new UrbanZone("1b5c", "Magazin la Scari", "Commercial", "1b1", []),
       ]),
     ], undefined, CRAIOVITA_NEIGHBORHOOD),
-    new Neighborhood("1c", "Craiovita Noua", "1", [], undefined, GEORGE_ENESCU_NEIGHBORHOOD),
-    new Neighborhood("1d", "Craiovita Veche", "1", [], undefined, SEVERINULUI_NEIGHBORHOOD),
-    new Neighborhood("1e", "George Enescu", "1", [], undefined, BRAZDA_LUI_NOVAC_NEIGBORHOOD),
+    new Neighborhood("1c", "George Enescu", "1", [], undefined, GEORGE_ENESCU_NEIGHBORHOOD),
+    new Neighborhood("1d", "Severinului", "1", [], undefined, SEVERINULUI_NEIGHBORHOOD),
+    new Neighborhood("1e", "Brazda lui Novac", "1", [], undefined, BRAZDA_LUI_NOVAC_NEIGBORHOOD),
+    new Neighborhood("1f", "Zona Industrial Cernele", "1", [], undefined, CERNELE_INDUSTRIAL_NEIGHBORHOOD),
   ], CRAIOVA_NW_SECTOR),
   new Sector('2', 'Zona North-East', [], CRAIOVA_NE_SECTOR),
   new Sector('3', 'Zona South-East', [], CRAIOVA_SE_SECTOR),
