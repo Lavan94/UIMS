@@ -8,6 +8,11 @@ import {Neighborhood} from "../model/Organization/Neighborhood";
 import {Sector} from "../model/Organization/Sector";
 import {Organization} from "../model/Organization/Organization";
 import {MatListOption} from "@angular/material/list";
+import {
+  ChangeOrganizationTabEvent,
+  MapOrganizationEvent,
+  SelectOrganizationDisplayEvent
+} from "../organization-manager/event/MapOrganizationEvent";
 
 const DEFAULT_SECTOR_NAME = 'Sectors';
 const DEFAULT_NEIGHBORHOOD_NAME = 'Neighborhoods';
@@ -59,7 +64,7 @@ export class OrganizationDisplayComponent implements OnInit {
 
   @Output() public enableComplexUrbanZoneSelector: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-  @Output() public selectedOrganizationEmitter: EventEmitter<Organization> = new EventEmitter<Organization>();
+  @Output() public selectedOrganizationEmitter: EventEmitter<MapOrganizationEvent> = new EventEmitter<MapOrganizationEvent>();
 
   constructor(private organizationService: OrganizationService) {
   }
@@ -82,7 +87,7 @@ export class OrganizationDisplayComponent implements OnInit {
     this.urbanZoneTabName = DEFAULT_URBAN_ZONE_NAME;
 
     this.sectorTabName = sector.name;
-    this.updateSelectedOrganization(sector);
+    this.updateSelectedOrganization(new SelectOrganizationDisplayEvent(sector));
 
     this.enableComplexUrbanZoneSelector.emit(false);
   }
@@ -100,7 +105,7 @@ export class OrganizationDisplayComponent implements OnInit {
     this.urbanZoneDisabled = true;
     this.urbanZoneTabName = DEFAULT_URBAN_ZONE_NAME;
     this.neighborhoodTabName = neighborhood.name
-    this.updateSelectedOrganization(neighborhood);
+    this.updateSelectedOrganization(new SelectOrganizationDisplayEvent(neighborhood));
 
     this.enableComplexUrbanZoneSelector.emit(true);
   }
@@ -112,31 +117,33 @@ export class OrganizationDisplayComponent implements OnInit {
     this.selectedIndex.setValue(3);
     this.urbanZoneTabName = DEFAULT_URBAN_ZONE_NAME;
     this.complexAndUrbanZoneTabName = urbanZone.id + ':' + urbanZone.type + ' ';
-    this.updateSelectedOrganization(urbanZone);
+    this.updateSelectedOrganization(new SelectOrganizationDisplayEvent(urbanZone));
   }
 
-  updateSelectedOrganization(organization: Organization | undefined) {
-    this.selectedOrganizationEmitter.emit(organization);
+  updateSelectedOrganization(event: MapOrganizationEvent) {
+    this.selectedOrganizationEmitter.emit(event);
   }
 
   changeTab($event: number) {
     this.selectedIndex.setValue($event);
     const organizationType = TAB_NAME_LIST[$event.valueOf()];
-    switch (organizationType){
-      case Sector.name:{
-        this.updateSelectedOrganization(this.selectedSector);
+    switch (organizationType) {
+      case Sector.name: {
+        this.updateSelectedOrganization(new ChangeOrganizationTabEvent(this.selectedSector));
         break;
       }
-      case Neighborhood.name:{
-        this.updateSelectedOrganization(this.selectedNeighborhood ? this.selectedNeighborhood : this.selectedSector);
+      case Neighborhood.name: {
+        this.updateSelectedOrganization(new ChangeOrganizationTabEvent(
+          this.selectedNeighborhood ? this.selectedNeighborhood : this.selectedSector
+        ));
         break;
       }
-      case Complex.name:{
-        this.updateSelectedOrganization(this.selectedComplex);
+      case Complex.name: {
+        this.updateSelectedOrganization(new ChangeOrganizationTabEvent(this.selectedComplex));
         break;
       }
-      case UrbanZone.name:{
-        this.updateSelectedOrganization(this.selectedUrbanZone);
+      case UrbanZone.name: {
+        this.updateSelectedOrganization(new ChangeOrganizationTabEvent(this.selectedUrbanZone));
         break;
       }
     }
@@ -152,7 +159,7 @@ export class OrganizationDisplayComponent implements OnInit {
       }
       return false;
     });
-    if(result){
+    if (result) {
       result.selected = true
     }
   }

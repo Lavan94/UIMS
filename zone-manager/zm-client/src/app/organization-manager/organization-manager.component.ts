@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {Sector} from "../model/Organization/Sector";
-import {Organization} from "../model/Organization/Organization";
+import {MapOrganizationEvent} from "./event/MapOrganizationEvent";
 
 @Component({
   selector: 'app-organization-manager',
@@ -10,7 +10,7 @@ import {Organization} from "../model/Organization/Organization";
 export class OrganizationManagerComponent {
   public city: string = "Craiova";
   public enableComplexUrbanZoneSelector: boolean = false;
-  public selectedOrganization?: Organization;
+  public lastMapOrganizationManagerEvent?: MapOrganizationEvent;
 
   public mapSelectedSector: Sector | null = null;
 
@@ -22,7 +22,7 @@ export class OrganizationManagerComponent {
     this.mapSelectedSector = $event
   }
 
-  onSelectedOrganizationEmitEvent($event: Organization) {
-    this.selectedOrganization = $event;
+  onSelectedOrganizationEmitEvent($event: MapOrganizationEvent) {
+    this.lastMapOrganizationManagerEvent = $event;
   }
 }

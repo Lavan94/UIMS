@@ -20,6 +20,7 @@ import {
   ORGANIZATION_HIERARCHY,
   URBAN_ZONE_UNDER_NEIGHBORHOOD_KEY
 } from "../model/Organization/Organization";
+import {MapOrganizationEvent} from "../organization-manager/event/MapOrganizationEvent";
 
 let self: MapDisplayComponent;
 
@@ -50,7 +51,9 @@ export class MapDisplayComponent {
 
   @Input() selectedToggleDisplay: boolean = false;
 
-  @Input() set setSelectedOrganization(organization: Organization | undefined){
+  @Input() set onMapOrganizationEvent(event: MapOrganizationEvent | undefined){
+    if(!event) return;
+    const organization = event.dataOrganization;
     if(!organization) return;
     switch (organization.constructor.name){
       case Sector.name:{
