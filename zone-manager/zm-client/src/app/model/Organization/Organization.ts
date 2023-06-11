@@ -8,7 +8,7 @@ import * as geoJson from "geojson";
 export interface Organization{
   id: string;
   parent?: Organization;
-  geoJson?: geoJson.GeoJsonObject
+  geoJson?: geoJson.Feature
 }
 
 export const URBAN_ZONE_UNDER_COMPLEX_KEY: string = UrbanZone.name + '-C';

@@ -13,7 +13,7 @@ export class UrbanZone implements Organization{
         public parentId: string = '',
         public utilityCosts: UtilityCost[] = [],
         public parent? : (Neighborhood | Complex),
-        public geoJson?: geoJson.GeoJsonObject
+        public geoJson?: geoJson.Feature
     ) {
     }
 

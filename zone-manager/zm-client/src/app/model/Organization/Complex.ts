@@ -10,7 +10,7 @@ export class Complex implements Organization{
         public parentId: string = '',
         public children: UrbanZone[] = [],
         public parent?: Neighborhood,
-        public geoJson?: geoJson.GeoJsonObject
+        public geoJson?: geoJson.Feature
     ) {
     }
 }

@@ -12,7 +12,7 @@ export class Neighborhood implements Organization{
         public parentId: string = '',
         public children: (Complex | UrbanZone)[] = [],
         public parent?: Sector,
-        public geoJson: geoJson.GeoJsonObject = RANDOM_AREA
+        public geoJson?: geoJson.Feature
     ) {
     }
 }

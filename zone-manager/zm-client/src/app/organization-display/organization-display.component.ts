@@ -1,16 +1,14 @@
 import {Component, ElementRef, EventEmitter, Input, OnInit, Output, QueryList, ViewChildren} from '@angular/core';
-import {SECTORS} from "../model/DummyData";
 import {FormControl} from "@angular/forms";
 import {OrganizationService} from "../organization-service/organization.service";
 import {UrbanZone} from "../model/Organization/UrbanZone";
 import {Complex} from "../model/Organization/Complex";
 import {Neighborhood} from "../model/Organization/Neighborhood";
 import {Sector} from "../model/Organization/Sector";
-import {Organization} from "../model/Organization/Organization";
 import {MatListOption} from "@angular/material/list";
 import {
   ChangeOrganizationTabEvent,
-  MapOrganizationEvent,
+  MapOrganizationEvent, SelectMapOrganizationEvent,
   SelectOrganizationDisplayEvent
 } from "../organization-manager/event/MapOrganizationEvent";
 
@@ -36,7 +34,7 @@ export class OrganizationDisplayComponent implements OnInit {
   neighborhoodDisabled: boolean = true;
   neighborhoodTabName: string = DEFAULT_NEIGHBORHOOD_NAME;
   selectedSectorNeighborhoods: Neighborhood[] = [];
-  private selectedNeighborhood?: Neighborhood;
+  private selectedNeighborhood: Neighborhood = new Neighborhood();
 
   complexDisabled: boolean = true;
   complexAndUrbanZoneTabName = DEFAULT_COMPLEX_AND_URBAN_ZONE_NAME;
@@ -49,16 +47,19 @@ export class OrganizationDisplayComponent implements OnInit {
   selectedUrbanZone: UrbanZone = new UrbanZone();
 
   private _mapSelectedSector: Sector | null = null;
+  private lastEvent?: MapOrganizationEvent;
 
   @ViewChildren('sectorElem') sectorElements?: QueryList<MatListOption>;
 
-  @Input() set mapSelectedSector(sector: Sector | null) {
-    console.log(sector)
+  @Input() set mapSelectedSector(event: MapOrganizationEvent | null) {
+    if(!event) return;
+    const sector = event.selectedOrganization as Sector;
     this._mapSelectedSector = sector;
     if (sector) {
       console.log(this.sectorElements);
       this.selectSector(sector.name);
-      this.clickSector(sector);
+      this.clickSector(sector, false);
+      this.lastEvent = event;
     }
   }
 
@@ -73,7 +74,7 @@ export class OrganizationDisplayComponent implements OnInit {
     this.sectorList = this.organizationService.fetchSectors();
   }
 
-  clickSector(sector: Sector) {
+  clickSector(sector: Sector, emitToMapDisplay: boolean = true) {
     this.selectedSector = sector;
     this.selectedSectorNeighborhoods = sector.neighborhoods
     this.neighborhoodTabName = DEFAULT_NEIGHBORHOOD_NAME;
@@ -87,9 +88,10 @@ export class OrganizationDisplayComponent implements OnInit {
     this.urbanZoneTabName = DEFAULT_URBAN_ZONE_NAME;
 
     this.sectorTabName = sector.name;
-    this.updateSelectedOrganization(new SelectOrganizationDisplayEvent(sector));
-
-    this.enableComplexUrbanZoneSelector.emit(false);
+    if(emitToMapDisplay) {
+      this.updateSelectedOrganization(new SelectOrganizationDisplayEvent(sector));
+    }
+      this.enableComplexUrbanZoneSelector.emit(false);
   }
 
   clickNeighborhood(neighborhood: Neighborhood) {
@@ -126,6 +128,10 @@ export class OrganizationDisplayComponent implements OnInit {
 
   changeTab($event: number) {
     this.selectedIndex.setValue($event);
+    if(this.lastEvent instanceof SelectMapOrganizationEvent){
+      this.lastEvent = undefined;
+      return;
+    }
     const organizationType = TAB_NAME_LIST[$event.valueOf()];
     switch (organizationType) {
       case Sector.name: {
@@ -133,9 +139,7 @@ export class OrganizationDisplayComponent implements OnInit {
         break;
       }
       case Neighborhood.name: {
-        this.updateSelectedOrganization(new ChangeOrganizationTabEvent(
-          this.selectedNeighborhood ? this.selectedNeighborhood : this.selectedSector
-        ));
+        this.updateSelectedOrganization(new ChangeOrganizationTabEvent(this.selectedNeighborhood, this.selectedSector));
         break;
       }
       case Complex.name: {

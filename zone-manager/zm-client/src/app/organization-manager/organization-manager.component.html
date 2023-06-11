@@ -7,14 +7,14 @@
     </mat-expansion-panel-header>
     <div class="map-container">
       <app-map-display
-        [onMapOrganizationEvent]="lastMapOrganizationManagerEvent"
+        [onMapOrganizationEvent]="lastSelectedOrganizationDisplayEvent"
         [selectedToggleDisplay]="enableComplexUrbanZoneSelector"
-        (navigatedSectorEmitter)="navigatedSectorEvent($event)">
+        (navigatedOrganizationEventEmitter)="onNavigatedOrganization($event)">
       </app-map-display>
     </div>
     <app-organization-display
-      [mapSelectedSector]="mapSelectedSector"
-      (selectedOrganizationEmitter)="onSelectedOrganizationEmitEvent($event)"
+      [mapSelectedSector]="lastNavigatedMapOrganizationEvent"
+      (selectedOrganizationEmitter)="onSelectedOrganizationDisplayEmitEvent($event)"
       (enableComplexUrbanZoneSelector)="onEnableComplexUrbanZoneSelector($event)">
     </app-organization-display>
   </mat-expansion-panel>

@@ -10,19 +10,19 @@ import {MapOrganizationEvent} from "./event/MapOrganizationEvent";
 export class OrganizationManagerComponent {
   public city: string = "Craiova";
   public enableComplexUrbanZoneSelector: boolean = false;
-  public lastMapOrganizationManagerEvent?: MapOrganizationEvent;
 
-  public mapSelectedSector: Sector | null = null;
+  public lastSelectedOrganizationDisplayEvent?: MapOrganizationEvent;
+  public lastNavigatedMapOrganizationEvent: MapOrganizationEvent | null = null;
 
   onEnableComplexUrbanZoneSelector($event: any){
     this.enableComplexUrbanZoneSelector = $event.valueOf();
   }
 
-  navigatedSectorEvent($event: Sector) {
-    this.mapSelectedSector = $event
+  onSelectedOrganizationDisplayEmitEvent($event: MapOrganizationEvent) {
+    this.lastSelectedOrganizationDisplayEvent = $event;
   }
 
-  onSelectedOrganizationEmitEvent($event: MapOrganizationEvent) {
-    this.lastMapOrganizationManagerEvent = $event;
+  onNavigatedOrganization($event: MapOrganizationEvent) {
+    this.lastNavigatedMapOrganizationEvent = $event
   }
 }

@@ -1,9 +1,9 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import * as L from 'leaflet';
+import {geoJson, LeafletMouseEvent} from 'leaflet';
 import {MatIconRegistry} from '@angular/material/icon';
 import {DomSanitizer} from '@angular/platform-browser';
 import 'leaflet-draw';
-import {LeafletMouseEvent} from "leaflet";
 import {MapAction} from "./action/MapAction";
 import {MatDialog} from "@angular/material/dialog";
 import {DEFAULT_ZONE_STYLE, NAVIGATE_INTO_ZONE_STYLE, SELECTED_ZONE_STYLE} from "./zone-styles/ZoneStyles";
@@ -20,7 +20,11 @@ import {
   ORGANIZATION_HIERARCHY,
   URBAN_ZONE_UNDER_NEIGHBORHOOD_KEY
 } from "../model/Organization/Organization";
-import {MapOrganizationEvent} from "../organization-manager/event/MapOrganizationEvent";
+import {
+  MapOrganizationEvent,
+  OrganizationMapEventAction,
+  SelectMapOrganizationEvent
+} from "../organization-manager/event/MapOrganizationEvent";
 
 let self: MapDisplayComponent;
 
@@ -53,7 +57,11 @@ export class MapDisplayComponent {
 
   @Input() set onMapOrganizationEvent(event: MapOrganizationEvent | undefined){
     if(!event) return;
-    const organization = event.dataOrganization;
+    if(event.action === OrganizationMapEventAction.CHANGE_ORG_TAB){
+      this.onChangeTabEvent(event);
+      return;
+    }
+    const organization = event.selectedOrganization;
     if(!organization) return;
     switch (organization.constructor.name){
       case Sector.name:{
@@ -84,7 +92,7 @@ export class MapDisplayComponent {
     }
   }
 
-  @Output() navigatedSectorEmitter: EventEmitter<Sector> = new EventEmitter<Sector>();
+  @Output() navigatedOrganizationEventEmitter: EventEmitter<MapOrganizationEvent> = new EventEmitter<MapOrganizationEvent>();
   @Output() navigatedNeighborhoodEmitter: EventEmitter<Neighborhood> = new EventEmitter<Neighborhood>();
   @Output() navigatedComplexEmitter: EventEmitter<Complex> = new EventEmitter<Complex>();
   @Output() navigatedUrbanZoneEmitter: EventEmitter<UrbanZone> = new EventEmitter<UrbanZone>();
@@ -117,13 +125,17 @@ export class MapDisplayComponent {
     this.initMap();
   }
 
-  private initDrawnItems() {
+  private initDrawnItems(selectId?: string) {
     const sectors = this.organizationService.fetchSectors();
     sectors.forEach(sector => {
       let sectorLayer = L.geoJson(sector.geoJson);
       sectorLayer.on('click', this.selectZone);
       sectorLayer.on('dblclick', this.navigateIntoZone)
-      sectorLayer.setStyle(DEFAULT_ZONE_STYLE)
+      if(sector.geoJson && sector.geoJson.id === selectId){
+        sectorLayer.setStyle(SELECTED_ZONE_STYLE);
+      } else {
+        sectorLayer.setStyle(DEFAULT_ZONE_STYLE)
+      }
       this.drawnItems.addLayer(sectorLayer);
     })
   }
@@ -214,10 +226,11 @@ export class MapDisplayComponent {
       .find(sector => sector.geoJson && sector.geoJson.id && sector.geoJson.id === e.layer.feature.id);
     if(currentSector){
       self.navigateIntoSector(e.layer, currentSector);
+      self.navigatedOrganizationEventEmitter.emit(new SelectMapOrganizationEvent(currentSector));
     }
   }
 
-  navigateIntoSector(layer: any, sector: Sector){
+  navigateIntoSector(layer: any, sector: Sector, selectedNeighborhoodId?: string){
     console.log(layer);
     layer.setStyle(NAVIGATE_INTO_ZONE_STYLE)
     this.drawnItems.clearLayers();
@@ -225,12 +238,17 @@ export class MapDisplayComponent {
     this.drawnItems.addLayer(layer);
     sector.neighborhoods.forEach(neighborhood => {
       let neighborhoodLayer = L.geoJson(neighborhood.geoJson);
-      neighborhoodLayer.setStyle(DEFAULT_ZONE_STYLE);
       neighborhoodLayer.on('click', this.selectZone);
       neighborhoodLayer.setZIndex(2);
+
+      if(selectedNeighborhoodId && selectedNeighborhoodId === neighborhood.id){
+        neighborhoodLayer.setStyle(SELECTED_ZONE_STYLE);
+      } else {
+        neighborhoodLayer.setStyle(DEFAULT_ZONE_STYLE);
+      }
+
       this.drawnItems.addLayer(neighborhoodLayer);
     });
-    this.navigatedSectorEmitter.emit(sector);
   }
 
   deselectAll() {
@@ -261,5 +279,49 @@ export class MapDisplayComponent {
   saveEdit() {
     self.selectedZone.editing.disable();
     self.editEnabled = false;
+  }
+
+  private changeTabHandlerMap: Map<string, Function> = new Map<string, Function>([
+    [Sector.name, this.changeToSectorTab],
+    [Neighborhood.name, this.changeToNeighborhoodTab]
+  ])
+
+  onChangeTabEvent(event: MapOrganizationEvent){
+    const orgType =
+      event.selectedOrganization ? event.selectedOrganization.constructor.name :
+      event.parentOrganization ? event.parentOrganization.constructor.name : '';
+
+    if(this.changeTabHandlerMap.has(orgType)){
+      // @ts-ignore
+      this.changeTabHandlerMap.get(orgType).call(this, event)
+    }
+  }
+
+  private changeToSectorTab(event: MapOrganizationEvent) {
+    const sector = event.selectedOrganization;
+    if(!sector) return;
+
+    this.drawnItems.clearLayers();
+    const sectorId = sector.geoJson && sector.geoJson.id ? sector.geoJson.id : null;
+    if(sectorId){
+      this.initDrawnItems(sectorId.toString())
+    } else {
+      this.initDrawnItems();
+    }
+  }
+
+  private changeToNeighborhoodTab(event: MapOrganizationEvent){
+    const neighborhood = event.selectedOrganization as Neighborhood;
+    const sector = event.parentOrganization as Sector;
+
+    if(!sector) return;
+
+    this.drawnItems.clearLayers();
+
+    if(neighborhood.id){
+      this.navigateIntoSector(L.geoJson(sector.geoJson), sector, neighborhood.id);
+    } else {
+      this.navigateIntoSector(L.geoJson(sector.geoJson), sector);
+    }
   }
 }
