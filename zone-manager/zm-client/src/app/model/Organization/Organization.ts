@@ -2,10 +2,13 @@ import {Sector} from "./Sector";
 import {Neighborhood} from "./Neighborhood";
 import {Complex} from "./Complex";
 import {UrbanZone} from "./UrbanZone";
+import {GeoJSON} from "leaflet";
+import * as geoJson from "geojson";
 
 export interface Organization{
   id: string;
   parent?: Organization;
+  geoJson?: geoJson.Feature
 }
 
 export const URBAN_ZONE_UNDER_COMPLEX_KEY: string = UrbanZone.name + '-C';

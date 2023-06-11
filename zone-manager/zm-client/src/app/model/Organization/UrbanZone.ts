@@ -3,6 +3,7 @@ import {UtilityCost} from "../UtilityCost";
 import {Organization} from "./Organization";
 import {Neighborhood} from "./Neighborhood";
 import {Complex} from "./Complex";
+import * as geoJson from "geojson";
 
 export class UrbanZone implements Organization{
     constructor(
@@ -11,7 +12,8 @@ export class UrbanZone implements Organization{
         public type: string = '',
         public parentId: string = '',
         public utilityCosts: UtilityCost[] = [],
-        public parent? : (Neighborhood | Complex)
+        public parent? : (Neighborhood | Complex),
+        public geoJson?: geoJson.Feature
     ) {
     }
 

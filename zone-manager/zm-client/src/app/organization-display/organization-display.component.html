@@ -3,7 +3,7 @@
   <mat-tab [label]="sectorTabName">
     <div class="sector-container">
         <mat-selection-list [multiple]="false">
-          <mat-list-option *ngFor="let sector of sectorList" (click)="clickSector(sector)">
+          <mat-list-option #sectorElem *ngFor="let sector of sectorList" (click)="clickSector(sector)">
               {{sector.name}}
           </mat-list-option>
         </mat-selection-list>
