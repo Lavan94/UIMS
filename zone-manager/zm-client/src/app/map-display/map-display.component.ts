@@ -49,15 +49,15 @@ export class MapDisplayComponent {
   public selectedToggleValue: string = 'Complex';
   public selectedOrganizationType: string = Sector.name;
 
-  private selectedSector?: Sector;
-  private selectedNeighborhood?: Neighborhood;
-  private selectedComplex?: Complex;
-  private selectedUrbanZone?: UrbanZone;
+  public selectedSector?: Sector;
+  public selectedNeighborhood?: Neighborhood;
+  public selectedComplex?: Complex;
+  public selectedUrbanZone?: UrbanZone;
 
-  private fetchedSectors?: Sector[];
-  private fetchedNeighborhoods?: Neighborhood[];
-  private fetchedComplexes?: Complex[];
-  private fetchedUrbanZones?: UrbanZone[];
+  public fetchedSectors?: Sector[];
+  public fetchedNeighborhoods?: Neighborhood[];
+  public fetchedComplexes?: Complex[];
+  public fetchedUrbanZones?: UrbanZone[];
 
   @Input() selectedToggleDisplay: boolean = false;
 
@@ -233,66 +233,8 @@ export class MapDisplayComponent {
     self.selectedZone = affectedZone;
   }
 
-  navigateIntoSectorHandler(layer: any) {
-    if (!this.fetchedSectors) this.fetchedSectors = this.organizationService.fetchSectors();
-
-    const currentSector = this.fetchedSectors
-      .find(sector => sector.geoJson && sector.geoJson.id && sector.geoJson.id === layer.feature.id);
-
-    if (currentSector) {
-      this.mapNavigationService.navigateIntoSector(this, layer, currentSector);
-      this.navigatedOrganizationEventEmitter.emit(new SelectMapOrganizationEvent(currentSector));
-      this.selectedSector = currentSector;
-
-      this.selectedOrganizationType = Neighborhood.name;
-    }
-  }
-
-  navigateIntoNeighborhoodHandler(layer: any) {
-    if (!this.fetchedNeighborhoods) this.fetchedNeighborhoods = this.selectedSector?.neighborhoods
-
-    if (!this.fetchedNeighborhoods) return;
-
-    const currentNeighborhood = this.fetchedNeighborhoods
-      .find(neighborhood => neighborhood.geoJson && neighborhood.geoJson.id && neighborhood.geoJson.id === layer.feature.id);
-
-    if (currentNeighborhood) {
-      this.mapNavigationService.navigateIntoNeighborhood(this, layer, currentNeighborhood);
-      this.navigatedOrganizationEventEmitter.emit(new SelectMapOrganizationEvent(currentNeighborhood));
-      this.selectedNeighborhood = currentNeighborhood;
-
-      this.selectedOrganizationType = Complex.name;
-    }
-  }
-
-  navigateIntoComplexHandler(layer: any) {
-    if (!this.fetchedComplexes) {
-      if(!this.selectedNeighborhood || !this.selectedNeighborhood.children) return;
-      this.fetchedComplexes = this.selectedNeighborhood.children
-        .filter(child => child instanceof Complex)
-        .map(child => child as Complex)
-    }
-    const currentComplex = this.fetchedComplexes
-      .find(complex => complex.geoJson && complex.geoJson.id && complex.geoJson.id === layer.feature.id);
-
-    if (currentComplex) {
-      this.mapNavigationService.navigateIntoComplex(this, layer, currentComplex);
-      this.navigatedOrganizationEventEmitter.emit(new SelectMapOrganizationEvent(currentComplex));
-      this.selectedComplex = currentComplex;
-      this.selectedOrganizationType = UrbanZone.name;
-    }
-  }
-
-  private zoneNavigationHandlerMap: Map<string, Function> = new Map<string, Function>([
-    [Sector.name, this.navigateIntoSectorHandler],
-    [Neighborhood.name, this.navigateIntoNeighborhoodHandler],
-    [Complex.name, this.navigateIntoComplexHandler]
-  ])
-
   navigateIntoZone(e: LeafletMouseEvent) {
-    if (self.zoneNavigationHandlerMap.has(self.selectedOrganizationType)) {
-      self.zoneNavigationHandlerMap.get(self.selectedOrganizationType)?.call(self, e.layer);
-    }
+    self.mapNavigationService.navigateIntoZone(self, e)
   }
 
   deselectAll() {
