@@ -1,6 +1,7 @@
 import * as geoJson from "geojson";
 
 export const CRAIOVITA_SHOPPING_CENTER_COMPLEX: geoJson.Feature = {
+  "id": "1b1",
   "type": "Feature",
   "properties": {},
   "geometry": {
@@ -53,6 +54,7 @@ export const CRAIOVITA_SHOPPING_CENTER_COMPLEX: geoJson.Feature = {
 }
 
 export const PIATA_CRAIOVITA_COMPLEX: geoJson.Feature = {
+  "id": "1b5",
   "type": "Feature",
   "properties": {},
   "geometry": {
@@ -117,6 +119,7 @@ export const PIATA_CRAIOVITA_COMPLEX: geoJson.Feature = {
 }
 
 export const ORIZONT_COMPLEX: geoJson.Feature = {
+  "id": "1b6",
   "type": "Feature",
   "properties": {},
   "geometry": {
