@@ -5,7 +5,8 @@ import {Neighborhood} from "./Neighborhood";
 import {Complex} from "./Complex";
 import * as geoJson from "geojson";
 
-export enum UrbanZoneTypes {
+export enum UrbanZoneType {
+  NONE,
   RESIDENTIAL,
   COMMERCIAL,
   INDUSTRIAL,
@@ -13,14 +14,14 @@ export enum UrbanZoneTypes {
   CULTURAL,
   ADMINISTRATIVE,
   BUSINESS,
-  PARK
+  PARK,
 }
 
 export class UrbanZone implements Organization{
     constructor(
         public id: string = '',
         public owner: Owner | null = null,
-        public type: string = '',
+        public type: UrbanZoneType = UrbanZoneType.NONE,
         public parentId: string = '',
         public utilityCosts: UtilityCost[] = [],
         public parent? : (Neighborhood | Complex),

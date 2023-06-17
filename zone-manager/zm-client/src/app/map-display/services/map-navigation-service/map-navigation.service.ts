@@ -62,11 +62,14 @@ export class MapNavigationService {
       childLayer.on('dblclick', mapDisplay.navigateIntoZone)
       childLayer.setZIndex(3);
 
+      if(child instanceof UrbanZone){
+        childLayer.setStyle(this.zoneStyleFactoryService.getUrbanZoneStyle(child.type));
+      }
+
       if (selectedNeighborhoodId && selectedNeighborhoodId === child.id) {
         childLayer.setStyle(SELECTED_ZONE_STYLE);
-      } else {
-        childLayer.setStyle(DEFAULT_ZONE_STYLE);
       }
+
       mapDisplay.drawnItems.addLayer(childLayer);
     });
   }
@@ -86,7 +89,7 @@ export class MapNavigationService {
       if (selectedComplexId && selectedComplexId === child.id) {
         childLayer.setStyle(SELECTED_ZONE_STYLE);
       } else {
-        childLayer.setStyle(DEFAULT_ZONE_STYLE);
+        childLayer.setStyle(this.zoneStyleFactoryService.getUrbanZoneStyle(child.type));
       }
       mapDisplay.drawnItems.addLayer(childLayer);
     });

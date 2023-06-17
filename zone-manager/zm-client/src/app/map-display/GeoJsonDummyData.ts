@@ -863,6 +863,7 @@ export const SEVERINULUI_NEIGHBORHOOD: geoJson.Feature = {
 };
 
 export const CERNELE_INDUSTRIAL_NEIGHBORHOOD: geoJson.Feature = {
+  "id" : "1f",
   "type": "Feature",
   "properties": {},
   "geometry": {
