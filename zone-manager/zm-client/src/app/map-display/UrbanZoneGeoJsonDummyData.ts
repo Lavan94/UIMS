@@ -277,6 +277,7 @@ export const BLOC_1_PIATA_MARE: geoJson.Feature = {
 };
 
 export const BLOC_2_PIATA_MARE_RESIDENTIAL_ZONE: geoJson.Feature = {
+  "id": "uz1",
   "type": "Feature",
   "properties": {},
   "geometry": {
@@ -317,6 +318,7 @@ export const BLOC_2_PIATA_MARE_RESIDENTIAL_ZONE: geoJson.Feature = {
 }
 
 export const BLOC_3_PIATA_MARE_RESIDENTIAL_ZONE: geoJson.Feature = {
+  "id": "uz2",
   "type": "Feature",
   "properties": {},
   "geometry": {
@@ -349,6 +351,7 @@ export const BLOC_3_PIATA_MARE_RESIDENTIAL_ZONE: geoJson.Feature = {
 };
 
 export const BLOC_4_PIATA_MARE_RESIDENTIAL_ZONE: geoJson.Feature = {
+  "id": "uz3",
   "type": "Feature",
   "properties": {},
   "geometry": {
@@ -389,6 +392,7 @@ export const BLOC_4_PIATA_MARE_RESIDENTIAL_ZONE: geoJson.Feature = {
 };
 
 export const SC_ELENA_FARAGO_CRAIOVITA_EDUCATIONAL_ZONE: geoJson.Feature = {
+  "id": "uz4",
   "type": "Feature",
   "properties": {},
   "geometry": {
@@ -421,6 +425,7 @@ export const SC_ELENA_FARAGO_CRAIOVITA_EDUCATIONAL_ZONE: geoJson.Feature = {
 };
 
 export const CORNITOIU_PARK_ZONE: geoJson.Feature = {
+  "id": "uz5",
   "type": "Feature",
   "properties": {},
   "geometry": {
@@ -537,6 +542,7 @@ export const CORNITOIU_PARK_ZONE: geoJson.Feature = {
 };
 
 export const PIATA_MARE_PARK_ZONE: geoJson.Feature = {
+  "id": "uz6",
   "type": "Feature",
   "properties": {},
   "geometry": {
@@ -585,6 +591,7 @@ export const PIATA_MARE_PARK_ZONE: geoJson.Feature = {
 }
 
 export const CRAIOVITA_PARK_PROMENADA_PARK_ZONE: geoJson.Feature = {
+  "id": "uz7",
   "type": "Feature",
   "properties": {},
   "geometry": {
@@ -625,6 +632,7 @@ export const CRAIOVITA_PARK_PROMENADA_PARK_ZONE: geoJson.Feature = {
 }
 
 export const FABRICA_HEINEKEN_INDUSTRIAL_ZONE: geoJson.Feature = {
+  "id": "uz8",
   "type": "Feature",
   "properties": {},
   "geometry": {
@@ -681,6 +689,7 @@ export const FABRICA_HEINEKEN_INDUSTRIAL_ZONE: geoJson.Feature = {
 };
 
 export const FABRICA_SOFTRONIC_INDUSTRIAL_ZONE: geoJson.Feature = {
+  "id": "uz9",
   "type": "Feature",
   "properties": {},
   "geometry": {
@@ -749,6 +758,7 @@ export const FABRICA_SOFTRONIC_INDUSTRIAL_ZONE: geoJson.Feature = {
 };
 
 export const JUMBO_COMMERCIAL_ZONE: geoJson.Feature = {
+  "id": "uz10",
   "type": "Feature",
   "properties": {},
   "geometry": {
@@ -781,6 +791,7 @@ export const JUMBO_COMMERCIAL_ZONE: geoJson.Feature = {
 };
 
 export const CEZ_BUISNESS_ZONE: geoJson.Feature = {
+  "id": "uz11",
   "type": "Feature",
   "properties": {},
   "geometry": {
@@ -813,6 +824,7 @@ export const CEZ_BUISNESS_ZONE: geoJson.Feature = {
 };
 
 export const RAT_ADMINISTRATION_ZONE: geoJson.Feature = {
+  "id": "uz12",
   "type": "Feature",
   "properties": {},
   "geometry": {
@@ -869,6 +881,7 @@ export const RAT_ADMINISTRATION_ZONE: geoJson.Feature = {
 }
 
 export const DEPOU_RAT_ADMINISTRATION_ZONE: geoJson.Feature = {
+  "id": "uz13",
   "type": "Feature",
   "properties": {},
   "geometry": {

@@ -93,7 +93,7 @@ export class OrganizationDisplayComponent implements OnInit {
       const urbanZone = event.selectedOrganization as UrbanZone;
       if (urbanZone) {
         console.log(this.sectorElements);
-        this.selectUrbanZone(urbanZone.id + ':' + urbanZone.type);
+        this.selectUrbanZone(urbanZone.id + ' : ' + urbanZone.type);
         this.clickUrbanZone(urbanZone, false);
         this.lastEvent = event;
       }
