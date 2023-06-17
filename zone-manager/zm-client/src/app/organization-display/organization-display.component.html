@@ -27,7 +27,7 @@
           </mat-panel-title>
         </mat-expansion-panel-header>
         <mat-accordion class="sub-section">
-          <mat-expansion-panel class="sub-section-option" *ngFor="let complex of selectedNeighborhoodComplexes">
+          <mat-expansion-panel class="sub-section-option" *ngFor="let complex of selectedNeighborhoodComplexes" (click)="clickComplex(complex)">
             <mat-expansion-panel-header #complexElem>
               <mat-panel-title>
                 {{complex.name}}

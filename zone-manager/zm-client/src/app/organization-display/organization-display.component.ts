@@ -49,14 +49,16 @@ export class OrganizationDisplayComponent implements OnInit {
 
   private lastEvent?: MapOrganizationEvent;
 
+  private complexOrUrbanZone: string = Complex.name
+
   @ViewChildren('sectorElem') sectorElements?: QueryList<MatListOption>;
   @ViewChildren('neighborhoodElem') neighborhoodElements?: QueryList<MatListOption>;
   @ViewChildren('complexElem') complexElements?: QueryList<MatExpansionPanelHeader>;
   @ViewChildren('uzElem') uzElements?: QueryList<MatListOption>;
 
   @Input() set mapSelectedSector(event: MapOrganizationEvent | null) {
-    if(!event) return;
-    if(event.selectedOrganization instanceof  Sector){
+    if (!event) return;
+    if (event.selectedOrganization instanceof Sector) {
       const sector = event.selectedOrganization as Sector;
       if (sector) {
         console.log(this.sectorElements);
@@ -67,7 +69,7 @@ export class OrganizationDisplayComponent implements OnInit {
       return;
     }
 
-    if(event.selectedOrganization instanceof Neighborhood){
+    if (event.selectedOrganization instanceof Neighborhood) {
       const neighborhood = event.selectedOrganization as Neighborhood;
       if (neighborhood) {
         console.log(this.sectorElements);
@@ -78,7 +80,7 @@ export class OrganizationDisplayComponent implements OnInit {
       return;
     }
 
-    if(event.selectedOrganization instanceof Complex){
+    if (event.selectedOrganization instanceof Complex) {
       const complex = event.selectedOrganization as Complex;
       if (complex) {
         console.log(this.sectorElements);
@@ -89,7 +91,7 @@ export class OrganizationDisplayComponent implements OnInit {
       return;
     }
 
-    if(event.selectedOrganization instanceof UrbanZone){
+    if (event.selectedOrganization instanceof UrbanZone) {
       const urbanZone = event.selectedOrganization as UrbanZone;
       if (urbanZone) {
         console.log(this.sectorElements);
@@ -126,7 +128,7 @@ export class OrganizationDisplayComponent implements OnInit {
     this.urbanZoneTabName = DEFAULT_URBAN_ZONE_NAME;
 
     this.sectorTabName = sector.name;
-    if(emitToMapDisplay) {
+    if (emitToMapDisplay) {
       this.updateSelectedOrganization(new SelectOrganizationDisplayEvent(sector));
     }
     this.enableComplexUrbanZoneSelector.emit(false);
@@ -145,22 +147,32 @@ export class OrganizationDisplayComponent implements OnInit {
     this.urbanZoneDisabled = true;
     this.urbanZoneTabName = DEFAULT_URBAN_ZONE_NAME;
     this.neighborhoodTabName = neighborhood.name
-    if(emitToMapDisplay) {
+    if (emitToMapDisplay) {
       this.updateSelectedOrganization(new SelectOrganizationDisplayEvent(neighborhood));
     }
     this.enableComplexUrbanZoneSelector.emit(true);
   }
 
+  clickComplex(complex: Complex, emitToMapDisplay: boolean = true) {
+    this.selectedComplex = complex;
+    this.urbanZoneDisabled = false;
+    this.complexAndUrbanZoneTabName = complex.name;
+    if (emitToMapDisplay) {
+      this.updateSelectedOrganization(new SelectOrganizationDisplayEvent(complex));
+    }
+    this.complexOrUrbanZone = Complex.name;
+  }
+
   clickUrbanZone(urbanZone: UrbanZone, emitToMapDisplay: boolean = true) {
-    this.selectedUrbanZone = urbanZone;
     this.selectedUrbanZone = urbanZone;
     this.urbanZoneDisabled = false;
     this.selectedIndex.setValue(3);
     this.urbanZoneTabName = DEFAULT_URBAN_ZONE_NAME;
     this.complexAndUrbanZoneTabName = urbanZone.id + ':' + urbanZone.type;
-    if(emitToMapDisplay) {
+    if (emitToMapDisplay) {
       this.updateSelectedOrganization(new SelectOrganizationDisplayEvent(urbanZone));
     }
+    this.complexOrUrbanZone = UrbanZone.name;
   }
 
   updateSelectedOrganization(event: MapOrganizationEvent) {
@@ -169,7 +181,7 @@ export class OrganizationDisplayComponent implements OnInit {
 
   changeTab($event: number) {
     this.selectedIndex.setValue($event);
-    if(this.lastEvent instanceof SelectMapOrganizationEvent){
+    if (this.lastEvent instanceof SelectMapOrganizationEvent) {
       this.lastEvent = undefined;
       return;
     }
@@ -188,7 +200,11 @@ export class OrganizationDisplayComponent implements OnInit {
         break;
       }
       case UrbanZone.name: {
-        this.updateSelectedOrganization(new ChangeOrganizationTabEvent(this.selectedUrbanZone));
+        this.updateSelectedOrganization(new ChangeOrganizationTabEvent(
+          this.selectedUrbanZone,
+          this.complexOrUrbanZone === Complex.name ? this.selectedComplex : this.selectedNeighborhood,
+          UrbanZone.name
+        ));
         break;
       }
     }
@@ -225,7 +241,7 @@ export class OrganizationDisplayComponent implements OnInit {
   private selectComplex(content: string) {
     if (!this.complexElements) return;
     const result: MatExpansionPanelHeader | undefined = this.complexElements.find(complexElem => {
-      if(complexElem.panel && complexElem.panel._headerId){
+      if (complexElem.panel && complexElem.panel._headerId) {
         const header = document.getElementById(complexElem.panel._headerId)
         return header && header.textContent ? header.textContent.includes(content) : false;
       }

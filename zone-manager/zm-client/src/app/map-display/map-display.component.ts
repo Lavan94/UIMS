@@ -94,11 +94,21 @@ export class MapDisplayComponent {
         break;
       }
       case Complex.name: {
+        const inputSelectedComplex = organization as Complex;
+        if (this.selectedComplex && this.selectedComplex.id === inputSelectedComplex.id) {
+          this.selectedOrganizationType = Complex.name
+          break;
+        }
+        this.selectedComplex = inputSelectedComplex;
         this.selectedOrganizationType = UrbanZone.name
+        this.mapNavigationService.navigateIntoComplex(this, L.geoJson(this.selectedComplex.geoJson), this.selectedComplex)
         break;
       }
       case UrbanZone.name: {
+        const inputSelectedUrbanZone = organization as UrbanZone;
         this.selectedOrganizationType = UrbanZone.name
+        this.selectedUrbanZone = inputSelectedUrbanZone;
+        this.mapNavigationService.navigateIntoUrbanZone(this, L.geoJson(this.selectedUrbanZone.geoJson))
         break;
       }
       default:
@@ -278,7 +288,8 @@ export class MapDisplayComponent {
   private changeTabHandlerMap: Map<string, Function> = new Map<string, Function>([
     [Sector.name, this.changeToSectorTab],
     [Neighborhood.name, this.changeToNeighborhoodTab],
-    [Complex.name, this.changeToComplexAndUrbanZonesTab]
+    [Complex.name, this.changeToComplexAndUrbanZonesTab],
+    [UrbanZone.name, this.changeToComplexAndUrbanZonesTab],
   ])
 
   onChangeTabEvent(event: ChangeOrganizationTabEvent) {
@@ -323,6 +334,23 @@ export class MapDisplayComponent {
       const parentNeighborhood = event.parentOrganization as Neighborhood;
       this._drawnItems.clearLayers();
       this.mapNavigationService.navigateIntoNeighborhood(this, L.geoJson(parentNeighborhood.geoJson), parentNeighborhood);
+    }
+
+    if(event.selectedOrganization){
+      const orgParent = this.selectedToggleValue === Complex.name ?
+        event.parentOrganization as Complex : event.parentOrganization as Neighborhood;
+
+      if(event.selectedOrganization instanceof Complex){
+        this._drawnItems.clearLayers();
+        this.mapNavigationService.navigateIntoComplex(this, L.geoJson(event.selectedOrganization.geoJson), event.selectedOrganization, event.selectedOrganization.id);
+        return;
+      }
+
+      if(event.selectedOrganization instanceof UrbanZone){
+        this._drawnItems.clearLayers();
+        this.mapNavigationService.navigateIntoUrbanZone(this, L.geoJson(event.selectedOrganization.geoJson));
+        return;
+      }
     }
   }
 }
