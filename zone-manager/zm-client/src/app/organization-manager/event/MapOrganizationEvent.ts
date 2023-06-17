@@ -18,10 +18,12 @@ export class ChangeOrganizationTabEvent implements MapOrganizationEvent{
   action: OrganizationMapEventAction = OrganizationMapEventAction.CHANGE_ORG_TAB;
   selectedOrganization?: Organization;
   parentOrganization?: Organization;
+  orgType?: string = '';
 
-  constructor(selectedOrganization?: Organization, parentOrganization?: Organization) {
+  constructor(selectedOrganization?: Organization, parentOrganization?: Organization, orgType?: string) {
     this.selectedOrganization = selectedOrganization;
     this.parentOrganization = parentOrganization;
+    this.orgType = orgType;
   }
 }
 

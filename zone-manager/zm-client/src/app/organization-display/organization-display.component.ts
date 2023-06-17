@@ -176,15 +176,15 @@ export class OrganizationDisplayComponent implements OnInit {
     const organizationType = TAB_NAME_LIST[$event.valueOf()];
     switch (organizationType) {
       case Sector.name: {
-        this.updateSelectedOrganization(new ChangeOrganizationTabEvent(this.selectedSector));
+        this.updateSelectedOrganization(new ChangeOrganizationTabEvent(this.selectedSector, undefined, Sector.name));
         break;
       }
       case Neighborhood.name: {
-        this.updateSelectedOrganization(new ChangeOrganizationTabEvent(this.selectedNeighborhood, this.selectedSector));
+        this.updateSelectedOrganization(new ChangeOrganizationTabEvent(this.selectedNeighborhood, this.selectedSector, Neighborhood.name));
         break;
       }
       case Complex.name: {
-        this.updateSelectedOrganization(new ChangeOrganizationTabEvent(this.selectedComplex));
+        this.updateSelectedOrganization(new ChangeOrganizationTabEvent(this.selectedComplex, this.selectedNeighborhood, Complex.name));
         break;
       }
       case UrbanZone.name: {

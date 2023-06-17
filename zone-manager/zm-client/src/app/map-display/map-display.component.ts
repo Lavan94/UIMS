@@ -21,6 +21,7 @@ import {
   URBAN_ZONE_UNDER_NEIGHBORHOOD_KEY
 } from "../model/Organization/Organization";
 import {
+  ChangeOrganizationTabEvent,
   MapOrganizationEvent,
   OrganizationMapEventAction,
   SelectMapOrganizationEvent
@@ -64,7 +65,7 @@ export class MapDisplayComponent {
   @Input() set onMapOrganizationEvent(event: MapOrganizationEvent | undefined) {
     if (!event) return;
     if (event.action === OrganizationMapEventAction.CHANGE_ORG_TAB) {
-      this.onChangeTabEvent(event);
+      this.onChangeTabEvent(event as ChangeOrganizationTabEvent);
       return;
     }
     const organization = event.selectedOrganization;
@@ -82,7 +83,14 @@ export class MapDisplayComponent {
         break;
       }
       case Neighborhood.name: {
+        const inputSelectedNeighborhood = organization as Neighborhood;
+        if (this.selectedNeighborhood && this.selectedNeighborhood.id === inputSelectedNeighborhood.id) {
+          this.selectedOrganizationType = Neighborhood.name
+          break;
+        }
+        this.selectedNeighborhood = inputSelectedNeighborhood;
         this.selectedOrganizationType = Complex.name
+        this.mapNavigationService.navigateIntoNeighborhood(this, L.geoJson(this.selectedNeighborhood.geoJson), this.selectedNeighborhood)
         break;
       }
       case Complex.name: {
@@ -269,13 +277,12 @@ export class MapDisplayComponent {
 
   private changeTabHandlerMap: Map<string, Function> = new Map<string, Function>([
     [Sector.name, this.changeToSectorTab],
-    [Neighborhood.name, this.changeToNeighborhoodTab]
+    [Neighborhood.name, this.changeToNeighborhoodTab],
+    [Complex.name, this.changeToComplexAndUrbanZonesTab]
   ])
 
-  onChangeTabEvent(event: MapOrganizationEvent) {
-    const orgType =
-      event.selectedOrganization ? event.selectedOrganization.constructor.name :
-        event.parentOrganization ? event.parentOrganization.constructor.name : '';
+  onChangeTabEvent(event: ChangeOrganizationTabEvent) {
+    const orgType = event.orgType ? event.orgType : '';
 
     if (this.changeTabHandlerMap.has(orgType)) {
       // @ts-ignore
@@ -308,6 +315,14 @@ export class MapDisplayComponent {
       this.mapNavigationService.navigateIntoSector(this, L.geoJson(sector.geoJson), sector, neighborhood.id);
     } else {
       this.mapNavigationService.navigateIntoSector(this, L.geoJson(sector.geoJson), sector);
+    }
+  }
+
+  private changeToComplexAndUrbanZonesTab(event: MapOrganizationEvent){
+    if(!event.selectedOrganization && event.parentOrganization){
+      const parentNeighborhood = event.parentOrganization as Neighborhood;
+      this._drawnItems.clearLayers();
+      this.mapNavigationService.navigateIntoNeighborhood(this, L.geoJson(parentNeighborhood.geoJson), parentNeighborhood);
     }
   }
 }
