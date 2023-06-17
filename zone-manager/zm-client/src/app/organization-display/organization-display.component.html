@@ -12,7 +12,7 @@
   <mat-tab [label]="neighborhoodTabName" [disabled]="neighborhoodDisabled">
     <div class="neighborhood-container">
         <mat-selection-list [multiple]="false">
-          <mat-list-option *ngFor="let neighborhood of selectedSectorNeighborhoods" (click)="clickNeighborhood(neighborhood)">
+          <mat-list-option #neighborhoodElem *ngFor="let neighborhood of selectedSectorNeighborhoods" (click)="clickNeighborhood(neighborhood)">
               {{neighborhood.name}}
           </mat-list-option>
         </mat-selection-list>
@@ -28,13 +28,13 @@
         </mat-expansion-panel-header>
         <mat-accordion class="sub-section">
           <mat-expansion-panel class="sub-section-option" *ngFor="let complex of selectedNeighborhoodComplexes">
-            <mat-expansion-panel-header>
+            <mat-expansion-panel-header #complexElem>
               <mat-panel-title>
                 {{complex.name}}
               </mat-panel-title>
             </mat-expansion-panel-header>
             <mat-selection-list class="sub-section" [multiple]="false">
-              <mat-list-option class="sub-section-option accent" *ngFor="let urbanZone of complex.children" (click)="clickUrbanZone(urbanZone)">
+              <mat-list-option class="sub-section-option accent" #uzElem *ngFor="let urbanZone of complex.children" (click)="clickUrbanZone(urbanZone)">
                 {{urbanZone.id}} : {{urbanZone.type}}
               </mat-list-option>
             </mat-selection-list>
@@ -48,7 +48,7 @@
           </mat-panel-title>
         </mat-expansion-panel-header>
         <mat-selection-list class="sub-section" [multiple]="false">
-          <mat-list-option class="sub-section-option" *ngFor="let urbanZone of selectedNeighborhoodUrbanZones" (click)="clickUrbanZone(urbanZone)">
+          <mat-list-option #uzElem class="sub-section-option" *ngFor="let urbanZone of selectedNeighborhoodUrbanZones" (click)="clickUrbanZone(urbanZone)">
             {{urbanZone.id}} : {{urbanZone.type}}
           </mat-list-option>
         </mat-selection-list>

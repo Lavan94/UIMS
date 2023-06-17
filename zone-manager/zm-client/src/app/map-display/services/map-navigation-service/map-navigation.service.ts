@@ -29,7 +29,7 @@ export class MapNavigationService {
     }
   }
 
-  navigateIntoSector(mapDisplay: MapDisplayComponent, layer: any, sector: Sector, selectedNeighborhoodId?: string) {
+  public navigateIntoSector(mapDisplay: MapDisplayComponent, layer: any, sector: Sector, selectedNeighborhoodId?: string) {
     console.log(layer);
     layer.setStyle(NAVIGATE_INTO_ZONE_STYLE)
     mapDisplay.drawnItems.clearLayers();
@@ -50,7 +50,7 @@ export class MapNavigationService {
     });
   }
 
-  navigateIntoNeighborhood(mapDisplay: MapDisplayComponent, layer: any, neighborhood: Neighborhood, selectedNeighborhoodId?: string) {
+  public navigateIntoNeighborhood(mapDisplay: MapDisplayComponent, layer: any, neighborhood: Neighborhood, selectedNeighborhoodId?: string) {
     console.log(layer);
     layer.setStyle(NAVIGATE_INTO_ZONE_STYLE)
     mapDisplay.drawnItems.clearLayers();
@@ -74,7 +74,7 @@ export class MapNavigationService {
     });
   }
 
-  navigateIntoComplex(mapDisplay: MapDisplayComponent, layer: any, complex: Complex, selectedComplexId?: string) {
+  public navigateIntoComplex(mapDisplay: MapDisplayComponent, layer: any, complex: Complex, selectedComplexId?: string) {
     console.log(layer);
     layer.setStyle(NAVIGATE_INTO_ZONE_STYLE)
     mapDisplay.drawnItems.clearLayers();
@@ -119,7 +119,7 @@ export class MapNavigationService {
 
     if (currentNeighborhood) {
       this.navigateIntoNeighborhood(mapDisplay, layer, currentNeighborhood);
-      mapDisplay.navigatedOrganizationEventEmitter.emit(new SelectMapOrganizationEvent(currentNeighborhood));
+      mapDisplay.navigatedOrganizationEventEmitter.emit(new SelectMapOrganizationEvent(currentNeighborhood, mapDisplay.selectedSector));
       mapDisplay.selectedNeighborhood = currentNeighborhood;
       mapDisplay.selectedOrganizationType = Complex.name;
     }
@@ -137,7 +137,7 @@ export class MapNavigationService {
 
     if (currentComplex) {
       this.navigateIntoComplex(mapDisplay, layer, currentComplex);
-      mapDisplay.navigatedOrganizationEventEmitter.emit(new SelectMapOrganizationEvent(currentComplex));
+      mapDisplay.navigatedOrganizationEventEmitter.emit(new SelectMapOrganizationEvent(currentComplex, mapDisplay.selectedNeighborhood));
       mapDisplay.selectedComplex = currentComplex;
       mapDisplay.selectedOrganizationType = UrbanZone.name;
     }
