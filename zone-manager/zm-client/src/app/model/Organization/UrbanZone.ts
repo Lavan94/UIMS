@@ -5,6 +5,17 @@ import {Neighborhood} from "./Neighborhood";
 import {Complex} from "./Complex";
 import * as geoJson from "geojson";
 
+export enum UrbanZoneTypes {
+  RESIDENTIAL,
+  COMMERCIAL,
+  INDUSTRIAL,
+  EDUCATIONAL,
+  CULTURAL,
+  ADMINISTRATIVE,
+  BUSINESS,
+  PARK
+}
+
 export class UrbanZone implements Organization{
     constructor(
         public id: string = '',
