@@ -36,6 +36,7 @@ import {RouterModule} from "@angular/router";
 import { OwnerManagerComponent } from './owner-manager/owner-manager.component';
 import { AppRoutingModule } from './app-routing.module';
 import { HomeLoginComponent } from './home-login/home-login.component';
+import { OwnerTableComponent } from './owner-manager/features/owner-table/owner-table.component';
 
 @NgModule({
   declarations: [
@@ -53,6 +54,7 @@ import { HomeLoginComponent } from './home-login/home-login.component';
     NavbarComponent,
     OwnerManagerComponent,
     HomeLoginComponent,
+    OwnerTableComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,1 +1,23 @@
-<p>owner-manager works!</p>
+<mat-card class="app-container mat-elevation-z6">
+  <mat-card-title class="owner-types-title">
+    <span>Owner Types</span>
+    <span class="spacer"></span>
+    <button mat-raised-button>Add</button>
+  </mat-card-title>
+  <mat-card-content>
+    <mat-tab-group backgroundColor="primary" color="accent" dynamicHeight>
+      <mat-tab [label]="'Administrators'" >
+        <app-owner-table></app-owner-table>
+      </mat-tab>
+      <mat-tab [label]="'Service Providers'" >
+        <app-owner-table></app-owner-table>
+      </mat-tab>
+      <mat-tab [label]="'Businesses'" >
+        <app-owner-table></app-owner-table>
+      </mat-tab>
+      <mat-tab [label]="'Owners'" >
+        <app-owner-table></app-owner-table>
+      </mat-tab>
+    </mat-tab-group>
+  </mat-card-content>
+</mat-card>

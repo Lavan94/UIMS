@@ -1,0 +1,16 @@
+@mixin full-size() {
+  width: auto;
+  height: auto;
+}
+
+.app-container {
+  @include full-size;
+  margin: 20px;
+  border-radius: 16px;
+  background-color: #303F9F;
+}
+
+.owner-types-title{
+  color: white;
+  padding: 20px;
+}

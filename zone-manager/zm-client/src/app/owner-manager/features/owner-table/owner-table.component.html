@@ -1,0 +1,43 @@
+<mat-accordion class="owner-card">
+  <mat-expansion-panel class="owner-panel" *ngFor="let owner of owners">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        {{owner.name}}
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <mat-card class="owner-panel-details">
+      <mat-card-title>Details</mat-card-title>
+      <mat-card-content>
+        <mat-list>
+          <div class="left-column">
+            <mat-list-item>
+              <span matListItemTitle>Id</span>
+              <hr>
+              <span matListItemLine>{{owner.id}}</span>
+            </mat-list-item>
+            <mat-list-item>
+              <span matListItemTitle>Name</span>
+              <hr>
+              <span matListItemLine>{{owner.name}}</span>
+            </mat-list-item>
+            <mat-list-item>
+              <span matListItemTitle>Email</span>
+              <hr>
+              <span matListItemLine>{{owner.email}}</span>
+            </mat-list-item>
+            <mat-list-item>
+              <span matListItemTitle>Phone</span>
+              <hr>
+              <span matListItemLine>{{owner.phone}}</span>
+            </mat-list-item>
+          </div>
+        </mat-list>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-raised-button color="primary">Edit</button>
+        <button mat-raised-button color="accent">Delete</button>
+      </mat-card-actions>
+    </mat-card>
+
+  </mat-expansion-panel>
+</mat-accordion>
