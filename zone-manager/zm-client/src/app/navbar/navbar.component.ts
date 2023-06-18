@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import {Component, ViewChildren} from '@angular/core';
 import {HOME_LOGIN_PAGE, ORGANIZATION_MANAGER_PAGE, OWNER_MANAGER_PAGE} from "../app-routing.module";
+import {MatDrawer} from "@angular/material/sidenav";
 
 @Component({
   selector: 'app-navbar',
