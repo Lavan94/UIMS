@@ -1,0 +1,36 @@
+<div class="navigation-bars">
+  <mat-toolbar color="primary" class="mat-elevation-z8">
+    <button mat-icon-button [disabled]="!loggedIn" (click)="sideNav.toggle()" class="example-icon"
+            aria-label="Example icon-button with menu icon">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <span>Urban Zone Manager</span>
+    <mat-divider vertical="true" class="mat-divider-top-navbar"></mat-divider>
+    <span style="font-size: 16px"><i>{{page}}</i></span>
+    <span class="top-navbar-spacer"></span>
+    <span style="font-size: 16px" ><i>Silviu Adrian</i></span>
+    <mat-divider vertical="true" class="mat-divider-top-navbar"></mat-divider>
+    <span>Administrator</span>
+  </mat-toolbar>
+
+  <mat-drawer-container autosize>
+    <mat-drawer #sideNav mode="over" position="start">
+      <div class="navigation-container">
+        <div class="navigation-container-page-links">
+          <button [routerLink]="zoneManagerLink" ariaCurrentWhenActive="page" routerLinkActive="active"
+                  mat-stroked-button color="primary" (click)="page='Organizations'">Organizations
+          </button>
+          <button [routerLink]="ownerManagerLink" ariaCurrentWhenActive="page" routerLinkActive="active"
+                  mat-stroked-button color="primary" (click)="page='Owners'">Owners
+          </button>
+        </div>
+        <div class="navigation-container-login">
+          <button mat-stroked-button color="primary" [routerLink]="homeLoginLink" (click)="page='Login'; loggedIn=false">Logout</button>
+        </div>
+      </div>
+    </mat-drawer>
+    <mat-drawer-content>
+      <router-outlet></router-outlet>
+    </mat-drawer-content>
+  </mat-drawer-container>
+</div>
