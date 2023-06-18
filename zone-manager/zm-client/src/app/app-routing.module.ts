@@ -13,13 +13,13 @@ export const HOME_LOGIN_PAGE = '';
 
 export const routes: Routes = [
   {
-    path: HOME_LOGIN_PAGE, component: HomeLoginComponent
+    path: HOME_LOGIN_PAGE, component: HomeLoginComponent, title: 'UZM - Login'
   },
   {
-    path: ORGANIZATION_MANAGER_PAGE, component: OrganizationManagerComponent
+    path: ORGANIZATION_MANAGER_PAGE, component: OrganizationManagerComponent, title: 'UZM - Organizations'
   },
   {
-    path: OWNER_MANAGER_PAGE, component: OwnerManagerComponent
+    path: OWNER_MANAGER_PAGE, component: OwnerManagerComponent, title: 'UZM - Owners'
   }
 ]
 

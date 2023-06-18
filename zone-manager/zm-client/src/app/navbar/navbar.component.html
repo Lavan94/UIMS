@@ -1,6 +1,6 @@
 <div class="navigation-bars">
   <mat-toolbar color="primary" class="mat-elevation-z8">
-    <button mat-icon-button (click)="sideNav.toggle()" class="example-icon"
+    <button mat-icon-button [disabled]="!loggedIn" (click)="sideNav.toggle()" class="example-icon"
             aria-label="Example icon-button with menu icon">
       <mat-icon>menu</mat-icon>
     </button>
@@ -25,8 +25,7 @@
           </button>
         </div>
         <div class="navigation-container-login">
-          <button *ngIf="!loggedIn" mat-stroked-button color="primary">Login</button>
-          <button *ngIf="loggedIn" mat-stroked-button color="primary">Logout</button>
+          <button mat-stroked-button color="primary">Logout</button>
         </div>
       </div>
     </mat-drawer>
