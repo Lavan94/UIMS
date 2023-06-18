@@ -1,0 +1,31 @@
+<div class="navigation-bars">
+  <mat-toolbar color="primary" class="mat-elevation-z8">
+    <button mat-icon-button (click)="sideNav.toggle()" class="example-icon" aria-label="Example icon-button with menu icon">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <span>Zone Manager</span>
+    <span class="top-navbar-spacer"></span>
+    <span>User</span>
+    <mat-divider vertical="true" class="mat-divider-top-navbar"></mat-divider>
+    <span>Administrator</span>
+  </mat-toolbar>
+
+  <mat-drawer-container autosize>
+    <mat-drawer #sideNav opened="true" mode="over" position="start">
+      <div class="navigation-container">
+        <div class="navigation-container-page-links">
+          <button mat-stroked-button color="primary">Zone Manager</button>
+          <button mat-stroked-button color="primary">Owners</button>
+        </div>
+        <div class="navigation-container-login">
+          <button mat-stroked-button color="primary">Sign Up</button>
+          <button mat-stroked-button color="primary">Login</button>
+          <button mat-stroked-button color="primary">Logout</button>
+        </div>
+      </div>
+    </mat-drawer>
+    <mat-drawer-content>
+      <router-outlet></router-outlet>
+    </mat-drawer-content>
+  </mat-drawer-container>
+</div>

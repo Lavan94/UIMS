@@ -29,6 +29,10 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import {MatSelectModule} from "@angular/material/select";
 import { OrganizationManagerComponent } from './organization-manager/organization-manager.component';
+import {MatToolbarModule} from "@angular/material/toolbar";
+import { NavbarComponent } from './navbar/navbar.component';
+import {MatSidenavModule} from "@angular/material/sidenav";
+import {RouterModule} from "@angular/router";
 
 @NgModule({
   declarations: [
@@ -43,6 +47,7 @@ import { OrganizationManagerComponent } from './organization-manager/organizatio
     ComplexDialogComponent,
     UrbanZoneDialogComponent,
     OrganizationManagerComponent,
+    NavbarComponent,
   ],
   imports: [
     BrowserModule,
@@ -61,6 +66,9 @@ import { OrganizationManagerComponent } from './organization-manager/organizatio
     MatDialogModule,
     HttpClientModule,
     MatSelectModule,
+    MatToolbarModule,
+    MatSidenavModule,
+    RouterModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
