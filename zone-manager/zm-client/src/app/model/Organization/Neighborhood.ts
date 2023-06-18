@@ -3,7 +3,6 @@ import {UrbanZone} from "./UrbanZone";
 import {Organization} from "./Organization";
 import {Sector} from "./Sector";
 import * as geoJson from "geojson";
-import {RANDOM_AREA} from "../../map-display/GeoJsonDummyData";
 
 export class Neighborhood implements Organization{
     constructor(
