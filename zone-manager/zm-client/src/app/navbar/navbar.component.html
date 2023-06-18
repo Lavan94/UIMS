@@ -18,14 +18,14 @@
       <div class="navigation-container">
         <div class="navigation-container-page-links">
           <button [routerLink]="zoneManagerLink" ariaCurrentWhenActive="page" routerLinkActive="active"
-                  mat-stroked-button color="primary" (click)="page='Organizations'">Organizations
+                  mat-stroked-button color="primary" (click)="page='Organizations'; sideNav.toggle()">Organizations
           </button>
           <button [routerLink]="ownerManagerLink" ariaCurrentWhenActive="page" routerLinkActive="active"
-                  mat-stroked-button color="primary" (click)="page='Owners'">Owners
+                  mat-stroked-button color="primary" (click)="page='Owners'; sideNav.toggle()">Owners
           </button>
         </div>
         <div class="navigation-container-login">
-          <button mat-stroked-button color="primary" [routerLink]="homeLoginLink" (click)="page='Login'; loggedIn=false">Logout</button>
+          <button mat-stroked-button color="primary" [routerLink]="homeLoginLink" (click)="page='Login'; sideNav.toggle()">Logout</button>
         </div>
       </div>
     </mat-drawer>
