@@ -1,0 +1,54 @@
+$map-height: 100%;
+#login-map {
+  height: $map-height;
+  width: 100%;
+  border-radius: 20px;
+  z-index: 1;
+}
+.map-overlay {
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  position: absolute;
+
+  height: $map-height;
+  width: 100%;
+
+  z-index: 2;
+  background-color: rgba(0, 0, 0, 0.5);
+
+  display: flex;
+  margin: auto;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-card {
+  margin: auto;
+  align-content: center;
+
+  width: fit-content;
+  height: fit-content;
+  padding: 10px;
+}
+
+mat-form-field{
+  margin: 10px;
+  width: 200px;
+}
+
+.phone{
+  width: 420px;
+  margin: 10px;
+}
+
+.password{
+  width: 420px;
+  margin: 10px;
+}
+
+.login-button{
+  margin: auto;
+}
