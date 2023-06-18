@@ -1,9 +1,9 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {DomSanitizer} from "@angular/platform-browser";
 import {MatIconRegistry} from "@angular/material/icon";
-import {IconPaths} from "../../icon-store/IconPaths";
-import {MapAction} from "../action/MapAction";
-import {MapDisplayComponent} from "../map-display.component";
+import {IconPaths} from "../../../../../icon-store/IconPaths";
+import {MapAction} from "../../action/MapAction";
+import {MapDisplayComponent} from "../../map-display.component";
 
 @Component({
   selector: 'app-map-control-container',

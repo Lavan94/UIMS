@@ -1,14 +1,14 @@
 import {Injectable} from '@angular/core';
-import {Sector} from "../../../model/Organization/Sector";
-import {DEFAULT_ZONE_STYLE, NAVIGATE_INTO_ZONE_STYLE, SELECTED_ZONE_STYLE} from "../../zone-styles/ZoneStyles";
+import {Sector} from "../../../../../model/Organization/Sector";
+import {DEFAULT_ZONE_STYLE, NAVIGATE_INTO_ZONE_STYLE, SELECTED_ZONE_STYLE} from "../zone-style-factory/ZoneStyles";
 import * as L from "leaflet";
 import {MapDisplayComponent} from "../../map-display.component";
-import {Neighborhood} from "../../../model/Organization/Neighborhood";
-import {Complex} from "../../../model/Organization/Complex";
+import {Neighborhood} from "../../../../../model/Organization/Neighborhood";
+import {Complex} from "../../../../../model/Organization/Complex";
 import {ZoneStyleFactoryService} from "../zone-style-factory/zone-style-factory.service";
-import {SelectMapOrganizationEvent} from "../../../organization-manager/event/MapOrganizationEvent";
-import {UrbanZone} from "../../../model/Organization/UrbanZone";
-import {OrganizationService} from "../../../organization-service/organization.service";
+import {SelectMapOrganizationEvent} from "../../../../event/MapOrganizationEvent";
+import {UrbanZone} from "../../../../../model/Organization/UrbanZone";
+import {OrganizationService} from "../../../../services/organization-service/organization.service";
 import {LeafletMouseEvent} from "leaflet";
 
 @Injectable({

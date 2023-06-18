@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {Sector} from "../../model/Organization/Sector";
+import {Sector} from "../../../../../../model/Organization/Sector";
 
 @Component({
   selector: 'app-sector-dialog',

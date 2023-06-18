@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {UrbanZoneType} from "../../../model/Organization/UrbanZone";
+import {UrbanZoneType} from "../../../../../model/Organization/UrbanZone";
 import {
   ADMINISTRATION_ZONE_STYLE,
   BUSINESS_ZONE_STYLE,
@@ -10,7 +10,7 @@ import {
   GREEN_SPACE_ZONE_STYLE,
   INDUSTRIAL_ZONE_STYLE,
   RESIDENTIAL_ZONE_STYLE
-} from "../../zone-styles/ZoneStyles";
+} from "./ZoneStyles";
 
 @Injectable({
   providedIn: 'root'

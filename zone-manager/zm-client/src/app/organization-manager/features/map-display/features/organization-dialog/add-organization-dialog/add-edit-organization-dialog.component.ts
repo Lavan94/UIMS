@@ -1,10 +1,10 @@
 import {Component, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {UrbanZone} from "../../model/Organization/UrbanZone";
-import {Complex} from "../../model/Organization/Complex";
-import {Neighborhood} from "../../model/Organization/Neighborhood";
-import {Sector} from "../../model/Organization/Sector";
-import {Organization} from "../../model/Organization/Organization";
+import {UrbanZone} from "../../../../../../model/Organization/UrbanZone";
+import {Complex} from "../../../../../../model/Organization/Complex";
+import {Neighborhood} from "../../../../../../model/Organization/Neighborhood";
+import {Sector} from "../../../../../../model/Organization/Sector";
+import {Organization} from "../../../../../../model/Organization/Organization";
 
 interface OrganizationDialogData {
   organizationType: string;

@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {Complex} from "../../model/Organization/Complex";
+import {Complex} from "../../../../../../model/Organization/Complex";
 
 @Component({
   selector: 'app-complex-dialog',

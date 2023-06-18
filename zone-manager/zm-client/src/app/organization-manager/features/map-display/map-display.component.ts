@@ -6,26 +6,26 @@ import {DomSanitizer} from '@angular/platform-browser';
 import 'leaflet-draw';
 import {MapAction} from "./action/MapAction";
 import {MatDialog} from "@angular/material/dialog";
-import {DEFAULT_ZONE_STYLE, NAVIGATE_INTO_ZONE_STYLE, SELECTED_ZONE_STYLE} from "./zone-styles/ZoneStyles";
+import {DEFAULT_ZONE_STYLE, NAVIGATE_INTO_ZONE_STYLE, SELECTED_ZONE_STYLE} from "./services/zone-style-factory/ZoneStyles";
 import {
   AddEditOrganizationDialogComponent
-} from "../organization-dialog/add-organization-dialog/add-edit-organization-dialog.component";
-import {OrganizationService} from "../organization-service/organization.service";
-import {UrbanZone} from "../model/Organization/UrbanZone";
-import {Complex} from "../model/Organization/Complex";
-import {Neighborhood} from "../model/Organization/Neighborhood";
-import {Sector} from "../model/Organization/Sector";
+} from "./features/organization-dialog/add-organization-dialog/add-edit-organization-dialog.component";
+import {OrganizationService} from "../../services/organization-service/organization.service";
+import {UrbanZone} from "../../../model/Organization/UrbanZone";
+import {Complex} from "../../../model/Organization/Complex";
+import {Neighborhood} from "../../../model/Organization/Neighborhood";
+import {Sector} from "../../../model/Organization/Sector";
 import {
   Organization,
   ORGANIZATION_HIERARCHY,
   URBAN_ZONE_UNDER_NEIGHBORHOOD_KEY
-} from "../model/Organization/Organization";
+} from "../../../model/Organization/Organization";
 import {
   ChangeOrganizationTabEvent,
   MapOrganizationEvent,
   OrganizationMapEventAction,
   SelectMapOrganizationEvent
-} from "../organization-manager/event/MapOrganizationEvent";
+} from "../../event/MapOrganizationEvent";
 import {MapNavigationService} from "./services/map-navigation-service/map-navigation.service";
 
 let self: MapDisplayComponent;

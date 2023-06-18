@@ -1,16 +1,16 @@
 import {Component, ElementRef, EventEmitter, Input, OnInit, Output, QueryList, ViewChildren} from '@angular/core';
 import {FormControl} from "@angular/forms";
-import {OrganizationService} from "../organization-service/organization.service";
-import {UrbanZone} from "../model/Organization/UrbanZone";
-import {Complex} from "../model/Organization/Complex";
-import {Neighborhood} from "../model/Organization/Neighborhood";
-import {Sector} from "../model/Organization/Sector";
+import {OrganizationService} from "../../services/organization-service/organization.service";
+import {UrbanZone} from "../../../model/Organization/UrbanZone";
+import {Complex} from "../../../model/Organization/Complex";
+import {Neighborhood} from "../../../model/Organization/Neighborhood";
+import {Sector} from "../../../model/Organization/Sector";
 import {MatListOption} from "@angular/material/list";
 import {
   ChangeOrganizationTabEvent,
   MapOrganizationEvent, SelectMapOrganizationEvent,
   SelectOrganizationDisplayEvent
-} from "../organization-manager/event/MapOrganizationEvent";
+} from "../../event/MapOrganizationEvent";
 import {MatExpansionPanel, MatExpansionPanelHeader} from "@angular/material/expansion";
 
 const DEFAULT_SECTOR_NAME = 'Sectors';

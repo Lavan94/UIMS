@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
-import {URBAN_ZONE_INSTANCE} from "../../model/DummyData";
-import {UrbanZone} from "../../model/Organization/UrbanZone";
+import {URBAN_ZONE_INSTANCE} from "../../../../data/DummyData";
+import {UrbanZone} from "../../../../model/Organization/UrbanZone";
 
 @Component({
   selector: 'app-organization-urban-zone',

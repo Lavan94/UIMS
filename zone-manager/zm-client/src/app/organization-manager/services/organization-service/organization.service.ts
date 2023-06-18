@@ -1,10 +1,10 @@
 import {Injectable} from '@angular/core';
-import {SECTORS} from "../model/DummyData";
-import {UrbanZone} from "../model/Organization/UrbanZone";
-import {Complex} from "../model/Organization/Complex";
-import {Neighborhood} from "../model/Organization/Neighborhood";
-import {Sector} from "../model/Organization/Sector";
-import {Organization} from "../model/Organization/Organization";
+import {SECTORS} from "../../../data/DummyData";
+import {UrbanZone} from "../../../model/Organization/UrbanZone";
+import {Complex} from "../../../model/Organization/Complex";
+import {Neighborhood} from "../../../model/Organization/Neighborhood";
+import {Sector} from "../../../model/Organization/Sector";
+import {Organization} from "../../../model/Organization/Organization";
 
 @Injectable({
   providedIn: 'root'

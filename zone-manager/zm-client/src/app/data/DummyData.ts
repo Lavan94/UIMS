@@ -1,8 +1,8 @@
-import {UtilityCost} from "./UtilityCost";
-import {UrbanZone, UrbanZoneType} from "./Organization/UrbanZone";
-import {Complex} from "./Organization/Complex";
-import {Neighborhood} from "./Organization/Neighborhood";
-import {Sector} from "./Organization/Sector";
+import {UtilityCost} from "../model/UtilityCost";
+import {UrbanZone, UrbanZoneType} from "../model/Organization/UrbanZone";
+import {Complex} from "../model/Organization/Complex";
+import {Neighborhood} from "../model/Organization/Neighborhood";
+import {Sector} from "../model/Organization/Sector";
 import {
   BRAZDA_LUI_NOVAC_NEIGBORHOOD,
   CERNELE_INDUSTRIAL_NEIGHBORHOOD,
@@ -13,12 +13,12 @@ import {
   CRAIOVITA_NEIGHBORHOOD,
   GEORGE_ENESCU_NEIGHBORHOOD,
   SEVERINULUI_NEIGHBORHOOD
-} from "../map-display/GeoJsonDummyData";
+} from "./GeoJsonDummyData";
 import {
   CRAIOVITA_SHOPPING_CENTER_COMPLEX,
   ORIZONT_COMPLEX,
   PIATA_CRAIOVITA_COMPLEX
-} from "../map-display/ComplexGeoJsonData";
+} from "./ComplexGeoJsonData";
 import {
   BISERICA_SF_IOAN_SEBASTIAN_PIATA_CRAIOVITA_CULTURAL_ZONE,
   BLOC_1_PIATA_MARE,
@@ -40,7 +40,7 @@ import {
   PIATA_MARE_PARK_ZONE,
   RAT_ADMINISTRATION_ZONE,
   SC_ELENA_FARAGO_CRAIOVITA_EDUCATIONAL_ZONE
-} from "../map-display/UrbanZoneGeoJsonDummyData";
+} from "./UrbanZoneGeoJsonDummyData";
 
 export const URBAN_ZONE_INSTANCE = new UrbanZone("1b1a", "Bloc I5", UrbanZoneType.RESIDENTIAL, "1b1", [
   new UtilityCost("1b1a1", 56, 62, 70, 10, "Ron", new Date('15 Jan 2023 00:00:00 GMT'), "Month"),

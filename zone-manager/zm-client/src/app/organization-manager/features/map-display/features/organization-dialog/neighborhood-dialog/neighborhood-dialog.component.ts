@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {Neighborhood} from "../../model/Organization/Neighborhood";
+import {Neighborhood} from "../../../../../../model/Organization/Neighborhood";
 
 @Component({
   selector: 'app-neighborhood-dialog',
