@@ -33,6 +33,9 @@ import {MatToolbarModule} from "@angular/material/toolbar";
 import { NavbarComponent } from './navbar/navbar.component';
 import {MatSidenavModule} from "@angular/material/sidenav";
 import {RouterModule} from "@angular/router";
+import { OwnerManagerComponent } from './owner-manager/owner-manager.component';
+import { AppRoutingModule } from './app-routing.module';
+import { HomeLoginComponent } from './home-login/home-login.component';
 
 @NgModule({
   declarations: [
@@ -48,6 +51,8 @@ import {RouterModule} from "@angular/router";
     UrbanZoneDialogComponent,
     OrganizationManagerComponent,
     NavbarComponent,
+    OwnerManagerComponent,
+    HomeLoginComponent,
   ],
   imports: [
     BrowserModule,
@@ -69,6 +74,7 @@ import {RouterModule} from "@angular/router";
     MatToolbarModule,
     MatSidenavModule,
     RouterModule,
+    AppRoutingModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
