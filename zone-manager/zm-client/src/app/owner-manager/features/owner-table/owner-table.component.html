@@ -1,3 +1,6 @@
+<button mat-raised-button style="margin-top: 10px; background: #c5cae9">Add</button>
+<mat-divider style="margin-top: 10px; margin-buttom: 10px; background: #c5cae9"></mat-divider>
+
 <mat-accordion class="owner-card">
   <mat-expansion-panel class="owner-panel" *ngFor="let owner of owners">
     <mat-expansion-panel-header>
@@ -34,8 +37,8 @@
         </mat-list>
       </mat-card-content>
       <mat-card-actions>
-        <button mat-raised-button color="primary">Edit</button>
-        <button mat-raised-button color="accent">Delete</button>
+        <button mat-raised-button style="margin: 10px" color="primary">Edit</button>
+        <button mat-raised-button style="margin: 10px" color="accent">Delete</button>
       </mat-card-actions>
     </mat-card>
 

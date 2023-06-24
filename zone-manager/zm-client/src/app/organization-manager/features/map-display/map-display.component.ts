@@ -41,10 +41,10 @@ export class MapDisplayComponent {
     new MapAction('zone-edit', this.editPolygon)
   ];
   public toolButtons = [
-    new MapAction('move-icon', () => {
-    }),
-    new MapAction('select-icon', () => {
-    })
+    // new MapAction('move-icon', () => {
+    // }),
+    // new MapAction('select-icon', () => {
+    // })
   ];
   public selectedZone?: any;
   public selectedToggleValue: string = 'Complex';
