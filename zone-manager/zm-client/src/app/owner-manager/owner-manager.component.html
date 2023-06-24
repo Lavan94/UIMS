@@ -5,16 +5,16 @@
   <mat-card-content>
     <mat-tab-group backgroundColor="primary" color="accent" dynamicHeight>
       <mat-tab [label]="'Administrators'" >
-        <app-owner-table></app-owner-table>
+        <app-owner-table [ownerRole]="administratorRole"></app-owner-table>
       </mat-tab>
       <mat-tab [label]="'Service Providers'" >
-        <app-owner-table></app-owner-table>
+        <app-owner-table [ownerRole]="serviceProviderRole"></app-owner-table>
       </mat-tab>
       <mat-tab [label]="'Businesses'" >
-        <app-owner-table></app-owner-table>
+        <app-owner-table [ownerRole]="businessOwnerRole"></app-owner-table>
       </mat-tab>
       <mat-tab [label]="'Owners'" >
-        <app-owner-table></app-owner-table>
+        <app-owner-table [ownerRole]="ownerRole"></app-owner-table>
       </mat-tab>
     </mat-tab-group>
   </mat-card-content>

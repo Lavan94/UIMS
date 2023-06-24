@@ -1,16 +1,16 @@
 import {UrbanZone} from "./Organization/UrbanZone";
 
 export enum OwnerRole{
-  ADMINISTRATOR,
-  SERVICE_PROVIDER,
-  BUSINESS_OWNER,
-  PRIVATE_OWNER,
+  ADMINISTRATOR="ADMINISTRATOR",
+  SERVICE_PROVIDER="SERVICE_PROVIDER",
+  BUSINESS_OWNER="BUSINESS_OWNER",
+  OWNER="OWNER",
 }
 
 export class Owner {
   constructor(
     public id: string,
-    public name: string,
+    public username: string,
     public email: string,
     public phone: string,
     public role: OwnerRole,

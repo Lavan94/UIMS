@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*
 import java.util.*
 
 @Controller
+@CrossOrigin(origins = ["http://localhost:4200"])
 @RequestMapping("/owner")
 class OwnerController @Autowired constructor(val ownerService: OwnerService) {
     @ResponseBody
@@ -21,6 +22,12 @@ class OwnerController @Autowired constructor(val ownerService: OwnerService) {
     @GetMapping("/getAll")
     fun getAllOwners(): List<Owner> {
         return this.ownerService.getOwners()
+    }
+
+    @ResponseBody
+    @GetMapping("/getAllByRole/{role}")
+    fun getAllByRole(@PathVariable(name="role") role: String): List<Owner> {
+        return this.ownerService.getOwnersByRole(role)
     }
 
     @ResponseBody

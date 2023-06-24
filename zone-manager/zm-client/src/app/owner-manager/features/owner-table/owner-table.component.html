@@ -5,7 +5,7 @@
   <mat-expansion-panel class="owner-panel" *ngFor="let owner of owners">
     <mat-expansion-panel-header>
       <mat-panel-title>
-        {{owner.name}}
+        {{owner.username}}
       </mat-panel-title>
     </mat-expansion-panel-header>
     <mat-card class="owner-panel-details">
@@ -21,7 +21,7 @@
             <mat-list-item>
               <span matListItemTitle>Name</span>
               <hr>
-              <span matListItemLine>{{owner.name}}</span>
+              <span matListItemLine>{{owner.username}}</span>
             </mat-list-item>
             <mat-list-item>
               <span matListItemTitle>Email</span>

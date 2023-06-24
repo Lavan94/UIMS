@@ -7,6 +7,7 @@ import com.uims.zm.zonemanager.owner.repository.OwnerRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import java.util.*
+import kotlin.time.measureTime
 
 
 @Service
@@ -18,6 +19,11 @@ class OwnerService @Autowired constructor(val ownerRepository: OwnerRepository) 
 
     fun getOwners(): List<Owner> {
         return ownerRepository.findAll()
+    }
+
+    fun getOwnersByRole(role: String): List<Owner> {
+        val ownerRole = OwnerRole.valueOf(role)
+        return this.ownerRepository.findByRole(ownerRole)
     }
 
     fun addOwner(owner: Owner): Owner {
