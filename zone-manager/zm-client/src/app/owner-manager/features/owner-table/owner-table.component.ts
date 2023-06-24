@@ -1,6 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Owner, OwnerRole} from "../../../model/Owner";
-import {KAUFLAND_CRAIOVITA_UZ, PENNY_CRAIOVITA_UZ} from "../../../data/DummyData";
 import {OwnerService} from "../../service/owner.service";
 
 @Component({
@@ -11,6 +10,7 @@ import {OwnerService} from "../../service/owner.service";
 export class OwnerTableComponent implements OnInit {
   @Input() ownerRole?: OwnerRole
   owners: Owner[] = []
+  newOwner: Owner = new Owner()
 
   constructor(private ownerService: OwnerService) {}
 
@@ -20,5 +20,9 @@ export class OwnerTableComponent implements OnInit {
         this.owners = owners;
       })
     }
+  }
+
+  addNewOwner() {
+    this.owners = [new Owner()].concat(this.owners)
   }
 }

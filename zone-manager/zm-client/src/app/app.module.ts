@@ -37,6 +37,7 @@ import { OwnerManagerComponent } from './owner-manager/owner-manager.component';
 import { AppRoutingModule } from './app-routing.module';
 import { HomeLoginComponent } from './home-login/home-login.component';
 import { OwnerTableComponent } from './owner-manager/features/owner-table/owner-table.component';
+import { OwnerDetailsComponent } from './owner-manager/features/owner-details/owner-details.component';
 
 @NgModule({
   declarations: [
@@ -55,6 +56,7 @@ import { OwnerTableComponent } from './owner-manager/features/owner-table/owner-
     OwnerManagerComponent,
     HomeLoginComponent,
     OwnerTableComponent,
+    OwnerDetailsComponent,
   ],
   imports: [
     BrowserModule,

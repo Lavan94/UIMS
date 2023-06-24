@@ -9,11 +9,11 @@ export enum OwnerRole{
 
 export class Owner {
   constructor(
-    public id: string,
-    public username: string,
-    public email: string,
-    public phone: string,
-    public role: OwnerRole,
-    public zones: UrbanZone[]
+    public id: string = "",
+    public username: string = "",
+    public email: string = "",
+    public phone: string = "",
+    public role: OwnerRole = OwnerRole.OWNER,
+    public zones: UrbanZone[] = []
   ) {}
 }

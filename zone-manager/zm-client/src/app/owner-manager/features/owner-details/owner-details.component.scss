@@ -1,13 +1,5 @@
-.owner-card {
+.owner-property {
   width: 100%;
-  height: fit-content;
-
-  margin-top: 20px;
-  padding: 20px;
-}
-
-.owner-action {
-  margin: 10px;
 }
 
 .owner-panel {
@@ -22,11 +14,13 @@
   grid-column: 1;
 }
 
-.spacer {
-  flex: 1 1 auto;
-}
 
-.add-button {
-  margin-top: 10px;
-  background: #c5cae9
+.details {
+  width: 100%;
+  display: grid;
+
+  grid-template-columns: 0.5fr 0.5fr;
+  grid-template-row: 0.5fr 0.5fr;
+  row-gap: 10px;
+  column-gap: 10px;
 }
