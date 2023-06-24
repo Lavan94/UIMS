@@ -9,7 +9,7 @@ import {MatCardModule} from "@angular/material/card";
 import {OrganizationDisplayComponent} from './organization-manager/features/organization-display/organization-display.component';
 import {MatTabsModule} from "@angular/material/tabs";
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatListModule} from "@angular/material/list";
 import {MatExpansionModule} from "@angular/material/expansion";
 import {
@@ -79,6 +79,7 @@ import { OwnerDetailsComponent } from './owner-manager/features/owner-details/ow
     MatSidenavModule,
     RouterModule,
     AppRoutingModule,
+    ReactiveFormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

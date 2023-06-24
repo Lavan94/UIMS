@@ -12,13 +12,15 @@
     </mat-expansion-panel-header>
     <mat-card class="owner-panel-details">
       <mat-card-content>
-        <app-owner-details class="details" [owner]="owner"></app-owner-details>
+        <app-owner-details class="details" [owner]="owner" [ownerRole]="ownerRole"></app-owner-details>
       </mat-card-content>
       <mat-card-actions class="owner-action">
-        <button mat-raised-button style="margin: 10px" color="primary">Change Role</button>
+        <button *ngIf="owner.id" mat-raised-button style="margin: 10px" color="primary">Change Role</button>
         <span class="spacer"></span>
-        <button mat-raised-button style="margin: 10px" color="primary">Edit</button>
-        <button mat-raised-button style="margin: 10px" color="accent">Delete</button>
+        <button *ngIf="owner.id" mat-raised-button style="margin: 10px" color="primary">Edit</button>
+        <button *ngIf="!owner.id" mat-raised-button style="margin: 10px" color="primary" (click)="saveOwner(owner)">Save</button>
+        <button *ngIf="owner.id" mat-raised-button style="margin: 10px" color="accent">Delete</button>
+        <button *ngIf="!owner.id" mat-raised-button style="margin: 10px" color="accent" (click)="cancelOwner(owner)">Cancel</button>
       </mat-card-actions>
     </mat-card>
 

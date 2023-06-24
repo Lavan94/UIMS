@@ -8,7 +8,7 @@ import {OwnerService} from "../../service/owner.service";
   styleUrls: ['./owner-table.component.scss']
 })
 export class OwnerTableComponent implements OnInit {
-  @Input() ownerRole?: OwnerRole
+  @Input() ownerRole: OwnerRole = OwnerRole.NONE
   owners: Owner[] = []
   newOwner: Owner = new Owner()
 
@@ -24,5 +24,13 @@ export class OwnerTableComponent implements OnInit {
 
   addNewOwner() {
     this.owners = [new Owner()].concat(this.owners)
+  }
+
+  saveOwner(owner: Owner) {
+
+  }
+
+  cancelOwner(owner: Owner) {
+
   }
 }

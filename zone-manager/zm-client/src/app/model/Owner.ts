@@ -1,6 +1,7 @@
 import {UrbanZone} from "./Organization/UrbanZone";
 
 export enum OwnerRole{
+  NONE="NONE",
   ADMINISTRATOR="ADMINISTRATOR",
   SERVICE_PROVIDER="SERVICE_PROVIDER",
   BUSINESS_OWNER="BUSINESS_OWNER",
@@ -13,7 +14,7 @@ export class Owner {
     public username: string = "",
     public email: string = "",
     public phone: string = "",
-    public role: OwnerRole = OwnerRole.OWNER,
+    public role: OwnerRole = OwnerRole.NONE,
     public zones: UrbanZone[] = []
   ) {}
 }
