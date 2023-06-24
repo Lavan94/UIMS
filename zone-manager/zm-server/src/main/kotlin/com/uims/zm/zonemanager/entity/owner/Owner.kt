@@ -11,17 +11,19 @@ open class Owner {
     @Column(name = "id", nullable = false)
     open var id: UUID? = null
 
-    @Column(name = "name", nullable = false)
-    open var name: String = ""
+    @Column(name = "username", nullable = false)
+    open var username: String = ""
 
     @Column(name = "password", nullable = false)
     open var password: String = ""
 
     @Column(name = "email", nullable = false)
-    open var email: String = "";
+    open var email: String = ""
 
-    @MapsId
-    @ManyToOne(targetEntity = Address::class)
-    @JoinColumn(name = "address_id", referencedColumnName = "id")
-    open var address: Address? = null;
+    @Column(name = "phone", nullable = false)
+    open var phone: String = ""
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role", nullable = false)
+    open var role: OwnerRole = OwnerRole.OWNER
 }
