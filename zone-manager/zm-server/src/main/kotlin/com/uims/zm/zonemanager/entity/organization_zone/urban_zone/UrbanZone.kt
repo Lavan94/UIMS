@@ -1,7 +1,7 @@
 package com.uims.zm.zonemanager.entity.organization_zone.urban_zone
 
 import com.uims.zm.zonemanager.entity.organization_zone.OrganizationZone
-import com.uims.zm.zonemanager.entity.owner.Owner
+import com.uims.zm.zonemanager.owner.entity.Owner
 import jakarta.persistence.*
 
 @Entity

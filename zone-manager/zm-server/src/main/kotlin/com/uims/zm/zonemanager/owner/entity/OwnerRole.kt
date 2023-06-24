@@ -1,4 +1,4 @@
-package com.uims.zm.zonemanager.entity.owner
+package com.uims.zm.zonemanager.owner.entity
 
 enum class OwnerRole {
     OWNER,
