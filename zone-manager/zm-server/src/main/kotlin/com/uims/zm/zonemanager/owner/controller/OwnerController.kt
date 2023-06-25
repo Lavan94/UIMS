@@ -8,8 +8,8 @@ import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.*
 import java.util.*
 
+//@CrossOrigin(origins = ["http://localhost:4200"])
 @Controller
-@CrossOrigin(origins = ["http://localhost:4200"])
 @RequestMapping("/owner")
 class OwnerController @Autowired constructor(val ownerService: OwnerService) {
     @ResponseBody
@@ -52,5 +52,17 @@ class OwnerController @Autowired constructor(val ownerService: OwnerService) {
     @DeleteMapping("/deleteOne/{ownerId}")
     fun addOwner(@PathVariable(name="ownerId") ownerId: String): Owner? {
         return this.ownerService.deleteOwner(UUID.fromString(ownerId))
+    }
+
+    @ResponseBody
+    @GetMapping("/forAdmin")
+    fun getAdminMessage(): String{
+        return "This URL is accessible only for the Administrator Owners"
+    }
+
+    @ResponseBody
+    @GetMapping("/forServiceProvider")
+    fun getOwnerMessage(): String{
+        return "This URL is accessible only for the Service Provider Owners"
     }
 }
