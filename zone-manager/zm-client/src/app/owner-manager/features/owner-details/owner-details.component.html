@@ -37,7 +37,16 @@
 </form>
 
 <div class="owner-action">
-  <button *ngIf="owner.id && !editMode" mat-raised-button style="margin: 10px" color="primary">Change Role</button>
+  <button *ngIf="owner.id && !editMode" mat-raised-button [mat-menu-trigger-for]="roles" style="margin: 10px" color="primary">
+    Change Role
+    <mat-icon>arrow_drop_down</mat-icon>
+  </button>
+  <mat-menu #roles="matMenu">
+    <button (click)="changeRole(administratorRole)" [disabled]="inputRole === administratorRole" mat-button>{{getRoleName(administratorRole)}}</button>
+    <button (click)="changeRole(serviceProviderRole)" [color]="inputRole === serviceProviderRole" mat-button>{{getRoleName(serviceProviderRole)}}</button>
+    <button (click)="changeRole(businessOwnerRole)" [color]="inputRole === businessOwnerRole" mat-button>{{getRoleName(businessOwnerRole)}}</button>
+    <button (click)="changeRole(ownerRole)" [color]="inputRole === ownerRole" mat-button>{{getRoleName(ownerRole)}}</button>
+  </mat-menu>
   <span class="spacer"></span>
   <button *ngIf="!readonlyFlag || editMode" mat-raised-button style="margin: 10px" color="primary" (click)="saveOwner(owner, password)">Save</button>
   <button *ngIf="!readonlyFlag || editMode" mat-raised-button style="margin: 10px" color="accent" (click)="cancelOwner()">Cancel</button>

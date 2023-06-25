@@ -17,7 +17,12 @@ export enum OwnerDetailsOperation {
 })
 export class OwnerDetailsComponent implements OnInit {
   @Input() owner: Owner = new Owner();
-  @Input() ownerRole: OwnerRole = OwnerRole.NONE;
+  @Input() inputRole: OwnerRole = OwnerRole.NONE;
+
+  public readonly administratorRole: OwnerRole = OwnerRole.ADMINISTRATOR
+  public readonly serviceProviderRole: OwnerRole = OwnerRole.SERVICE_PROVIDER
+  public readonly businessOwnerRole: OwnerRole = OwnerRole.BUSINESS_OWNER
+  public readonly ownerRole: OwnerRole = OwnerRole.OWNER
 
   @Output() operationEmitter: EventEmitter<[OwnerDetailsOperation, Owner?]> = new EventEmitter<[OwnerDetailsOperation, Owner?]>()
 
@@ -61,25 +66,25 @@ export class OwnerDetailsComponent implements OnInit {
   constructor(private ownerService: OwnerService) {
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     if (this.owner?.role === OwnerRole.NONE) {
-      this.owner.role = this.ownerRole;
+      this.owner.role = this.inputRole;
       this.readonlyFlag = false;
     }
   }
 
-  saveOwner(owner: Owner, password: string = '') {
+  public saveOwner(owner: Owner, password: string = '') {
     if(!this.ownerForm.valid && this.password === '' && this.owner.id === '') return;
 
     const ownerDto: OwnerDto = new OwnerDto(owner, password)
     this.editMode ? this.updateOwner(ownerDto) : this.createOwner(ownerDto)
   }
 
-  cancelOwner() {
+  public cancelOwner() {
     this.operationEmitter.emit([OwnerDetailsOperation.CANCEL, undefined]);
   }
 
-  deleteOwner() {
+  public deleteOwner() {
     this.ownerService.deleteOwner(this.owner.id).subscribe(
       (owner) => {
         console.log('The following owner was deleted: ', owner)
@@ -88,9 +93,13 @@ export class OwnerDetailsComponent implements OnInit {
     )
   }
 
-  editOwner() {
+  public editOwner() {
     this.readonlyFlag = false;
     this.editMode = true;
+  }
+
+  public getRoleName(role: OwnerRole) {
+    return this.ownerService.getRoleName(role);
   }
 
   private createOwner(ownerDto: OwnerDto) {
@@ -112,5 +121,9 @@ export class OwnerDetailsComponent implements OnInit {
         this.editMode = false;
       }
     );
+  }
+
+  changeRole(role: OwnerRole) {
+    console.log(role);
   }
 }

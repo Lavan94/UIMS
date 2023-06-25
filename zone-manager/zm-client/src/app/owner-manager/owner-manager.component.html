@@ -4,16 +4,16 @@
   </mat-card-title>
   <mat-card-content>
     <mat-tab-group backgroundColor="primary" color="accent" dynamicHeight>
-      <mat-tab [label]="'Administrators'" >
+      <mat-tab [label]="getRoleName(administratorRole)" >
         <app-owner-table [ownerRole]="administratorRole"></app-owner-table>
       </mat-tab>
-      <mat-tab [label]="'Service Providers'" >
+      <mat-tab [label]="getRoleName(serviceProviderRole)" >
         <app-owner-table [ownerRole]="serviceProviderRole"></app-owner-table>
       </mat-tab>
-      <mat-tab [label]="'Businesses'" >
+      <mat-tab [label]="getRoleName(businessOwnerRole)" >
         <app-owner-table [ownerRole]="businessOwnerRole"></app-owner-table>
       </mat-tab>
-      <mat-tab [label]="'Owners'" >
+      <mat-tab [label]="getRoleName(ownerRole)" >
         <app-owner-table [ownerRole]="ownerRole"></app-owner-table>
       </mat-tab>
     </mat-tab-group>

@@ -7,7 +7,7 @@ import {OwnerRole} from "../model/Owner";
   templateUrl: './owner-manager.component.html',
   styleUrls: ['./owner-manager.component.scss']
 })
-export class OwnerManagerComponent implements OnInit{
+export class OwnerManagerComponent implements OnInit {
   public readonly administratorRole: OwnerRole = OwnerRole.ADMINISTRATOR
   public readonly serviceProviderRole: OwnerRole = OwnerRole.SERVICE_PROVIDER
   public readonly businessOwnerRole: OwnerRole = OwnerRole.BUSINESS_OWNER
@@ -20,5 +20,9 @@ export class OwnerManagerComponent implements OnInit{
     this.ownerService.getAllOwnersByRole(OwnerRole.ADMINISTRATOR).subscribe((result) => {
       console.log(result);
     })
+  }
+
+  public getRoleName(role: OwnerRole) {
+    return this.ownerService.getRoleName(role);
   }
 }

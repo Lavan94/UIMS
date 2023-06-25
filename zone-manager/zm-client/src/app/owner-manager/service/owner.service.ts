@@ -39,4 +39,10 @@ export class OwnerService {
   public deleteOwner(ownerId: string) {
     return this.httpClient.delete<Owner>(OWNER_SERVICE + DELETE_ONE_OWNER_URL + ownerId)
   }
+
+  public getRoleName(role: OwnerRole) {
+    let tabName: string = role.toLocaleLowerCase();
+    tabName = tabName[0].toUpperCase() + tabName.substring(1);
+    return tabName.replace('_', ' ');
+  }
 }

@@ -38,6 +38,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { HomeLoginComponent } from './home-login/home-login.component';
 import { OwnerTableComponent } from './owner-manager/features/owner-table/owner-table.component';
 import { OwnerDetailsComponent } from './owner-manager/features/owner-details/owner-details.component';
+import {MatMenuModule} from "@angular/material/menu";
 
 @NgModule({
   declarations: [
@@ -80,6 +81,7 @@ import { OwnerDetailsComponent } from './owner-manager/features/owner-details/ow
     RouterModule,
     AppRoutingModule,
     ReactiveFormsModule,
+    MatMenuModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
