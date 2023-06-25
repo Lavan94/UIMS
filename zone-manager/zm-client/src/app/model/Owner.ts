@@ -18,3 +18,18 @@ export class Owner {
     public zones: UrbanZone[] = []
   ) {}
 }
+
+export class OwnerDto extends Owner{
+  public password: string = "";
+  constructor(owner: Owner, password: string) {
+    super(
+      owner.id,
+      owner.username,
+      owner.email,
+      owner.phone,
+      owner.role,
+      owner.zones
+    )
+    this.password = password
+  }
+}

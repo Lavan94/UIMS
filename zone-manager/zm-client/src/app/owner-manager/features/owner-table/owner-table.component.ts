@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Owner, OwnerRole} from "../../../model/Owner";
 import {OwnerService} from "../../service/owner.service";
+import {OwnerDetailsOperation} from "../owner-details/owner-details.component";
 
 @Component({
   selector: 'app-owner-table',
@@ -26,11 +27,14 @@ export class OwnerTableComponent implements OnInit {
     this.owners = [new Owner()].concat(this.owners)
   }
 
-  saveOwner(owner: Owner) {
+  operationHandler($event: [OwnerDetailsOperation, Owner?]) {
+    const operation: OwnerDetailsOperation = $event[0];
+    const owner: Owner | undefined  = $event[1];
 
-  }
-
-  cancelOwner(owner: Owner) {
-
+    if(operation === OwnerDetailsOperation.CANCEL){
+      this.owners = this.owners.reverse();
+      this.owners.pop();
+      this.owners = this.owners.reverse();
+    }
   }
 }

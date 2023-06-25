@@ -35,3 +35,12 @@
     <mat-error>Password doesn't meet requirements</mat-error>
   </mat-form-field>
 </form>
+
+<div class="owner-action">
+  <button *ngIf="owner.id" mat-raised-button style="margin: 10px" color="primary">Change Role</button>
+  <button *ngIf="!readonlyFlag" mat-raised-button style="margin: 10px" color="primary" (click)="saveOwner(owner, password)">Save</button>
+  <button *ngIf="!readonlyFlag" mat-raised-button style="margin: 10px" color="accent" (click)="cancelOwner()">Cancel</button>
+  <span class="spacer"></span>
+  <button *ngIf="owner.id" mat-raised-button style="margin: 10px" color="primary">Edit</button>
+  <button *ngIf="owner.id" mat-raised-button style="margin: 10px" color="accent">Delete</button>
+</div>

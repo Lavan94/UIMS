@@ -1,6 +1,14 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {Owner, OwnerRole} from "../../../model/Owner";
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Owner, OwnerDto, OwnerRole} from "../../../model/Owner";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {OwnerService} from "../../service/owner.service";
+
+export enum OwnerDetailsOperation{
+  SAVE,
+  EDIT,
+  CANCEL,
+  DELETE
+}
 
 @Component({
   selector: 'app-owner-details',
@@ -10,6 +18,9 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 export class OwnerDetailsComponent implements OnInit{
   @Input() owner: Owner = new Owner();
   @Input() ownerRole: OwnerRole = OwnerRole.NONE;
+
+  @Output() operationEmitter: EventEmitter<[OwnerDetailsOperation, Owner?]> = new EventEmitter<[OwnerDetailsOperation, Owner?]>()
+
   public readonlyFlag = true;
 
   public usernameValid: boolean = false;
@@ -46,12 +57,31 @@ export class OwnerDetailsComponent implements OnInit{
     ),
   })
 
+  constructor(private ownerService: OwnerService) {
+  }
+
   ngOnInit(): void {
     if(this.owner?.role === OwnerRole.NONE){
       this.owner.role = this.ownerRole;
       this.readonlyFlag = false;
     }
-
-
   }
+
+  saveOwner(owner: Owner, password: string = '') {
+    const ownerDto: OwnerDto = new OwnerDto(owner, password)
+    this.ownerService.addOwner(ownerDto).subscribe(
+      (serverOwner: Owner) => {
+        console.log(serverOwner)
+        this.owner = serverOwner;
+        this.readonlyFlag = true;
+
+        this.operationEmitter.emit([OwnerDetailsOperation.SAVE, owner]);
+      }
+    );
+  }
+
+  cancelOwner() {
+    this.operationEmitter.emit([OwnerDetailsOperation.CANCEL, undefined]);
+  }
+
 }
