@@ -1,20 +1,20 @@
 <mat-card class="app-container mat-elevation-z6">
   <mat-card-title class="owner-types-title">
-    <span>Owner Types</span>
+    <span>Owner Roles</span>
   </mat-card-title>
   <mat-card-content>
-    <mat-tab-group backgroundColor="primary" color="accent" dynamicHeight>
+    <mat-tab-group [selectedIndex]="selectedIndex.value" (selectedIndexChange)="changeOwnerTab($event)" backgroundColor="primary" color="accent" dynamicHeight>
       <mat-tab [label]="getRoleName(administratorRole)" >
-        <app-owner-table [ownerRole]="administratorRole"></app-owner-table>
+        <app-owner-table [ownerRole]="administratorRole" [owners]="administrators" (ownerRoleChangedEmitter)="onOwnerRoleChanged($event)"></app-owner-table>
       </mat-tab>
       <mat-tab [label]="getRoleName(serviceProviderRole)" >
-        <app-owner-table [ownerRole]="serviceProviderRole"></app-owner-table>
+        <app-owner-table [ownerRole]="serviceProviderRole" [owners]="serviceProviders" (ownerRoleChangedEmitter)="onOwnerRoleChanged($event)"></app-owner-table>
       </mat-tab>
       <mat-tab [label]="getRoleName(businessOwnerRole)" >
-        <app-owner-table [ownerRole]="businessOwnerRole"></app-owner-table>
+        <app-owner-table [ownerRole]="businessOwnerRole" [owners]="businessOwners" (ownerRoleChangedEmitter)="onOwnerRoleChanged($event)"></app-owner-table>
       </mat-tab>
       <mat-tab [label]="getRoleName(ownerRole)" >
-        <app-owner-table [ownerRole]="ownerRole"></app-owner-table>
+        <app-owner-table [ownerRole]="ownerRole" [owners]="owners" (ownerRoleChangedEmitter)="onOwnerRoleChanged($event)"></app-owner-table>
       </mat-tab>
     </mat-tab-group>
   </mat-card-content>

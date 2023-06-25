@@ -42,10 +42,10 @@
     <mat-icon>arrow_drop_down</mat-icon>
   </button>
   <mat-menu #roles="matMenu">
-    <button (click)="changeRole(administratorRole)" [disabled]="inputRole === administratorRole" mat-button>{{getRoleName(administratorRole)}}</button>
-    <button (click)="changeRole(serviceProviderRole)" [color]="inputRole === serviceProviderRole" mat-button>{{getRoleName(serviceProviderRole)}}</button>
-    <button (click)="changeRole(businessOwnerRole)" [color]="inputRole === businessOwnerRole" mat-button>{{getRoleName(businessOwnerRole)}}</button>
-    <button (click)="changeRole(ownerRole)" [color]="inputRole === ownerRole" mat-button>{{getRoleName(ownerRole)}}</button>
+    <button mat-menu-item (click)="changeRole(administratorRole)" [disabled]="inputRole === administratorRole">{{getRoleName(administratorRole)}}</button>
+    <button mat-menu-item (click)="changeRole(serviceProviderRole)" [disabled]="inputRole === serviceProviderRole">{{getRoleName(serviceProviderRole)}}</button>
+    <button mat-menu-item (click)="changeRole(businessOwnerRole)" [disabled]="inputRole === businessOwnerRole" >{{getRoleName(businessOwnerRole)}}</button>
+    <button mat-menu-item (click)="changeRole(ownerRole)" [disabled]="inputRole === ownerRole">{{getRoleName(ownerRole)}}</button>
   </mat-menu>
   <span class="spacer"></span>
   <button *ngIf="!readonlyFlag || editMode" mat-raised-button style="margin: 10px" color="primary" (click)="saveOwner(owner, password)">Save</button>

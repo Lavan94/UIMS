@@ -1,11 +1,11 @@
 import {UrbanZone} from "./Organization/UrbanZone";
 
 export enum OwnerRole{
-  NONE="NONE",
   ADMINISTRATOR="ADMINISTRATOR",
   SERVICE_PROVIDER="SERVICE_PROVIDER",
   BUSINESS_OWNER="BUSINESS_OWNER",
   OWNER="OWNER",
+  NONE="NONE",
 }
 
 export class Owner {
@@ -21,7 +21,7 @@ export class Owner {
 
 export class OwnerDto extends Owner{
   public password: string = "";
-  constructor(owner: Owner, password: string) {
+  constructor(owner: Owner, password: string = '') {
     super(
       owner.id,
       owner.username,

@@ -4,10 +4,9 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {OwnerService} from "../../service/owner.service";
 
 export enum OwnerDetailsOperation {
-  SAVE,
-  EDIT,
   CANCEL,
-  DELETE
+  DELETE,
+  ROLE_CHANGE
 }
 
 @Component({
@@ -125,5 +124,9 @@ export class OwnerDetailsComponent implements OnInit {
 
   changeRole(role: OwnerRole) {
     console.log(role);
+    this.owner.role = role;
+    this.ownerService.changeOwnerRole(this.owner.id, role).subscribe(() => {
+      this.operationEmitter.emit([OwnerDetailsOperation.ROLE_CHANGE, this.owner])
+    })
   }
 }

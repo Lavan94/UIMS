@@ -12,6 +12,7 @@ export const GET_ALL_BY_ROLE_URL = '/getAllByRole/'
 export const ADD_OWNER_URL = '/add'
 export const EDIT_OWNER_URL = '/edit'
 export const DELETE_ONE_OWNER_URL = '/deleteOne/'
+export const CHANGE_OWNER_ROLE_URL = '/changeRole'
 
 @Injectable({
   providedIn: 'root'
@@ -34,6 +35,13 @@ export class OwnerService {
 
   public editOwner(ownerDto: OwnerDto) {
     return this.httpClient.put<OwnerDto>(OWNER_SERVICE + EDIT_OWNER_URL, ownerDto)
+  }
+
+  public changeOwnerRole(ownerId: string, ownerRole: OwnerRole) {
+    return this.httpClient.put(OWNER_SERVICE + CHANGE_OWNER_ROLE_URL, {
+      uuid: ownerId,
+      ownerRole: ownerRole
+    })
   }
 
   public deleteOwner(ownerId: string) {

@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {Owner, OwnerRole} from "../../../model/Owner";
 import {OwnerService} from "../../service/owner.service";
 import {OwnerDetailsOperation} from "../owner-details/owner-details.component";
@@ -8,19 +8,16 @@ import {OwnerDetailsOperation} from "../owner-details/owner-details.component";
   templateUrl: './owner-table.component.html',
   styleUrls: ['./owner-table.component.scss']
 })
-export class OwnerTableComponent implements OnInit {
+export class OwnerTableComponent {
+  @Input() owners: Owner[] = []
   @Input() ownerRole: OwnerRole = OwnerRole.NONE
-  owners: Owner[] = []
+
+  @Output() ownerRoleChangedEmitter: EventEmitter<Owner> = new EventEmitter<Owner>();
   newOwner: Owner = new Owner()
 
   constructor(private ownerService: OwnerService) {}
 
   ngOnInit(): void {
-    if(this.ownerRole){
-      this.ownerService.getAllOwnersByRole(this.ownerRole).subscribe((owners) => {
-        this.owners = owners;
-      })
-    }
   }
 
   addNewOwner() {
@@ -37,13 +34,22 @@ export class OwnerTableComponent implements OnInit {
         this.owners.pop();
         this.owners = this.owners.reverse();
         break;
+      case OwnerDetailsOperation.ROLE_CHANGE:
+        if (!owner) break;
+        this.deleteOwner(owner);
+        this.ownerRoleChangedEmitter.emit(owner);
+        break;
       case OwnerDetailsOperation.DELETE:
-        const index = this.owners.findIndex(entry => entry.id === owner?.id);
-        if(index){
-          this.owners.splice(index,1)
-        }
+        if (!owner) break;
+        this.deleteOwner(owner);
         break;
     }
+  }
 
+  private deleteOwner(owner: Owner) {
+    const index = this.owners.findIndex(entry => entry.id === owner?.id);
+    if (index) {
+      this.owners.splice(index, 1)
+    }
   }
 }

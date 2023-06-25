@@ -7,7 +7,7 @@
   <mat-expansion-panel class="owner-panel" *ngFor="let owner of owners" [expanded]="owner.id === ''">
     <mat-expansion-panel-header>
       <mat-panel-title>
-        <h1 style="color: white">{{owner.username}}</h1>
+        <span style="color: white; font-stretch: expanded; font-size: large">{{owner.username}}</span>
       </mat-panel-title>
     </mat-expansion-panel-header>
     <mat-card class="owner-panel-details">
