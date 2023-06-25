@@ -49,8 +49,8 @@ class OwnerController @Autowired constructor(val ownerService: OwnerService) {
     }
 
     @ResponseBody
-    @DeleteMapping("/deleteOne")
-    fun addOwner(@RequestBody ownerId: String): Owner? {
+    @DeleteMapping("/deleteOne/{ownerId}")
+    fun addOwner(@PathVariable(name="ownerId") ownerId: String): Owner? {
         return this.ownerService.deleteOwner(UUID.fromString(ownerId))
     }
 }

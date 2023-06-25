@@ -42,5 +42,5 @@
   <button *ngIf="!readonlyFlag" mat-raised-button style="margin: 10px" color="accent" (click)="cancelOwner()">Cancel</button>
   <span class="spacer"></span>
   <button *ngIf="owner.id" mat-raised-button style="margin: 10px" color="primary">Edit</button>
-  <button *ngIf="owner.id" mat-raised-button style="margin: 10px" color="accent">Delete</button>
+  <button *ngIf="owner.id" mat-raised-button style="margin: 10px" color="accent" (click)="deleteOwner()">Delete</button>
 </div>

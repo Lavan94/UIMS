@@ -31,10 +31,19 @@ export class OwnerTableComponent implements OnInit {
     const operation: OwnerDetailsOperation = $event[0];
     const owner: Owner | undefined  = $event[1];
 
-    if(operation === OwnerDetailsOperation.CANCEL){
-      this.owners = this.owners.reverse();
-      this.owners.pop();
-      this.owners = this.owners.reverse();
+    switch (operation){
+      case OwnerDetailsOperation.CANCEL:
+        this.owners = this.owners.reverse();
+        this.owners.pop();
+        this.owners = this.owners.reverse();
+        break;
+      case OwnerDetailsOperation.DELETE:
+        const index = this.owners.findIndex(entry => entry.id === owner?.id);
+        if(index){
+          this.owners.splice(index,1)
+        }
+        break;
     }
+
   }
 }

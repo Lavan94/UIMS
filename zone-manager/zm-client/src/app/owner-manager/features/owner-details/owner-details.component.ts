@@ -84,4 +84,12 @@ export class OwnerDetailsComponent implements OnInit{
     this.operationEmitter.emit([OwnerDetailsOperation.CANCEL, undefined]);
   }
 
+  deleteOwner() {
+    this.ownerService.deleteOwner(this.owner.id).subscribe(
+      (owner) => {
+        console.log('The following owner was deleted: ', owner)
+        this.operationEmitter.emit([OwnerDetailsOperation.DELETE, owner]);
+      }
+    )
+  }
 }
