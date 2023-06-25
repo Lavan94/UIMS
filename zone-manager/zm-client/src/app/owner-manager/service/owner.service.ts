@@ -10,6 +10,7 @@ export const OWNER_SERVICE = SERVER_URL + OWNER_URL
 export const GET_ALL_URL = '/getAll'
 export const GET_ALL_BY_ROLE_URL = '/getAllByRole/'
 export const ADD_OWNER_URL = '/add'
+export const EDIT_OWNER_URL = '/edit'
 export const DELETE_ONE_OWNER_URL = '/deleteOne/'
 
 @Injectable({
@@ -29,6 +30,10 @@ export class OwnerService {
 
   public addOwner(ownerDto: OwnerDto) {
     return this.httpClient.post<OwnerDto>(OWNER_SERVICE + ADD_OWNER_URL, ownerDto)
+  }
+
+  public editOwner(ownerDto: OwnerDto) {
+    return this.httpClient.put<OwnerDto>(OWNER_SERVICE + EDIT_OWNER_URL, ownerDto)
   }
 
   public deleteOwner(ownerId: string) {

@@ -3,7 +3,7 @@ import {Owner, OwnerDto, OwnerRole} from "../../../model/Owner";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {OwnerService} from "../../service/owner.service";
 
-export enum OwnerDetailsOperation{
+export enum OwnerDetailsOperation {
   SAVE,
   EDIT,
   CANCEL,
@@ -15,13 +15,14 @@ export enum OwnerDetailsOperation{
   templateUrl: './owner-details.component.html',
   styleUrls: ['./owner-details.component.scss']
 })
-export class OwnerDetailsComponent implements OnInit{
+export class OwnerDetailsComponent implements OnInit {
   @Input() owner: Owner = new Owner();
   @Input() ownerRole: OwnerRole = OwnerRole.NONE;
 
   @Output() operationEmitter: EventEmitter<[OwnerDetailsOperation, Owner?]> = new EventEmitter<[OwnerDetailsOperation, Owner?]>()
 
   public readonlyFlag = true;
+  public editMode = false;
 
   public usernameValid: boolean = false;
   public emailValid: boolean = false;
@@ -61,23 +62,17 @@ export class OwnerDetailsComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    if(this.owner?.role === OwnerRole.NONE){
+    if (this.owner?.role === OwnerRole.NONE) {
       this.owner.role = this.ownerRole;
       this.readonlyFlag = false;
     }
   }
 
   saveOwner(owner: Owner, password: string = '') {
-    const ownerDto: OwnerDto = new OwnerDto(owner, password)
-    this.ownerService.addOwner(ownerDto).subscribe(
-      (serverOwner: Owner) => {
-        console.log(serverOwner)
-        this.owner = serverOwner;
-        this.readonlyFlag = true;
+    if(!this.ownerForm.valid && this.password === '' && this.owner.id === '') return;
 
-        this.operationEmitter.emit([OwnerDetailsOperation.SAVE, owner]);
-      }
-    );
+    const ownerDto: OwnerDto = new OwnerDto(owner, password)
+    this.editMode ? this.updateOwner(ownerDto) : this.createOwner(ownerDto)
   }
 
   cancelOwner() {
@@ -91,5 +86,31 @@ export class OwnerDetailsComponent implements OnInit{
         this.operationEmitter.emit([OwnerDetailsOperation.DELETE, owner]);
       }
     )
+  }
+
+  editOwner() {
+    this.readonlyFlag = false;
+    this.editMode = true;
+  }
+
+  private createOwner(ownerDto: OwnerDto) {
+    this.ownerService.addOwner(ownerDto).subscribe(
+      (serverOwner: Owner) => {
+        console.log(serverOwner)
+        this.owner = serverOwner;
+        this.readonlyFlag = true;
+      }
+    );
+  }
+
+  private updateOwner(ownerDto: OwnerDto) {
+    this.ownerService.editOwner(ownerDto).subscribe(
+      (serverOwner: Owner) => {
+        console.log(serverOwner)
+        this.owner = serverOwner;
+        this.readonlyFlag = true;
+        this.editMode = false;
+      }
+    );
   }
 }

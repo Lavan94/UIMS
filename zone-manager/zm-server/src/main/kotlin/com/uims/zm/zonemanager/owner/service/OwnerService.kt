@@ -31,6 +31,9 @@ class OwnerService @Autowired constructor(val ownerRepository: OwnerRepository) 
     }
 
     fun updateOwner(owner: Owner): Owner {
+        if(owner.password.isEmpty() && owner.id != null){
+            owner.password = this.getOwner(owner.id!!)!!.password;
+        }
         return ownerRepository.save(owner)
     }
 

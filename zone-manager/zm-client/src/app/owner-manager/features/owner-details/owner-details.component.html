@@ -37,10 +37,10 @@
 </form>
 
 <div class="owner-action">
-  <button *ngIf="owner.id" mat-raised-button style="margin: 10px" color="primary">Change Role</button>
-  <button *ngIf="!readonlyFlag" mat-raised-button style="margin: 10px" color="primary" (click)="saveOwner(owner, password)">Save</button>
-  <button *ngIf="!readonlyFlag" mat-raised-button style="margin: 10px" color="accent" (click)="cancelOwner()">Cancel</button>
+  <button *ngIf="owner.id && !editMode" mat-raised-button style="margin: 10px" color="primary">Change Role</button>
   <span class="spacer"></span>
-  <button *ngIf="owner.id" mat-raised-button style="margin: 10px" color="primary">Edit</button>
-  <button *ngIf="owner.id" mat-raised-button style="margin: 10px" color="accent" (click)="deleteOwner()">Delete</button>
+  <button *ngIf="!readonlyFlag || editMode" mat-raised-button style="margin: 10px" color="primary" (click)="saveOwner(owner, password)">Save</button>
+  <button *ngIf="!readonlyFlag || editMode" mat-raised-button style="margin: 10px" color="accent" (click)="cancelOwner()">Cancel</button>
+  <button *ngIf="owner.id && !editMode" mat-raised-button style="margin: 10px" color="primary" (click)="editOwner()">Edit</button>
+  <button *ngIf="owner.id && !editMode" mat-raised-button style="margin: 10px" color="accent" (click)="deleteOwner()">Delete</button>
 </div>
