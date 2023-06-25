@@ -20,7 +20,7 @@ export enum UrbanZoneType {
 export class UrbanZone implements Organization{
     constructor(
         public id: string = '',
-        public owner: Owner | null = null,
+        public owner: string | null = null,
         public type: UrbanZoneType = UrbanZoneType.NONE,
         public parentId: string = '',
         public utilityCosts: UtilityCost[] = [],

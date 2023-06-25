@@ -9,7 +9,7 @@ import {MatCardModule} from "@angular/material/card";
 import {OrganizationDisplayComponent} from './organization-manager/features/organization-display/organization-display.component';
 import {MatTabsModule} from "@angular/material/tabs";
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatListModule} from "@angular/material/list";
 import {MatExpansionModule} from "@angular/material/expansion";
 import {
@@ -36,6 +36,9 @@ import {RouterModule} from "@angular/router";
 import { OwnerManagerComponent } from './owner-manager/owner-manager.component';
 import { AppRoutingModule } from './app-routing.module';
 import { HomeLoginComponent } from './home-login/home-login.component';
+import { OwnerTableComponent } from './owner-manager/features/owner-table/owner-table.component';
+import { OwnerDetailsComponent } from './owner-manager/features/owner-details/owner-details.component';
+import {MatMenuModule} from "@angular/material/menu";
 
 @NgModule({
   declarations: [
@@ -53,6 +56,8 @@ import { HomeLoginComponent } from './home-login/home-login.component';
     NavbarComponent,
     OwnerManagerComponent,
     HomeLoginComponent,
+    OwnerTableComponent,
+    OwnerDetailsComponent,
   ],
   imports: [
     BrowserModule,
@@ -75,6 +80,8 @@ import { HomeLoginComponent } from './home-login/home-login.component';
     MatSidenavModule,
     RouterModule,
     AppRoutingModule,
+    ReactiveFormsModule,
+    MatMenuModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

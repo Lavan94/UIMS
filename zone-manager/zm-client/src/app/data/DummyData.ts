@@ -48,20 +48,24 @@ export const URBAN_ZONE_INSTANCE = new UrbanZone("1b1a", "Bloc I5", UrbanZoneTyp
   new UtilityCost("1b1a3", 56, 62, 70, 10, "Ron", new Date('15 Mar 2023 00:00:00 GMT'), "Month"),
 ]);
 
+export const KAUFLAND_CRAIOVITA_UZ = new UrbanZone("1b1a", "Kaufland Craiovita", UrbanZoneType.COMMERCIAL, "1b1", [
+  new UtilityCost("1b1a1", 56, 62, 70, 10, "Ron", new Date('15 Jan 2023 00:00:00 GMT'), "Month"),
+  new UtilityCost("1b1a2", 56, 62, 70, 10, "Ron", new Date('15 Feb 2023 00:00:00 GMT'), "Month"),
+  new UtilityCost("1b1a3", 56, 62, 70, 10, "Ron", new Date('15 Mar 2023 00:00:00 GMT'), "Month"),
+], undefined, KAUFLAND_CRAIOVITA_COMMERCIAL_ZONE);
+
+export const PENNY_CRAIOVITA_UZ = new UrbanZone("1b1b", "Penny", UrbanZoneType.COMMERCIAL, "1b1", [
+  new UtilityCost("1b1b1", 26, 62, 70, 10, "Ron", new Date('15 Jun 2023 00:00:00 GMT'), "Month"),
+  new UtilityCost("1b1b2", 36, 62, 70, 10, "Ron", new Date('15 Jul 2023 00:00:00 GMT'), "Month"),
+  new UtilityCost("1b1b3", 36, 62, 70, 10, "Ron", new Date('15 Aug 2023 00:00:00 GMT'), "Month"),
+], undefined, PENNY_COMMERCIAL_ZONE);
+
 export const SECTORS: Sector[] = [
   new Sector('1', 'Zona North-West', [
     new Neighborhood("1b", "Craiovita", "1", [
       new Complex("1b1", "Craiovita Shopping Center", "1b", [
-        new UrbanZone("1b1a", "Kaufland Craiovita", UrbanZoneType.COMMERCIAL, "1b1", [
-          new UtilityCost("1b1a1", 56, 62, 70, 10, "Ron", new Date('15 Jan 2023 00:00:00 GMT'), "Month"),
-          new UtilityCost("1b1a2", 56, 62, 70, 10, "Ron", new Date('15 Feb 2023 00:00:00 GMT'), "Month"),
-          new UtilityCost("1b1a3", 56, 62, 70, 10, "Ron", new Date('15 Mar 2023 00:00:00 GMT'), "Month"),
-        ], undefined, KAUFLAND_CRAIOVITA_COMMERCIAL_ZONE),
-        new UrbanZone("1b1b", "Penny", UrbanZoneType.COMMERCIAL, "1b1", [
-          new UtilityCost("1b1b1", 26, 62, 70, 10, "Ron", new Date('15 Jun 2023 00:00:00 GMT'), "Month"),
-          new UtilityCost("1b1b2", 36, 62, 70, 10, "Ron", new Date('15 Jul 2023 00:00:00 GMT'), "Month"),
-          new UtilityCost("1b1b3", 36, 62, 70, 10, "Ron", new Date('15 Aug 2023 00:00:00 GMT'), "Month"),
-        ], undefined, PENNY_COMMERCIAL_ZONE),
+        KAUFLAND_CRAIOVITA_UZ,
+        PENNY_CRAIOVITA_UZ,
         new UrbanZone("1b1c", "Bloc C1", UrbanZoneType.RESIDENTIAL, "1b1", [], undefined, BLOC_C1_CRAIOVITA_SHOPPING_CENTER_RESIDENTIAL_ZONE),
       ], undefined, CRAIOVITA_SHOPPING_CENTER_COMPLEX),
       new UrbanZone("1b2", "Lidl Craiovita", UrbanZoneType.COMMERCIAL, "1b", [], undefined, LIDL_CRAIOVITA_COMMERCIAL_ZONE),

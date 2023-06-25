@@ -1,0 +1,55 @@
+<form [formGroup]="ownerForm" class="details">
+  <mat-form-field *ngIf="readonlyFlag" class="owner-property" appearance="outline">
+    <mat-label>Id</mat-label>
+    <input formControlName="id" [(ngModel)]="owner.id" matInput placeholder="Auto-Generates on Save" readonly>
+  </mat-form-field>
+
+  <mat-form-field class="owner-property" appearance="outline">
+    <mat-label>Username</mat-label>
+    <mat-icon matSuffix>perm_identity</mat-icon>
+    <input formControlName="username" [(ngModel)]="owner.username" matInput placeholder="Username" [readonly]="readonlyFlag" required>
+    <mat-hint *ngIf="!owner.username">At least one character from (a-z) & (A-Z) must exist</mat-hint>
+    <mat-error>Username is invalid or empty</mat-error>
+  </mat-form-field>
+
+  <mat-form-field class="owner-property" appearance="outline">
+    <mat-label>Email</mat-label>
+    <mat-icon matSuffix>email</mat-icon>
+    <input formControlName="email" [(ngModel)]="owner.email" matInput placeholder="start@company.domain" [readonly]="readonlyFlag" required>
+    <mat-hint *ngIf="!owner.email">Email should respect the following pattern: start@company.domain</mat-hint>
+    <mat-error>Email is invalid or empty</mat-error>
+  </mat-form-field>
+
+  <mat-form-field class="owner-property" appearance="outline">
+    <mat-label>Phone</mat-label>
+    <mat-icon matSuffix>phone</mat-icon>
+    <input formControlName="phone" [(ngModel)]="owner.phone" matInput placeholder="0xxx xxx xxx" [readonly]="readonlyFlag" required>
+    <mat-hint *ngIf="!owner.phone">Phone number should respect the following pattern: 0xxx xxx xxx</mat-hint>
+    <mat-error>Phone number pattern invalid or empty</mat-error>
+  </mat-form-field>
+
+  <mat-form-field *ngIf="!readonlyFlag" class="owner-property" appearance="outline">
+    <mat-label>Password</mat-label>
+    <input type="password" formControlName="password" [(ngModel)]="password" matInput placeholder="0xxx xxx xxx" [readonly]="readonlyFlag" required>
+    <mat-hint *ngIf="!owner.phone">At least one character from each of (a-z), (A-Z) & (0-9) must exist</mat-hint>
+    <mat-error>Password doesn't meet requirements</mat-error>
+  </mat-form-field>
+</form>
+
+<div class="owner-action">
+  <button *ngIf="owner.id && !editMode" mat-raised-button [mat-menu-trigger-for]="roles" style="margin: 10px" color="primary">
+    Change Role
+    <mat-icon>arrow_drop_down</mat-icon>
+  </button>
+  <mat-menu #roles="matMenu">
+    <button mat-menu-item (click)="changeRole(administratorRole)" [disabled]="inputRole === administratorRole">{{getRoleName(administratorRole)}}</button>
+    <button mat-menu-item (click)="changeRole(serviceProviderRole)" [disabled]="inputRole === serviceProviderRole">{{getRoleName(serviceProviderRole)}}</button>
+    <button mat-menu-item (click)="changeRole(businessOwnerRole)" [disabled]="inputRole === businessOwnerRole" >{{getRoleName(businessOwnerRole)}}</button>
+    <button mat-menu-item (click)="changeRole(ownerRole)" [disabled]="inputRole === ownerRole">{{getRoleName(ownerRole)}}</button>
+  </mat-menu>
+  <span class="spacer"></span>
+  <button *ngIf="!readonlyFlag || editMode" mat-raised-button style="margin: 10px" color="primary" (click)="saveOwner(owner, password)">Save</button>
+  <button *ngIf="!readonlyFlag || editMode" mat-raised-button style="margin: 10px" color="accent" (click)="cancelOwner()">Cancel</button>
+  <button *ngIf="owner.id && !editMode" mat-raised-button style="margin: 10px" color="primary" (click)="editOwner()">Edit</button>
+  <button *ngIf="owner.id && !editMode" mat-raised-button style="margin: 10px" color="accent" (click)="deleteOwner()">Delete</button>
+</div>

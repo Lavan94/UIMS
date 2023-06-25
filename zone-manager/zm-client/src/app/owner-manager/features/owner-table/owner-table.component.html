@@ -1,0 +1,20 @@
+<button mat-icon-button class="add-button" (click)="addNewOwner()">
+  <mat-icon>add</mat-icon>
+</button>
+<mat-divider style="margin-top: 10px; margin-buttom: 10px; background: #c5cae9"></mat-divider>
+
+<mat-accordion class="owner-card">
+  <mat-expansion-panel class="owner-panel" *ngFor="let owner of owners" [expanded]="owner.id === ''">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        <span style="color: white; font-stretch: expanded; font-size: large">{{owner.username}}</span>
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <mat-card class="owner-panel-details">
+      <mat-card-content>
+        <app-owner-details class="details" [owner]="owner" [inputRole]="ownerRole" (operationEmitter)="operationHandler($event)"></app-owner-details>
+      </mat-card-content>
+    </mat-card>
+
+  </mat-expansion-panel>
+</mat-accordion>
