@@ -35,7 +35,7 @@ public class AuthService {
     @Nullable
     public AuthenticationResponse register(@NotNull RegisterRequest request) {
         var user = new Owner();
-        user.setEncodedPassword(passwordEncoder.encode(request.getPassword()));
+        user.setEncodedPassword(request.getPassword());
         user.setRole(OwnerRole.ADMINISTRATOR);
         ownerService.addOwner(user);
         var jwtToken = jwtService.generateToken(user);

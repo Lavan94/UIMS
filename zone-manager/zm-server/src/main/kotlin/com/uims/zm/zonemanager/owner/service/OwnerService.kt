@@ -31,7 +31,7 @@ class OwnerService @Autowired constructor(val ownerRepository: OwnerRepository, 
     }
 
     fun getOwnerByUsername(username: String): Owner{
-        return this.ownerRepository.findByUsername(username);
+        return this.ownerRepository.findByUsername(username).get();
     }
 
     fun addOwner(owner: Owner): Owner {
