@@ -29,7 +29,7 @@ public class AuthService {
         );
         var user = ownerService.getOwnerByUsername(request.getUsername());
         var jwtToken = jwtService.generateToken(user);
-        return AuthenticationResponse.builder().token(jwtToken).build();
+        return AuthenticationResponse.builder().token(jwtToken).owner(user).build();
     }
 
     @Nullable
@@ -37,10 +37,11 @@ public class AuthService {
         var user = new Owner();
         user.setEncodedPassword(request.getPassword());
         user.setRole(OwnerRole.ADMINISTRATOR);
-        ownerService.addOwner(user);
+        user = ownerService.addOwner(user);
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder()
                 .token(jwtToken)
+                .owner(user)
                 .build();
     }
 }

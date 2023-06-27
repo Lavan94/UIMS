@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Owner, OwnerDto, OwnerRole} from "../../model/Owner";
 
 export const SERVER_URL = 'http://localhost:8000'
@@ -14,10 +14,14 @@ export const EDIT_OWNER_URL = '/edit'
 export const DELETE_ONE_OWNER_URL = '/deleteOne/'
 export const CHANGE_OWNER_ROLE_URL = '/changeRole'
 
+export const LOGIN_URL = '/login'
+
 @Injectable({
   providedIn: 'root'
 })
 export class OwnerService {
+  requestHeader = new HttpHeaders({"No-Auth": "True"});
+
   constructor(private httpClient: HttpClient) {
   }
 
@@ -52,5 +56,18 @@ export class OwnerService {
     let tabName: string = role.toLocaleLowerCase();
     tabName = tabName[0].toUpperCase() + tabName.substring(1);
     return tabName.replace('_', ' ');
+  }
+
+  public login(username: string, password: string) {
+    return this.httpClient.post(
+      OWNER_SERVICE + LOGIN_URL,
+      {
+        username: username,
+        password: password
+      },
+      {
+        headers: this.requestHeader
+      }
+    )
   }
 }
