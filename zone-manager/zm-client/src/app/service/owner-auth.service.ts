@@ -22,7 +22,7 @@ export class OwnerAuthService {
     localStorage.setItem(this.JWT_LOCAL_STORAGE_KEY, JSON.stringify(jwtToken))
   }
 
-  public getJwtToken():[]{
+  public getJwtToken(): string{
     const jwtToken = localStorage.getItem(this.JWT_LOCAL_STORAGE_KEY);
     return JSON.parse(jwtToken ? jwtToken : "");
   }

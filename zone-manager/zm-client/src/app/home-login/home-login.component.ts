@@ -4,8 +4,9 @@ import {ORGANIZATION_MANAGER_PAGE} from "../app-routing.module";
 import {OwnerService} from "../owner-manager/service/owner.service";
 import {OwnerAuthService} from "../service/owner-auth.service";
 import {Owner} from "../model/Owner";
+import {Router} from "@angular/router";
 
-class LoginResponse {
+export class LoginResponse {
   public token: string = ""
   public owner: Owner = new Owner();
 }
@@ -23,9 +24,8 @@ export class HomeLoginComponent implements OnInit {
   email: any;
   password: any;
   phone: any;
-  organizationsLink: string = ORGANIZATION_MANAGER_PAGE;
 
-  constructor(private ownerService: OwnerService, private ownerAuthService: OwnerAuthService) {
+  constructor(private ownerService: OwnerService, private ownerAuthService: OwnerAuthService, private router: Router) {
   }
 
   ngOnInit(): void {
@@ -48,12 +48,9 @@ export class HomeLoginComponent implements OnInit {
     this.ownerService.login(this.username, this.password).subscribe(
       (response) => {
         console.log(response);
-        if(response instanceof LoginResponse){
-          console.log(response.token)
-          console.log(response.owner)
-          this.ownerAuthService.setToken(response.token);
-          this.ownerAuthService.setRole(response.owner.role.toString())
-        }
+        this.ownerAuthService.setToken(response.token);
+        this.ownerAuthService.setRole(response.owner.role.toString())
+        this.router.navigate([ORGANIZATION_MANAGER_PAGE])
       },
       (error) => {
         console.log(error)

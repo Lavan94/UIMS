@@ -18,7 +18,7 @@ import {
 import {MatTableModule} from "@angular/material/table";
 import {MatButtonModule} from '@angular/material/button';
 import {MapControlContainerComponent} from './organization-manager/features/map-display/features/map-control-container/map-control-container.component';
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {MatDialogModule} from '@angular/material/dialog';
 import { AddEditOrganizationDialogComponent } from './organization-manager/features/map-display/features/organization-dialog/add-organization-dialog/add-edit-organization-dialog.component';
 import { SectorDialogComponent } from './organization-manager/features/map-display/features/organization-dialog/sector-dialog/sector-dialog.component';
@@ -39,6 +39,9 @@ import { HomeLoginComponent } from './home-login/home-login.component';
 import { OwnerTableComponent } from './owner-manager/features/owner-table/owner-table.component';
 import { OwnerDetailsComponent } from './owner-manager/features/owner-details/owner-details.component';
 import {MatMenuModule} from "@angular/material/menu";
+import {AuthGuard} from "./auth/auth.guard";
+import {AuthInterceptor} from "./auth/auth.interceptor";
+import {OwnerService} from "./owner-manager/service/owner.service";
 
 @NgModule({
   declarations: [
@@ -83,7 +86,15 @@ import {MatMenuModule} from "@angular/material/menu";
     ReactiveFormsModule,
     MatMenuModule,
   ],
-  providers: [],
+  providers: [
+    AuthGuard,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    },
+    OwnerService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

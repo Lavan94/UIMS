@@ -6,6 +6,8 @@ import {OrganizationManagerComponent} from "./organization-manager/organization-
 import {OwnerManagerComponent} from "./owner-manager/owner-manager.component";
 import {HOME} from "@angular/cdk/keycodes";
 import {HomeLoginComponent} from "./home-login/home-login.component";
+import {AuthGuard} from "./auth/auth.guard";
+import {OwnerRole} from "./model/Owner";
 
 export const ORGANIZATION_MANAGER_PAGE = 'organization-manager';
 export const OWNER_MANAGER_PAGE = 'owner-manager';
@@ -19,7 +21,9 @@ export const routes: Routes = [
     path: ORGANIZATION_MANAGER_PAGE, component: OrganizationManagerComponent, title: 'UZM - Organizations'
   },
   {
-    path: OWNER_MANAGER_PAGE, component: OwnerManagerComponent, title: 'UZM - Owners'
+    path: OWNER_MANAGER_PAGE, component: OwnerManagerComponent, title: 'UZM - Owners', canActivate:[AuthGuard], data:{
+      role: OwnerRole.ADMINISTRATOR
+    }
   }
 ]
 

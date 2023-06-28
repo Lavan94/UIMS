@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Owner, OwnerDto, OwnerRole} from "../../model/Owner";
+import {LoginResponse} from "../../home-login/home-login.component";
 
 export const SERVER_URL = 'http://localhost:8000'
 export const OWNER_URL = '/owner'
@@ -59,7 +60,7 @@ export class OwnerService {
   }
 
   public login(username: string, password: string) {
-    return this.httpClient.post(
+    return this.httpClient.post<LoginResponse>(
       OWNER_SERVICE + LOGIN_URL,
       {
         username: username,
