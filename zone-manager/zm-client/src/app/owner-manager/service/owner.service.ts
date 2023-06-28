@@ -53,7 +53,8 @@ export class OwnerService {
     return this.httpClient.delete<Owner>(OWNER_SERVICE + DELETE_ONE_OWNER_URL + ownerId)
   }
 
-  public getRoleName(role: OwnerRole) {
+  public getRoleName(role: OwnerRole | string) {
+    if(!role) return ''
     let tabName: string = role.toLocaleLowerCase();
     tabName = tabName[0].toUpperCase() + tabName.substring(1);
     return tabName.replace('_', ' ');

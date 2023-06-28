@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import {LoginData, LoginPublisherService} from "../event/login-publisher.service";
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +9,7 @@ export class OwnerAuthService {
   private readonly JWT_LOCAL_STORAGE_KEY = "jwt";
   private readonly USERNAME_STORAGE_KEY = "username"
 
-  constructor() { }
+  constructor(private loginPublisherService: LoginPublisherService) { }
 
   public setRole(role: string){
     localStorage.setItem(this.ROLES_LOCAL_STORAGE_KEY, JSON.stringify(role))
@@ -43,5 +44,9 @@ export class OwnerAuthService {
 
   public isLoggedIn(): boolean{
     return this.getJwtToken() && this.getRole() && this.getUsername();
+  }
+
+  public publishLogin(){
+    this.loginPublisherService.publish(new LoginData(this.getUsername(), this.getRole()));
   }
 }

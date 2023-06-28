@@ -5,6 +5,7 @@ import {OwnerService} from "../owner-manager/service/owner.service";
 import {OwnerAuthService} from "../service/owner-auth.service";
 import {Owner} from "../model/Owner";
 import {Router} from "@angular/router";
+import {LoginPublisherService} from "../event/login-publisher.service";
 
 export class LoginResponse {
   public token: string = ""
@@ -51,6 +52,7 @@ export class HomeLoginComponent implements OnInit {
         this.ownerAuthService.setToken(response.token);
         this.ownerAuthService.setRole(response.owner.role.toString())
         this.ownerAuthService.setUsername(response.owner.username)
+        this.ownerAuthService.publishLogin()
         this.router.navigate([ORGANIZATION_MANAGER_PAGE])
       },
       (error) => {

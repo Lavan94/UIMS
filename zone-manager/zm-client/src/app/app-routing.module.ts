@@ -15,13 +15,20 @@ export const HOME_LOGIN_PAGE = '';
 
 export const routes: Routes = [
   {
-    path: HOME_LOGIN_PAGE, component: HomeLoginComponent, title: 'UZM - Login'
+    path: HOME_LOGIN_PAGE, component: HomeLoginComponent, title: 'UIA - Login'
   },
   {
-    path: ORGANIZATION_MANAGER_PAGE, component: OrganizationManagerComponent, title: 'UZM - Organizations'
+    path: ORGANIZATION_MANAGER_PAGE,
+    component: OrganizationManagerComponent,
+    title: 'UIA - Organizations',
+    canActivate:[AuthGuard]
   },
   {
-    path: OWNER_MANAGER_PAGE, component: OwnerManagerComponent, title: 'UZM - Owners', canActivate:[AuthGuard], data:{
+    path: OWNER_MANAGER_PAGE,
+    component: OwnerManagerComponent,
+    title: 'UIA - Owners',
+    canActivate:[AuthGuard],
+    data:{
       role: OwnerRole.ADMINISTRATOR
     }
   }
