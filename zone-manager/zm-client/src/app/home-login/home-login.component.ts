@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import * as L from "leaflet";
 import {ORGANIZATION_MANAGER_PAGE} from "../app-routing.module";
 import {OwnerService} from "../owner-manager/service/owner.service";
@@ -50,6 +50,7 @@ export class HomeLoginComponent implements OnInit {
         console.log(response);
         this.ownerAuthService.setToken(response.token);
         this.ownerAuthService.setRole(response.owner.role.toString())
+        this.ownerAuthService.setUsername(response.owner.username)
         this.router.navigate([ORGANIZATION_MANAGER_PAGE])
       },
       (error) => {

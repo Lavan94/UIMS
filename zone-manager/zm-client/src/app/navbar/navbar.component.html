@@ -8,9 +8,9 @@
     <mat-divider vertical="true" class="mat-divider-top-navbar"></mat-divider>
     <span style="font-size: 16px"><i>{{page}}</i></span>
     <span class="top-navbar-spacer"></span>
-    <span style="font-size: 16px" ><i>Silviu Adrian</i></span>
+    <span style="font-size: 16px" ><i>{{username}}</i></span>
     <mat-divider vertical="true" class="mat-divider-top-navbar"></mat-divider>
-    <span>Administrator</span>
+    <span>{{role}}</span>
   </mat-toolbar>
 
   <mat-drawer-container autosize>
@@ -25,7 +25,7 @@
           </button>
         </div>
         <div class="navigation-container-login">
-          <button mat-stroked-button color="primary" [routerLink]="homeLoginLink" (click)="page='Login'; sideNav.toggle()">Logout</button>
+          <button mat-stroked-button color="primary" [routerLink]="homeLoginLink" (click)="sideNav.toggle(); onLogout()">Logout</button>
         </div>
       </div>
     </mat-drawer>

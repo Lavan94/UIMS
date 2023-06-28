@@ -6,6 +6,7 @@ import { Injectable } from '@angular/core';
 export class OwnerAuthService {
   private readonly ROLES_LOCAL_STORAGE_KEY = "role";
   private readonly JWT_LOCAL_STORAGE_KEY = "jwt";
+  private readonly USERNAME_STORAGE_KEY = "username"
 
   constructor() { }
 
@@ -15,7 +16,16 @@ export class OwnerAuthService {
 
   public getRole(){
     const role = localStorage.getItem(this.ROLES_LOCAL_STORAGE_KEY);
-    return JSON.parse(role ? role : "");
+    return role ? JSON.parse(role) : undefined;
+  }
+
+  public setUsername(role: string){
+    localStorage.setItem(this.USERNAME_STORAGE_KEY, JSON.stringify(role))
+  }
+
+  public getUsername(){
+    const username = localStorage.getItem(this.USERNAME_STORAGE_KEY);
+    return username ? JSON.parse(username) : undefined;
   }
 
   public setToken(jwtToken: string){
@@ -24,7 +34,7 @@ export class OwnerAuthService {
 
   public getJwtToken(): string{
     const jwtToken = localStorage.getItem(this.JWT_LOCAL_STORAGE_KEY);
-    return JSON.parse(jwtToken ? jwtToken : "");
+    return jwtToken ? JSON.parse(jwtToken) : undefined;
   }
 
   public clear(){
@@ -32,7 +42,6 @@ export class OwnerAuthService {
   }
 
   public isLoggedIn(): boolean{
-    return this.getJwtToken().length != 0
-      // && this.getRoles();
+    return this.getJwtToken() && this.getRole() && this.getUsername();
   }
 }
