@@ -7,4 +7,5 @@ import java.util.*
 
 interface OwnerRepository : JpaRepository<Owner, UUID> {
     fun findByRole(ownerRole: OwnerRole): List<Owner>
+    fun findByUsername(username: String): Optional<Owner>
 }

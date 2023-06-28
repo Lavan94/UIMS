@@ -5,15 +5,19 @@ import com.uims.zm.zonemanager.owner.entity.Owner
 import com.uims.zm.zonemanager.owner.entity.OwnerRole
 import com.uims.zm.zonemanager.owner.repository.OwnerRepository
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.security.core.userdetails.UserDetails
+import org.springframework.security.core.userdetails.UserDetailsService
+import org.springframework.security.core.userdetails.UsernameNotFoundException
+import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import java.util.*
 import kotlin.time.measureTime
 
 
 @Service
-class OwnerService @Autowired constructor(val ownerRepository: OwnerRepository) {
+class OwnerService @Autowired constructor(val ownerRepository: OwnerRepository, val passwordEncoder: PasswordEncoder) {
     fun getOwner(uuid: UUID): Owner? {
-        val ownerOptional = ownerRepository.findById(uuid)
+        var ownerOptional = ownerRepository.findById(uuid)
         return if (ownerOptional.isPresent) ownerOptional.get() else null
     }
 
@@ -26,13 +30,18 @@ class OwnerService @Autowired constructor(val ownerRepository: OwnerRepository) 
         return this.ownerRepository.findByRole(ownerRole)
     }
 
+    fun getOwnerByUsername(username: String): Owner{
+        return this.ownerRepository.findByUsername(username).get();
+    }
+
     fun addOwner(owner: Owner): Owner {
+        owner.setEncodedPassword(passwordEncoder.encode(owner.password))
         return this.ownerRepository.save(owner)
     }
 
     fun updateOwner(owner: Owner): Owner {
         if(owner.password.isEmpty() && owner.id != null){
-            owner.password = this.getOwner(owner.id!!)!!.password;
+//            owner.password = this.getOwner(owner.id!!)!!.password;
         }
         return ownerRepository.save(owner)
     }
