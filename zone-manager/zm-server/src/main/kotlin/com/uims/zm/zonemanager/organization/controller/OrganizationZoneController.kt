@@ -2,6 +2,7 @@ package com.uims.zm.zonemanager.organization.controller
 
 import com.uims.zm.zonemanager.entity.organization_zone.OrganizationZoneType
 import com.uims.zm.zonemanager.organization.dto.OrganizationZoneDto
+import com.uims.zm.zonemanager.organization.dto.UrbanZoneDto
 import com.uims.zm.zonemanager.organization.service.OrganizationService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
@@ -22,6 +23,12 @@ class OrganizationZoneController constructor(@Autowired val organizationService:
     @PostMapping("/add")
     fun addOrganization(@RequestBody organizationZoneDto: OrganizationZoneDto): OrganizationZoneDto{
         return this.organizationService.addOrganization(organizationZoneDto);
+    }
+
+    @ResponseBody
+    @PostMapping("/add-urban-zone")
+    fun addUrbanZone(@RequestBody urbanZoneDto: UrbanZoneDto): UrbanZoneDto{
+        return this.organizationService.addUrbanZone(urbanZoneDto);
     }
 
 }

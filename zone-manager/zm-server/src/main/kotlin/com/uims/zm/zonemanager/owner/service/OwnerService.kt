@@ -5,13 +5,9 @@ import com.uims.zm.zonemanager.owner.entity.Owner
 import com.uims.zm.zonemanager.owner.entity.OwnerRole
 import com.uims.zm.zonemanager.owner.repository.OwnerRepository
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.security.core.userdetails.UserDetails
-import org.springframework.security.core.userdetails.UserDetailsService
-import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import java.util.*
-import kotlin.time.measureTime
 
 
 @Service
@@ -32,6 +28,12 @@ class OwnerService @Autowired constructor(val ownerRepository: OwnerRepository, 
 
     fun getOwnerByUsername(username: String): Owner{
         return this.ownerRepository.findByUsername(username).get();
+    }
+
+    fun getOwnerById(ownerId: UUID?): Owner? {
+        if(ownerId == null) return null
+        val owner = this.ownerRepository.findById(ownerId)
+        return if(owner.isPresent) owner.get() else null
     }
 
     fun addOwner(owner: Owner): Owner {

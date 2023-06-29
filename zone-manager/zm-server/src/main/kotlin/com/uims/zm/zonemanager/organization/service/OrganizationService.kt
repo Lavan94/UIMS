@@ -2,8 +2,11 @@ package com.uims.zm.zonemanager.organization.service
 
 import com.uims.zm.zonemanager.entity.organization_zone.OrganizationZone
 import com.uims.zm.zonemanager.entity.organization_zone.OrganizationZoneType
+import com.uims.zm.zonemanager.entity.organization_zone.urban_zone.UrbanZone
 import com.uims.zm.zonemanager.organization.dto.OrganizationZoneDto
+import com.uims.zm.zonemanager.organization.dto.UrbanZoneDto
 import com.uims.zm.zonemanager.organization.repository.OrganizationZoneRepository
+import com.uims.zm.zonemanager.owner.service.OwnerService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import java.util.*
@@ -11,7 +14,8 @@ import java.util.*
 @Service
 class OrganizationService @Autowired constructor(
     private val organizationZoneRepository: OrganizationZoneRepository,
-    private val organizationGeoJsonService: OrganizationGeoJsonService
+    private val organizationGeoJsonService: OrganizationGeoJsonService,
+    private val ownerService: OwnerService
     ) {
 
     fun mapOrganizationZoneToDto(organization: OrganizationZone): OrganizationZoneDto{
@@ -53,5 +57,28 @@ class OrganizationService @Autowired constructor(
         ))
         organizationZoneDto.id = savedOrganization.id
         return organizationZoneDto;
+    }
+
+    fun addUrbanZone(urbanZoneDto: UrbanZoneDto): UrbanZoneDto {
+        val organizationZoneDto = urbanZoneDto.organizationZoneDto;
+        val geoJsonPath = this.organizationGeoJsonService.writeGeoJsonDataByRole(
+            organizationZoneDto?.organizationZoneType!!,
+            organizationZoneDto.name,
+            organizationZoneDto.geoJson!!
+        )
+        val savedUrbanZone = this.organizationZoneRepository.save(
+            UrbanZone(
+                organizationZoneDto.id,
+                organizationZoneDto.name,
+                organizationZoneDto.organizationZoneType,
+                geoJsonPath,
+                this.getOrganizationById(organizationZoneDto.parentId),
+                null,
+                urbanZoneDto.urbanType,
+                this.ownerService.getOwnerById(organizationZoneDto.id)
+            )
+        )
+        urbanZoneDto.organizationZoneDto!!.id = savedUrbanZone.id
+        return urbanZoneDto
     }
 }
