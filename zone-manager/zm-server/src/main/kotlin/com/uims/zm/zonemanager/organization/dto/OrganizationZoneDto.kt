@@ -9,6 +9,6 @@ class OrganizationZoneDto(
     var name: String = "",
     var organizationZoneType: OrganizationZoneType? = null,
     var geoJson: String? = null,
-    var parentOrganizationZone: OrganizationZone? = null,
-    var zoneList: List<OrganizationZone>? = null) {
+    var parentId: UUID? = null,
+    var zoneList: List<OrganizationZoneDto>? = null) {
 }
