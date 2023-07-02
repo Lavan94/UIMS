@@ -12,6 +12,7 @@ import {
   SelectOrganizationDisplayEvent
 } from "../../event/MapOrganizationEvent";
 import {MatExpansionPanel, MatExpansionPanelHeader} from "@angular/material/expansion";
+import {OrganizationMapper} from "../../../mapper/OrganizationMapper";
 
 const DEFAULT_SECTOR_NAME = 'Sectors';
 const DEFAULT_NEIGHBORHOOD_NAME = 'Neighborhoods';
@@ -111,7 +112,9 @@ export class OrganizationDisplayComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.organizationService.fetchSectors().subscribe((sectors) => this.sectorList = sectors);
+    this.organizationService.fetchSectors().subscribe((sectorsDto) => {
+      this.sectorList = sectorsDto.map(dto => OrganizationMapper.convertDto2Sector(dto))
+    });
   }
 
   clickSector(sector: Sector, emitToMapDisplay: boolean = true) {

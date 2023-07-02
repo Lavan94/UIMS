@@ -7,6 +7,7 @@ import {Sector} from "../../../model/Organization/Sector";
 import {Organization} from "../../../model/Organization/Organization";
 import {SERVER_URL} from "../../../owner-manager/service/owner.service";
 import {HttpClient} from "@angular/common/http";
+import {OrganizationDto} from "../../../model/DTO/OrganizationDto";
 
 export const ORGANIZATION_ZONE_URL = "/organization-zone"
 export const ORGANIZATION_ZONE_SERVICE_URL = SERVER_URL + ORGANIZATION_ZONE_URL
@@ -32,9 +33,7 @@ export class OrganizationService {
   }
 
   fetchSectors(){
-    return this.httpClient.get<Sector[]>(ORGANIZATION_ZONE_SERVICE_URL + GET_ORGANIZATION_ZONE_URL + Sector.name.toUpperCase())
-
-    // return this.sectorList;
+    return this.httpClient.get<OrganizationDto[]>(ORGANIZATION_ZONE_SERVICE_URL + GET_ORGANIZATION_ZONE_URL + Sector.name.toUpperCase())
   }
 
   fetchNeighborhoods(sectorId: string): Neighborhood[] {
@@ -93,16 +92,30 @@ export class OrganizationService {
 
   public addNeighborhood(neighborhood: Neighborhood) {
     if(neighborhood.parent) {
+      neighborhood.parentId = neighborhood.parent.id;
       neighborhood.parent.neighborhoods.push(neighborhood);
     }
     console.log("REST-API Add Neighborhood call")
+    this.httpClient.post(ORGANIZATION_ZONE_SERVICE_URL + ADD_ORGANIZATION_ZONE_URL, {
+      name: neighborhood.name,
+      organizationZoneType: Neighborhood.name.toUpperCase(),
+      parentId: neighborhood.parentId,
+      geoJson: JSON.stringify(neighborhood.geoJson)
+    }).subscribe(result => console.log(result))
   }
 
   public addComplex(complex: Complex) {
     if(complex.parent) {
+      complex.parentId = complex.parent.id
       complex.parent.children.push(complex);
     }
     console.log("REST-API Add Complex call")
+    this.httpClient.post(ORGANIZATION_ZONE_SERVICE_URL + ADD_ORGANIZATION_ZONE_URL, {
+      name: complex.name,
+      organizationZoneType: Complex.name.toUpperCase(),
+      parentId: complex.parentId,
+      geoJson: JSON.stringify(complex.geoJson)
+    }).subscribe(result => console.log(result))
   }
 
   public addUrbanZone(urbanZone: UrbanZone) {

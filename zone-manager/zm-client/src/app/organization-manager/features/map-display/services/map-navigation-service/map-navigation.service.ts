@@ -10,6 +10,7 @@ import {SelectMapOrganizationEvent} from "../../../../event/MapOrganizationEvent
 import {UrbanZone} from "../../../../../model/Organization/UrbanZone";
 import {OrganizationService} from "../../../../services/organization-service/organization.service";
 import {LeafletMouseEvent} from "leaflet";
+import {OrganizationMapper} from "../../../../../mapper/OrganizationMapper";
 
 @Injectable({
   providedIn: 'root'
@@ -36,6 +37,7 @@ export class MapNavigationService {
     mapDisplay.drawnItems.clearLayers();
     layer.on('click', undefined);
     mapDisplay.drawnItems.addLayer(layer);
+    if(!sector.neighborhoods) return;
     sector.neighborhoods.forEach(neighborhood => {
       let neighborhoodLayer = L.geoJson(neighborhood.geoJson);
       neighborhoodLayer.on('click', mapDisplay.selectZone);
@@ -105,8 +107,8 @@ export class MapNavigationService {
 
   private navigateIntoSectorHandler(mapDisplay: MapDisplayComponent, layer: any) {
     if (!mapDisplay.fetchedSectors) {
-      this.organizationService.fetchSectors().subscribe((sectors)=>{
-        mapDisplay.fetchedSectors = sectors;
+      this.organizationService.fetchSectors().subscribe((sectorsDto)=>{
+        mapDisplay.fetchedSectors = sectorsDto.map(dto => OrganizationMapper.convertDto2Sector(dto));
       })
       return;
     }

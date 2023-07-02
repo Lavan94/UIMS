@@ -27,6 +27,7 @@ import {
   SelectMapOrganizationEvent
 } from "../../event/MapOrganizationEvent";
 import {MapNavigationService} from "./services/map-navigation-service/map-navigation.service";
+import {OrganizationMapper} from "../../../mapper/OrganizationMapper";
 
 let self: MapDisplayComponent;
 
@@ -156,12 +157,9 @@ export class MapDisplayComponent {
   }
 
   private initDrawnItems(selectId?: string) {
-    this.organizationService.fetchSectors().subscribe((sectors) =>{
-      this.fetchedSectors = sectors;
+    this.organizationService.fetchSectors().subscribe((sectorsDto) =>{
+      this.fetchedSectors = sectorsDto.map(dto => OrganizationMapper.convertDto2Sector(dto));
       this.fetchedSectors.forEach(sector => {
-        if (typeof sector.geoJson === "string") {
-          sector.geoJson = JSON.parse(sector.geoJson)
-        }
         let sectorLayer = L.geoJson(sector.geoJson);
         sectorLayer.on('click', this.selectZone);
         sectorLayer.on('dblclick', this.navigateIntoZone)
