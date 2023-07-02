@@ -156,18 +156,26 @@ export class MapDisplayComponent {
   }
 
   private initDrawnItems(selectId?: string) {
-    this.fetchedSectors = this.organizationService.fetchSectors();
-    this.fetchedSectors.forEach(sector => {
-      let sectorLayer = L.geoJson(sector.geoJson);
-      sectorLayer.on('click', this.selectZone);
-      sectorLayer.on('dblclick', this.navigateIntoZone)
-      if (sector.geoJson && sector.geoJson.id === selectId) {
-        sectorLayer.setStyle(SELECTED_ZONE_STYLE);
-      } else {
-        sectorLayer.setStyle(DEFAULT_ZONE_STYLE)
-      }
-      this._drawnItems.addLayer(sectorLayer);
-    })
+    this.organizationService.fetchSectors().subscribe((sectors) =>{
+      this.fetchedSectors = sectors;
+      this.fetchedSectors.forEach(sector => {
+        if (typeof sector.geoJson === "string") {
+          sector.geoJson = JSON.parse(sector.geoJson)
+        }
+        let sectorLayer = L.geoJson(sector.geoJson);
+        sectorLayer.on('click', this.selectZone);
+        sectorLayer.on('dblclick', this.navigateIntoZone)
+        if (sector.geoJson) {
+          sector.geoJson.id = sector.geoJson.id ? sector.geoJson.id : sector.id
+          if(sector.geoJson.id === selectId){
+            sectorLayer.setStyle(SELECTED_ZONE_STYLE);
+          } else {
+            sectorLayer.setStyle(DEFAULT_ZONE_STYLE)
+          }
+        }
+        this._drawnItems.addLayer(sectorLayer);
+      })
+    });
   }
 
   private initMap(): void {
@@ -186,7 +194,6 @@ export class MapDisplayComponent {
       layer.on('click', this.selectZone);
       this._drawnItems.addLayer(layer);
       this.drawEnabled = false;
-
       let organizationParent;
       const organizationParentType = this.getParentOrganizationType();
       switch (organizationParentType) {
@@ -221,6 +228,7 @@ export class MapDisplayComponent {
 
       dialogRef.afterClosed().subscribe((organizationResult: Organization) => {
         console.log(organizationResult);
+        organizationResult.geoJson = e.layer.toGeoJSON();
         this.organizationService.addOrganization(organizationResult);
       })
     });

@@ -111,7 +111,7 @@ export class OrganizationDisplayComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.sectorList = this.organizationService.fetchSectors();
+    this.organizationService.fetchSectors().subscribe((sectors) => this.sectorList = sectors);
   }
 
   clickSector(sector: Sector, emitToMapDisplay: boolean = true) {

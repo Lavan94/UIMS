@@ -104,7 +104,12 @@ export class MapNavigationService {
   }
 
   private navigateIntoSectorHandler(mapDisplay: MapDisplayComponent, layer: any) {
-    if (!mapDisplay.fetchedSectors) mapDisplay.fetchedSectors = this.organizationService.fetchSectors();
+    if (!mapDisplay.fetchedSectors) {
+      this.organizationService.fetchSectors().subscribe((sectors)=>{
+        mapDisplay.fetchedSectors = sectors;
+      })
+      return;
+    }
 
     const currentSector = mapDisplay.fetchedSectors
       .find(sector => sector.geoJson && sector.geoJson.id && sector.geoJson.id === layer.feature.id);

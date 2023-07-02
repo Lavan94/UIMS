@@ -5,6 +5,15 @@ import {Complex} from "../../../model/Organization/Complex";
 import {Neighborhood} from "../../../model/Organization/Neighborhood";
 import {Sector} from "../../../model/Organization/Sector";
 import {Organization} from "../../../model/Organization/Organization";
+import {SERVER_URL} from "../../../owner-manager/service/owner.service";
+import {HttpClient} from "@angular/common/http";
+
+export const ORGANIZATION_ZONE_URL = "/organization-zone"
+export const ORGANIZATION_ZONE_SERVICE_URL = SERVER_URL + ORGANIZATION_ZONE_URL
+
+export const GET_ORGANIZATION_ZONE_URL = "/getAllByType/"
+export const ADD_ORGANIZATION_ZONE_URL = "/add"
+export const ADD_URBAN_ZONE_URL = "/add-urban-zone";
 
 @Injectable({
   providedIn: 'root'
@@ -19,11 +28,13 @@ export class OrganizationService {
     ]
   )
   private sectorList: Sector[] = SECTORS;
-  constructor() {
+  constructor(private httpClient: HttpClient) {
   }
 
-  fetchSectors(): Sector[] {
-    return this.sectorList;
+  fetchSectors(){
+    return this.httpClient.get<Sector[]>(ORGANIZATION_ZONE_SERVICE_URL + GET_ORGANIZATION_ZONE_URL + Sector.name.toUpperCase())
+
+    // return this.sectorList;
   }
 
   fetchNeighborhoods(sectorId: string): Neighborhood[] {
@@ -72,6 +83,12 @@ export class OrganizationService {
   public addSector(sector: Sector) {
     this.sectorList.push(sector);
     console.log("REST-API Add Sector call")
+    this.httpClient.post(ORGANIZATION_ZONE_SERVICE_URL + ADD_ORGANIZATION_ZONE_URL, {
+      name: sector.name,
+      organizationZoneType: Sector.name.toUpperCase(),
+      geoJson: JSON.stringify(sector.geoJson)
+    })
+      .subscribe(result => console.log(result))
   }
 
   public addNeighborhood(neighborhood: Neighborhood) {
