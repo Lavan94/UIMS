@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.FileWriter
-import java.lang.Exception
 import java.util.*
 
 
@@ -54,5 +53,9 @@ class OrganizationGeoJsonService {
         val scanner = Scanner(File(filePath))
         while (scanner.hasNextLine()) fileContent += scanner.nextLine()
         return fileContent
+    }
+
+    fun deleteOldGeoJsonFile(oldGeoJsonFilePath: String): Boolean {
+        return File(oldGeoJsonFilePath).delete()
     }
 }

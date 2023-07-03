@@ -15,34 +15,34 @@ import java.util.*
 class OrganizationService @Autowired constructor(
     private val organizationZoneRepository: OrganizationZoneRepository,
     private val organizationGeoJsonService: OrganizationGeoJsonService,
-    private val ownerService: OwnerService
-    ) {
+    private val ownerService: OwnerService,
+) {
 
-    fun mapOrganizationZoneToDto(organization: OrganizationZone): OrganizationZoneDto{
+    fun mapOrganizationZoneToDto(organization: OrganizationZone): OrganizationZoneDto {
         return OrganizationZoneDto(
             organization.id,
             organization.name,
             organization.organizationZoneType,
             this.organizationGeoJsonService.getFileContent(organization.geoJsonFilePath),
             organization.parentOrganizationZone?.id,
-            organization.zoneList?.map { subOrganization -> this.mapOrganizationZoneToDto(subOrganization)},
-            if(organization is UrbanZone && organization.urbanType != null) organization.urbanType.toString() else "NONE"
+            organization.zoneList?.map { subOrganization -> this.mapOrganizationZoneToDto(subOrganization) },
+            if (organization is UrbanZone && organization.urbanType != null) organization.urbanType.toString() else "NONE"
         )
     }
 
-    fun getOrganizationByType(organizationZoneType: OrganizationZoneType): List<OrganizationZoneDto>{
+    fun getOrganizationByType(organizationZoneType: OrganizationZoneType): List<OrganizationZoneDto> {
         var organizations = this.organizationZoneRepository.findByOrganizationZoneType(organizationZoneType)
 
-        return organizations.map { organization -> this.mapOrganizationZoneToDto(organization)}
+        return organizations.map { organization -> this.mapOrganizationZoneToDto(organization) }
     }
 
     fun getOrganizationById(orgId: UUID?): OrganizationZone? {
-        if(orgId == null) return null;
+        if (orgId == null) return null
         val result = this.organizationZoneRepository.findById(orgId)
-        return if(result.isPresent) result.get() else null
+        return if (result.isPresent) result.get() else null
     }
 
-    fun addOrganization(organizationZoneDto: OrganizationZoneDto): OrganizationZoneDto{
+    fun addOrganization(organizationZoneDto: OrganizationZoneDto): OrganizationZoneDto {
         val geoJsonPath = this.organizationGeoJsonService.writeGeoJsonDataByRole(
             organizationZoneDto.organizationZoneType!!,
             organizationZoneDto.name,
@@ -57,17 +57,36 @@ class OrganizationService @Autowired constructor(
             null
         ))
         organizationZoneDto.id = savedOrganization.id
+        return organizationZoneDto
+    }
+
+    fun updateOrganization(organizationZoneDto: OrganizationZoneDto): OrganizationZoneDto? {
+        var organization = this.getOrganizationById(organizationZoneDto.id)
+
+        if (organization === null) return null
+
+        if (organizationZoneDto.name != null) {
+            organization!!.name = organizationZoneDto.name
+        }
+        if (organizationZoneDto.geoJson != null) {
+            this.organizationGeoJsonService.deleteOldGeoJsonFile(organization.geoJsonFilePath);
+            organization!!.geoJsonFilePath = this.organizationGeoJsonService.writeGeoJsonDataByRole(
+                organization.organizationZoneType!!, organization.name, organizationZoneDto.geoJson!!
+            )
+        }
+        this.organizationZoneRepository.save(organization)
+
         return organizationZoneDto;
     }
 
     fun addUrbanZone(urbanZoneDto: UrbanZoneDto): UrbanZoneDto {
-        val organizationZoneDto = urbanZoneDto.organizationZoneDto;
+        val organizationZoneDto = urbanZoneDto.organizationZoneDto
         val geoJsonPath = this.organizationGeoJsonService.writeGeoJsonDataByRole(
             organizationZoneDto?.organizationZoneType!!,
             organizationZoneDto.name,
             organizationZoneDto.geoJson!!
         )
-        val ownerId = if(urbanZoneDto.ownerId != null) UUID.fromString(urbanZoneDto.ownerId) else null
+        val ownerId = if (urbanZoneDto.ownerId != null) UUID.fromString(urbanZoneDto.ownerId) else null
         val savedUrbanZone = this.organizationZoneRepository.save(
             UrbanZone(
                 organizationZoneDto.id,
@@ -77,10 +96,14 @@ class OrganizationService @Autowired constructor(
                 this.getOrganizationById(organizationZoneDto.parentId),
                 null,
                 urbanZoneDto.urbanType,
-                if(ownerId != null) this.ownerService.getOwnerById(ownerId) else ownerId
+                if (ownerId != null) this.ownerService.getOwnerById(ownerId) else ownerId
             )
         )
         urbanZoneDto.organizationZoneDto!!.id = savedUrbanZone.id
         return urbanZoneDto
+    }
+
+    fun updateUrbanZone(urbanZoneDto: UrbanZoneDto): UrbanZoneDto {
+        return this.addUrbanZone(urbanZoneDto)
     }
 }

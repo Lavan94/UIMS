@@ -7,6 +7,7 @@ import * as geoJson from "geojson";
 
 export interface Organization{
   id: string;
+  name: string;
   parent?: Organization;
   geoJson?: geoJson.Feature
 }

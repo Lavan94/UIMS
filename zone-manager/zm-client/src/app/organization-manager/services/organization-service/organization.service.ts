@@ -7,6 +7,7 @@ import {Organization} from "../../../model/Organization/Organization";
 import {SERVER_URL} from "../../../owner-manager/service/owner.service";
 import {HttpClient} from "@angular/common/http";
 import {OrganizationDto} from "../../../model/DTO/OrganizationDto";
+import {GeoJSON} from "leaflet";
 
 export const ORGANIZATION_ZONE_URL = "/organization-zone"
 export const ORGANIZATION_ZONE_SERVICE_URL = SERVER_URL + ORGANIZATION_ZONE_URL
@@ -14,6 +15,9 @@ export const ORGANIZATION_ZONE_SERVICE_URL = SERVER_URL + ORGANIZATION_ZONE_URL
 export const GET_ORGANIZATION_ZONE_URL = "/getAllByType/"
 export const ADD_ORGANIZATION_ZONE_URL = "/add"
 export const ADD_URBAN_ZONE_URL = "/add-urban-zone";
+
+export const UPDATE_ORGANIZATION_URL = "/update-organization"
+export const UPDATE_URBAN_ZONE_URL = "/update-urban-zone"
 
 @Injectable({
   providedIn: 'root'
@@ -76,6 +80,17 @@ export class OrganizationService {
       return;
     }
     console.log("Organization type not recognized & supported")
+  }
+
+  public updateOrganization(orgType: string, orgId: string, orgName: string, orgGeoJson: any | null) {
+    console.log("REST-API Update Sector call")
+    this.httpClient.put(ORGANIZATION_ZONE_SERVICE_URL + UPDATE_ORGANIZATION_URL, {
+      id: orgId,
+      name: orgName,
+      organizationZoneType: orgType,
+      geoJson: orgGeoJson === null ? null : JSON.stringify(orgGeoJson)
+    })
+      .subscribe(result => console.log(result))
   }
 
   public addSector(sector: Sector) {

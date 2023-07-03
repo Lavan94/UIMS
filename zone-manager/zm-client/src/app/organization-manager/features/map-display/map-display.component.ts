@@ -308,6 +308,37 @@ export class MapDisplayComponent {
   saveEdit() {
     self.selectedZone.editing.disable();
     self.editEnabled = false;
+    if(self.selectedZone.feature.id){
+      const orgId = self.selectedZone.feature.id;
+      let org: Organization | undefined = undefined;
+      const orgType: string = self.selectedOrganizationType.toUpperCase();
+      switch (self.selectedOrganizationType){
+        case Sector.name:
+          let updatedSector = self.fetchedSectors?.find(sector => sector.id === orgId);
+          if(updatedSector){
+            updatedSector.geoJson = self.selectedZone.toGeoJSON();
+            org = updatedSector;
+          }
+          break;
+        case Neighborhood.name:
+          let updatedNeighborhood = self.fetchedNeighborhoods?.find(neighborhood => neighborhood.id === orgId);
+          if(updatedNeighborhood){
+            updatedNeighborhood.geoJson = self.selectedZone.toGeoJSON();
+            org = updatedNeighborhood;
+          }
+          break
+        case Complex.name:
+          let updatedComplex = self.fetchedComplexes?.find(complex => complex.id === orgId);
+          if(updatedComplex){
+            updatedComplex.geoJson = self.selectedZone.toGeoJSON();
+            org = updatedComplex;
+          }
+          break
+      }
+      if(org){
+        self.organizationService.updateOrganization(orgType, org.id, org.name, org.geoJson);
+      }
+    }
   }
 
   private changeTabHandlerMap: Map<string, Function> = new Map<string, Function>([

@@ -38,6 +38,7 @@ export class MapNavigationService {
     layer.on('click', undefined);
     mapDisplay.drawnItems.addLayer(layer);
     if(!sector.neighborhoods) return;
+    mapDisplay.fetchedNeighborhoods = sector.neighborhoods;
     sector.neighborhoods.forEach(neighborhood => {
       let neighborhoodLayer = L.geoJson(neighborhood.geoJson);
       neighborhoodLayer.on('click', mapDisplay.selectZone);
@@ -59,6 +60,11 @@ export class MapNavigationService {
     mapDisplay.drawnItems.clearLayers();
     layer.on('click', undefined);
     mapDisplay.drawnItems.addLayer(layer);
+
+    if(!neighborhood.children) return;
+    mapDisplay.fetchedComplexes = neighborhood.children.filter(child => child instanceof Complex).map(child => child as Complex)
+    mapDisplay.fetchedUrbanZones = neighborhood.children.filter(child => child instanceof Urban_Zone).map(child => child as Urban_Zone)
+
     neighborhood.children.forEach(child => {
       let childLayer = L.geoJson(child.geoJson);
       childLayer.on('click', mapDisplay.selectZone);
@@ -83,6 +89,10 @@ export class MapNavigationService {
     mapDisplay.drawnItems.clearLayers();
     layer.on('click', undefined);
     mapDisplay.drawnItems.addLayer(layer);
+
+    if(!complex.children) return;
+    mapDisplay.fetchedUrbanZones = complex.children
+
     complex.children.forEach(child => {
       let childLayer = L.geoJson(child.geoJson);
       childLayer.on('click', mapDisplay.selectZone);
