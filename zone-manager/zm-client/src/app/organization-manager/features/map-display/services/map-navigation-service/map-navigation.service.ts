@@ -7,7 +7,7 @@ import {Neighborhood} from "../../../../../model/Organization/Neighborhood";
 import {Complex} from "../../../../../model/Organization/Complex";
 import {ZoneStyleFactoryService} from "../zone-style-factory/zone-style-factory.service";
 import {SelectMapOrganizationEvent} from "../../../../event/MapOrganizationEvent";
-import {UrbanZone} from "../../../../../model/Organization/UrbanZone";
+import {Urban_Zone} from "../../../../../model/Organization/Urban_Zone";
 import {OrganizationService} from "../../../../services/organization-service/organization.service";
 import {LeafletMouseEvent} from "leaflet";
 import {OrganizationMapper} from "../../../../../mapper/OrganizationMapper";
@@ -20,7 +20,7 @@ export class MapNavigationService {
     [Sector.name, this.navigateIntoSectorHandler],
     [Neighborhood.name, this.navigateIntoNeighborhoodHandler],
     [Complex.name, this.navigateIntoComplexHandler],
-    [UrbanZone.name, this.navigateIntoUrbanZoneHandler]
+    [Urban_Zone.name, this.navigateIntoUrbanZoneHandler]
   ])
 
   constructor(private organizationService: OrganizationService, private zoneStyleFactoryService: ZoneStyleFactoryService) {}
@@ -65,7 +65,7 @@ export class MapNavigationService {
       childLayer.on('dblclick', mapDisplay.navigateIntoZone)
       childLayer.setZIndex(3);
 
-      if(child instanceof UrbanZone){
+      if(child instanceof Urban_Zone){
         childLayer.setStyle(this.zoneStyleFactoryService.getUrbanZoneStyle(child.type));
       }
 
@@ -154,7 +154,7 @@ export class MapNavigationService {
       this.navigateIntoComplex(mapDisplay, layer, currentComplex);
       mapDisplay.navigatedOrganizationEventEmitter.emit(new SelectMapOrganizationEvent(currentComplex, mapDisplay.selectedNeighborhood));
       mapDisplay.selectedComplex = currentComplex;
-      mapDisplay.selectedOrganizationType = UrbanZone.name;
+      mapDisplay.selectedOrganizationType = Urban_Zone.name;
     }
   }
 
@@ -172,7 +172,7 @@ export class MapNavigationService {
 
       if(!mapDisplay.selectedNeighborhood || !mapDisplay.selectedNeighborhood.children) return;
       mapDisplay.fetchedUrbanZones?.push(
-        ...(mapDisplay.selectedNeighborhood.children.filter(child => child instanceof UrbanZone).map(child => child as UrbanZone))
+        ...(mapDisplay.selectedNeighborhood.children.filter(child => child instanceof Urban_Zone).map(child => child as Urban_Zone))
       )
     }
 
@@ -183,7 +183,7 @@ export class MapNavigationService {
       this.navigateIntoUrbanZone(mapDisplay, layer);
       mapDisplay.navigatedOrganizationEventEmitter.emit(new SelectMapOrganizationEvent(currentUrbanZone, currentUrbanZone.parent));
       mapDisplay.selectedUrbanZone = currentUrbanZone;
-      mapDisplay.selectedOrganizationType = UrbanZone.name;
+      mapDisplay.selectedOrganizationType = Urban_Zone.name;
     }
   }
 

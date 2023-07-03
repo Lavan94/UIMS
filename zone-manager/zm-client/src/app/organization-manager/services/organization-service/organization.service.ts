@@ -1,6 +1,5 @@
 import {Injectable} from '@angular/core';
-import {SECTORS} from "../../../data/DummyData";
-import {UrbanZone} from "../../../model/Organization/UrbanZone";
+import {Urban_Zone} from "../../../model/Organization/Urban_Zone";
 import {Complex} from "../../../model/Organization/Complex";
 import {Neighborhood} from "../../../model/Organization/Neighborhood";
 import {Sector} from "../../../model/Organization/Sector";
@@ -25,10 +24,10 @@ export class OrganizationService {
       [Sector.name, this.addSector],
       [Neighborhood.name, this.addNeighborhood],
       [Complex.name, this.addComplex],
-      [UrbanZone.name, this.addUrbanZone],
+      [Urban_Zone.name, this.addUrbanZone],
     ]
   )
-  private sectorList: Sector[] = SECTORS;
+  private sectorList: Sector[] = [];
   constructor(private httpClient: HttpClient) {
   }
 
@@ -41,7 +40,7 @@ export class OrganizationService {
      return sector ? sector.neighborhoods : [];
   }
 
-  fetchComplexesAndUrbanZones(sectorId: string, neighborhoodId: string): (Complex|UrbanZone)[] {
+  fetchComplexesAndUrbanZones(sectorId: string, neighborhoodId: string): (Complex|Urban_Zone)[] {
     const neighborhoods = this.fetchNeighborhoods(sectorId);
     if (!neighborhoods.length) return [];
 
@@ -49,11 +48,11 @@ export class OrganizationService {
     return neighborhood ? neighborhood.children : [];
   }
 
-  fetchUrbanZone(urbanZoneId: string, sectorId: string, neighborhoodId: string, complexId?: string): UrbanZone | null {
+  fetchUrbanZone(urbanZoneId: string, sectorId: string, neighborhoodId: string, complexId?: string): Urban_Zone | null {
     const complexesAndUrbanZones = this.fetchComplexesAndUrbanZones(sectorId, neighborhoodId);
     if(!complexesAndUrbanZones.length) return null;
 
-    let urbanZone: UrbanZone | null;
+    let urbanZone: Urban_Zone | null;
 
     if(complexId){
       // @ts-ignore
@@ -63,7 +62,7 @@ export class OrganizationService {
       urbanZone = result ? result : null;
     } else {
       // @ts-ignore
-      const result: UrbanZone = complexesAndUrbanZones.find(entry => typeof entry === UrbanZone.name && entry.id === complexId);
+      const result: Urban_Zone = complexesAndUrbanZones.find(entry => typeof entry === Urban_Zone.name && entry.id === complexId);
       urbanZone = result ? result : null;
     }
     return urbanZone;
@@ -118,10 +117,22 @@ export class OrganizationService {
     }).subscribe(result => console.log(result))
   }
 
-  public addUrbanZone(urbanZone: UrbanZone) {
+  public addUrbanZone(urbanZone: Urban_Zone) {
     if(urbanZone.parent) {
       urbanZone.parent.children.push(urbanZone);
+      urbanZone.parentId = urbanZone.parent.id;
     }
     console.log("REST-API Add Urban Zone call")
+    this.httpClient.post(ORGANIZATION_ZONE_SERVICE_URL + ADD_URBAN_ZONE_URL, {
+        organizationZoneDto: {
+          name: urbanZone.name,
+          organizationZoneType: Urban_Zone.name.toUpperCase(),
+          parentId: urbanZone.parentId,
+          geoJson: JSON.stringify(urbanZone.geoJson)
+        },
+        urbanType: urbanZone.type,
+        ownerId: urbanZone.ownerId
+      }
+    ).subscribe(result => console.log(result))
   }
 }

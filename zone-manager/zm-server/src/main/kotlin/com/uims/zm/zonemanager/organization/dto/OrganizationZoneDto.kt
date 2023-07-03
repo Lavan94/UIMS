@@ -1,6 +1,5 @@
 package com.uims.zm.zonemanager.organization.dto
 
-import com.uims.zm.zonemanager.entity.organization_zone.OrganizationZone
 import com.uims.zm.zonemanager.entity.organization_zone.OrganizationZoneType
 import java.util.*
 
@@ -10,5 +9,7 @@ class OrganizationZoneDto(
     var organizationZoneType: OrganizationZoneType? = null,
     var geoJson: String? = null,
     var parentId: UUID? = null,
-    var zoneList: List<OrganizationZoneDto>? = null) {
+    var zoneList: List<OrganizationZoneDto>? = null,
+    var uzType: String? = "NONE"
+) {
 }

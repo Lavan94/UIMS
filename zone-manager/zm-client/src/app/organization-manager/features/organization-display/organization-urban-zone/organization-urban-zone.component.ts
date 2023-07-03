@@ -1,6 +1,5 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
-import {URBAN_ZONE_INSTANCE} from "../../../../data/DummyData";
-import {UrbanZone} from "../../../../model/Organization/UrbanZone";
+import {Urban_Zone} from "../../../../model/Organization/Urban_Zone";
 
 @Component({
   selector: 'app-organization-urban-zone',
@@ -9,6 +8,6 @@ import {UrbanZone} from "../../../../model/Organization/UrbanZone";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OrganizationUrbanZoneComponent {
-  @Input() currentUrbanZone: UrbanZone = URBAN_ZONE_INSTANCE;
+  @Input() currentUrbanZone: Urban_Zone = new Urban_Zone();
   displayedColumns: string[] = ['id', 'hotWater', 'coldWater', 'sewage', 'trash', 'date']
 }

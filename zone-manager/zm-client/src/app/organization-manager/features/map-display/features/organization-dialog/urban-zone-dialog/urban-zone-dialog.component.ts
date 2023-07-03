@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {UrbanZone} from "../../../../../../model/Organization/UrbanZone";
+import {Urban_Zone, UrbanZoneType} from "../../../../../../model/Organization/Urban_Zone";
 
 @Component({
   selector: 'app-urban-zone-dialog',
@@ -7,5 +7,6 @@ import {UrbanZone} from "../../../../../../model/Organization/UrbanZone";
   styleUrls: ['./urban-zone-dialog.component.scss']
 })
 export class UrbanZoneDialogComponent {
-  @Input() public urbanZone: UrbanZone = new UrbanZone();
+  @Input() public urbanZone: Urban_Zone = new Urban_Zone();
+  public urbanZoneTypes: string[] = Object.values(UrbanZoneType)
 }

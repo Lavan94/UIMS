@@ -5,6 +5,7 @@ export class OrganizationDto{
     public organizationZoneType: string,
     public geoJson: string,
     public parentId: string,
-    public zoneList: OrganizationDto[]
+    public zoneList: OrganizationDto[],
+    public uzType: string,
   ) {}
 }

@@ -25,7 +25,8 @@ class OrganizationService @Autowired constructor(
             organization.organizationZoneType,
             this.organizationGeoJsonService.getFileContent(organization.geoJsonFilePath),
             organization.parentOrganizationZone?.id,
-            organization.zoneList?.map { subOrganization -> this.mapOrganizationZoneToDto(subOrganization)}
+            organization.zoneList?.map { subOrganization -> this.mapOrganizationZoneToDto(subOrganization)},
+            if(organization is UrbanZone && organization.urbanType != null) organization.urbanType.toString() else "NONE"
         )
     }
 
@@ -66,6 +67,7 @@ class OrganizationService @Autowired constructor(
             organizationZoneDto.name,
             organizationZoneDto.geoJson!!
         )
+        val ownerId = if(urbanZoneDto.ownerId != null) UUID.fromString(urbanZoneDto.ownerId) else null
         val savedUrbanZone = this.organizationZoneRepository.save(
             UrbanZone(
                 organizationZoneDto.id,
@@ -75,7 +77,7 @@ class OrganizationService @Autowired constructor(
                 this.getOrganizationById(organizationZoneDto.parentId),
                 null,
                 urbanZoneDto.urbanType,
-                this.ownerService.getOwnerById(organizationZoneDto.id)
+                if(ownerId != null) this.ownerService.getOwnerById(ownerId) else ownerId
             )
         )
         urbanZoneDto.organizationZoneDto!!.id = savedUrbanZone.id

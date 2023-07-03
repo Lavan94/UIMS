@@ -4,7 +4,6 @@ import {OwnerAuthService} from "../service/owner-auth.service";
 import {Router} from "@angular/router";
 import {HOME_LOGIN_PAGE} from "../app-routing.module";
 import {Injectable} from "@angular/core";
-import {LOGIN_URL} from "../owner-manager/service/owner.service";
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
@@ -20,11 +19,8 @@ export class AuthInterceptor implements HttpInterceptor {
     return next.handle(req).pipe(
       catchError((err: HttpErrorResponse) => {
         console.log(err.status)
-        if (err.status === 401) {
-          this.router.navigate([HOME_LOGIN_PAGE]);
-        } else if (err.status === 403) {
-          this.router.navigate([LOGIN_URL])
-        }
+        this.router.navigate([HOME_LOGIN_PAGE]);
+        this.ownerAuthService.clear()
         return throwError("Something is wrong")
       })
     )
