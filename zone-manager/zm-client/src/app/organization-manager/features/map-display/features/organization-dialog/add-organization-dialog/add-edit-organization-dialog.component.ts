@@ -10,6 +10,7 @@ interface OrganizationDialogData {
   organizationType: string;
   organizationParent: Organization;
   complexOrUrbanZone?: string;
+  organizationData?: Organization;
 }
 
 @Component({
@@ -28,6 +29,14 @@ export class AddEditOrganizationDialogComponent {
     this.organizationType = data.organizationParent ? data.organizationType : Sector.name;
     this.complexOrUrbanZone = data.complexOrUrbanZone;
     this.organization = this.getDefaultOrganization();
+
+    if(data.organizationData){
+      this.organization = data.organizationData;
+      this.organizationType = data.organizationData.constructor.name
+      if([Complex.name, Urban_Zone.name].includes(this.organizationType)){
+        this.complexOrUrbanZone = this.organizationType;
+      }
+    }
 
     if(this.organization){
       this.organization.parent = data.organizationParent;
