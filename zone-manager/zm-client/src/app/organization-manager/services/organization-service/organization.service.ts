@@ -83,7 +83,7 @@ export class OrganizationService {
   }
 
   public updateOrganization(orgType: string, orgId: string, orgName: string, orgGeoJson: any | null) {
-    console.log("REST-API Update Sector call")
+    console.log("REST-API Update Organization call")
     this.httpClient.put(ORGANIZATION_ZONE_SERVICE_URL + UPDATE_ORGANIZATION_URL, {
       id: orgId,
       name: orgName,
@@ -149,5 +149,20 @@ export class OrganizationService {
         ownerId: urbanZone.ownerId
       }
     ).subscribe(result => console.log(result))
+  }
+
+  updateUrbanZone(id: string, name: string, geoJson: any, type: string, ownerId: string | null) {
+    console.log("REST-API Update Organization call")
+    this.httpClient.put(ORGANIZATION_ZONE_SERVICE_URL + UPDATE_URBAN_ZONE_URL, {
+      organizationZoneDto: {
+        id: id,
+        name: name,
+        organizationZoneType: Urban_Zone.name.toUpperCase(),
+        geoJson: geoJson === null ? null : JSON.stringify(geoJson),
+      },
+      urbanType: type,
+      ownerId: ownerId
+    })
+      .subscribe(result => console.log(result))
   }
 }

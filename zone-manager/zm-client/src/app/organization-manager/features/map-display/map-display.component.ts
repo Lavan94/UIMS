@@ -337,7 +337,20 @@ export class MapDisplayComponent {
       }
       if(org){
         self.organizationService.updateOrganization(orgType, org.id, org.name, org.geoJson);
+        return;
       }
+      let updatedUrbanZone = self.fetchedUrbanZones?.find(urbanZone => urbanZone.id === orgId);
+      if(updatedUrbanZone){
+        updatedUrbanZone.geoJson = self.selectedZone.toGeoJSON();
+        self.organizationService.updateUrbanZone(
+          updatedUrbanZone.id,
+          updatedUrbanZone.name,
+          updatedUrbanZone.geoJson,
+          updatedUrbanZone.type,
+          updatedUrbanZone.ownerId
+        );
+      }
+
     }
   }
 

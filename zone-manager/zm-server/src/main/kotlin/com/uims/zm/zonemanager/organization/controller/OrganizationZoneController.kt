@@ -39,7 +39,7 @@ class OrganizationZoneController constructor(@Autowired val organizationService:
 
     @ResponseBody
     @PutMapping("/update-urban-zone")
-    fun updateOrganization(@RequestBody urbanZoneDto: UrbanZoneDto): UrbanZoneDto {
+    fun updateOrganization(@RequestBody urbanZoneDto: UrbanZoneDto): UrbanZoneDto? {
         return this.organizationService.updateUrbanZone(urbanZoneDto)
     }
 
