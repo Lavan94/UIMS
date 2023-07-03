@@ -23,8 +23,7 @@ import {
 import {
   ChangeOrganizationTabEvent,
   MapOrganizationEvent,
-  OrganizationMapEventAction,
-  SelectMapOrganizationEvent
+  OrganizationMapEventAction
 } from "../../event/MapOrganizationEvent";
 import {MapNavigationService} from "./services/map-navigation-service/map-navigation.service";
 import {OrganizationMapper} from "../../../mapper/OrganizationMapper";
@@ -49,6 +48,7 @@ export class MapDisplayComponent {
     // })
   ];
   public selectedZone?: any;
+  public previousSelectedStyle?: any;
   public selectedToggleValue: string = 'Complex';
   public selectedOrganizationType: string = Sector.name;
 
@@ -257,11 +257,15 @@ export class MapDisplayComponent {
   }
 
   selectZone(e: LeafletMouseEvent) {
-    self.deselectAll();
+    if(self.selectedZone){
+      self.selectedZone.setStyle(self.previousSelectedStyle ? self.previousSelectedStyle : DEFAULT_ZONE_STYLE)
+    }
+    // self.deselectAll();
     let affectedZone = e.target;
     if (!e.target.editing) {
       affectedZone = e.layer;
     }
+    self.previousSelectedStyle = JSON.parse(JSON.stringify(affectedZone.options));
     affectedZone.setStyle(SELECTED_ZONE_STYLE);
 
     if (self.selectedZone && self.selectedZone.editing._enabled) {
@@ -272,6 +276,7 @@ export class MapDisplayComponent {
   }
 
   navigateIntoZone(e: LeafletMouseEvent) {
+    self.selectedZone = undefined;
     self.mapNavigationService.navigateIntoZone(self, e)
   }
 
