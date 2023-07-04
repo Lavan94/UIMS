@@ -1,6 +1,6 @@
 import {Component, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {UrbanZone} from "../../../../../../model/Organization/UrbanZone";
+import {Urban_Zone} from "../../../../../../model/Organization/Urban_Zone";
 import {Complex} from "../../../../../../model/Organization/Complex";
 import {Neighborhood} from "../../../../../../model/Organization/Neighborhood";
 import {Sector} from "../../../../../../model/Organization/Sector";
@@ -10,6 +10,7 @@ interface OrganizationDialogData {
   organizationType: string;
   organizationParent: Organization;
   complexOrUrbanZone?: string;
+  organizationData?: Organization;
 }
 
 @Component({
@@ -29,6 +30,14 @@ export class AddEditOrganizationDialogComponent {
     this.complexOrUrbanZone = data.complexOrUrbanZone;
     this.organization = this.getDefaultOrganization();
 
+    if(data.organizationData){
+      this.organization = data.organizationData;
+      this.organizationType = data.organizationData.constructor.name
+      if([Complex.name, Urban_Zone.name].includes(this.organizationType)){
+        this.complexOrUrbanZone = this.organizationType;
+      }
+    }
+
     if(this.organization){
       this.organization.parent = data.organizationParent;
     }
@@ -42,8 +51,8 @@ export class AddEditOrganizationDialogComponent {
         return new Neighborhood();
       case Complex.name:
         return new Complex();
-      case UrbanZone.name:
-        return new UrbanZone();
+      case Urban_Zone.name:
+        return new Urban_Zone();
       default:
         return undefined;
     }

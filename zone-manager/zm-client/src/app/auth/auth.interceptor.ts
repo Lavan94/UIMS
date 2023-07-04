@@ -19,11 +19,8 @@ export class AuthInterceptor implements HttpInterceptor {
     return next.handle(req).pipe(
       catchError((err: HttpErrorResponse) => {
         console.log(err.status)
-        if (err.status === 401) {
-          this.router.navigate([HOME_LOGIN_PAGE]);
-        } else if (err.status === 403) {
-          this.router.navigate(["/forbidden"])
-        }
+        this.router.navigate([HOME_LOGIN_PAGE]);
+        this.ownerAuthService.clear()
         return throwError("Something is wrong")
       })
     )

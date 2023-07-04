@@ -6,12 +6,16 @@ import {DomSanitizer} from '@angular/platform-browser';
 import 'leaflet-draw';
 import {MapAction} from "./action/MapAction";
 import {MatDialog} from "@angular/material/dialog";
-import {DEFAULT_ZONE_STYLE, NAVIGATE_INTO_ZONE_STYLE, SELECTED_ZONE_STYLE} from "./services/zone-style-factory/ZoneStyles";
+import {
+  DEFAULT_ZONE_STYLE,
+  NAVIGATE_INTO_ZONE_STYLE,
+  SELECTED_ZONE_STYLE
+} from "./services/zone-style-factory/ZoneStyles";
 import {
   AddEditOrganizationDialogComponent
 } from "./features/organization-dialog/add-organization-dialog/add-edit-organization-dialog.component";
 import {OrganizationService} from "../../services/organization-service/organization.service";
-import {UrbanZone} from "../../../model/Organization/UrbanZone";
+import {Urban_Zone} from "../../../model/Organization/Urban_Zone";
 import {Complex} from "../../../model/Organization/Complex";
 import {Neighborhood} from "../../../model/Organization/Neighborhood";
 import {Sector} from "../../../model/Organization/Sector";
@@ -23,10 +27,11 @@ import {
 import {
   ChangeOrganizationTabEvent,
   MapOrganizationEvent,
-  OrganizationMapEventAction,
-  SelectMapOrganizationEvent
+  OrganizationMapEventAction
 } from "../../event/MapOrganizationEvent";
 import {MapNavigationService} from "./services/map-navigation-service/map-navigation.service";
+import {OrganizationMapper} from "../../../mapper/OrganizationMapper";
+import {ZoneStyleFactoryService} from "./services/zone-style-factory/zone-style-factory.service";
 
 let self: MapDisplayComponent;
 
@@ -47,18 +52,19 @@ export class MapDisplayComponent {
     // })
   ];
   public selectedZone?: any;
+  public previousSelectedStyle?: any;
   public selectedToggleValue: string = 'Complex';
   public selectedOrganizationType: string = Sector.name;
 
   public selectedSector?: Sector;
   public selectedNeighborhood?: Neighborhood;
   public selectedComplex?: Complex;
-  public selectedUrbanZone?: UrbanZone;
+  public selectedUrbanZone?: Urban_Zone;
 
   public fetchedSectors?: Sector[];
   public fetchedNeighborhoods?: Neighborhood[];
   public fetchedComplexes?: Complex[];
-  public fetchedUrbanZones?: UrbanZone[];
+  public fetchedUrbanZones?: Urban_Zone[];
 
   @Input() selectedToggleDisplay: boolean = false;
 
@@ -100,13 +106,13 @@ export class MapDisplayComponent {
           break;
         }
         this.selectedComplex = inputSelectedComplex;
-        this.selectedOrganizationType = UrbanZone.name
+        this.selectedOrganizationType = Urban_Zone.name
         this.mapNavigationService.navigateIntoComplex(this, L.geoJson(this.selectedComplex.geoJson), this.selectedComplex)
         break;
       }
-      case UrbanZone.name: {
-        const inputSelectedUrbanZone = organization as UrbanZone;
-        this.selectedOrganizationType = UrbanZone.name
+      case Urban_Zone.name: {
+        const inputSelectedUrbanZone = organization as Urban_Zone;
+        this.selectedOrganizationType = Urban_Zone.name
         this.selectedUrbanZone = inputSelectedUrbanZone;
         this.mapNavigationService.navigateIntoUrbanZone(this, L.geoJson(this.selectedUrbanZone.geoJson))
         break;
@@ -119,7 +125,7 @@ export class MapDisplayComponent {
   @Output() navigatedOrganizationEventEmitter: EventEmitter<MapOrganizationEvent> = new EventEmitter<MapOrganizationEvent>();
   @Output() navigatedNeighborhoodEmitter: EventEmitter<Neighborhood> = new EventEmitter<Neighborhood>();
   @Output() navigatedComplexEmitter: EventEmitter<Complex> = new EventEmitter<Complex>();
-  @Output() navigatedUrbanZoneEmitter: EventEmitter<UrbanZone> = new EventEmitter<UrbanZone>();
+  @Output() navigatedUrbanZoneEmitter: EventEmitter<Urban_Zone> = new EventEmitter<Urban_Zone>();
 
   public editEnabled: boolean = false;
   public editChoice?: string;
@@ -143,6 +149,7 @@ export class MapDisplayComponent {
     private mapNavigationService: MapNavigationService,
     private organizationService: OrganizationService,
     public dialog: MatDialog,
+    private zoneStyleFactoryService: ZoneStyleFactoryService
   ) {
   }
 
@@ -156,18 +163,25 @@ export class MapDisplayComponent {
   }
 
   private initDrawnItems(selectId?: string) {
-    this.fetchedSectors = this.organizationService.fetchSectors();
-    this.fetchedSectors.forEach(sector => {
-      let sectorLayer = L.geoJson(sector.geoJson);
-      sectorLayer.on('click', this.selectZone);
-      sectorLayer.on('dblclick', this.navigateIntoZone)
-      if (sector.geoJson && sector.geoJson.id === selectId) {
-        sectorLayer.setStyle(SELECTED_ZONE_STYLE);
-      } else {
-        sectorLayer.setStyle(DEFAULT_ZONE_STYLE)
-      }
-      this._drawnItems.addLayer(sectorLayer);
-    })
+    this.organizationService.fetchSectors().subscribe((sectorsDto) => {
+      this.fetchedSectors = sectorsDto.map(dto => OrganizationMapper.convertDto2Sector(dto));
+      this.fetchedSectors.forEach(sector => {
+        let sectorLayer = L.geoJson(sector.geoJson);
+        sectorLayer.on('click', this.selectZone);
+        sectorLayer.on('dblclick', this.navigateIntoZone)
+        if (sector.geoJson) {
+          sector.geoJson.id = sector.geoJson.id ? sector.geoJson.id : sector.id
+          if (sector.geoJson.id === selectId) {
+            sectorLayer.setStyle(SELECTED_ZONE_STYLE);
+            this.selectedZone = sectorLayer;
+            this.previousSelectedStyle = DEFAULT_ZONE_STYLE;
+          } else {
+            sectorLayer.setStyle(DEFAULT_ZONE_STYLE)
+          }
+        }
+        this._drawnItems.addLayer(sectorLayer);
+      })
+    });
   }
 
   private initMap(): void {
@@ -181,53 +195,28 @@ export class MapDisplayComponent {
     this.map.addLayer(this._drawnItems);
 
     this.map.on(L.Draw.Event.CREATED, e => {
-      const layer = e.layer;
-      e.layer.setStyle(DEFAULT_ZONE_STYLE)
-      layer.on('click', this.selectZone);
-      this._drawnItems.addLayer(layer);
-      this.drawEnabled = false;
-
-      let organizationParent;
-      const organizationParentType = this.getParentOrganizationType();
-      switch (organizationParentType) {
-        case Sector.name: {
-          organizationParent = this.selectedSector;
-          break;
-        }
-        case Neighborhood.name: {
-          organizationParent = this.selectedNeighborhood;
-          break;
-        }
-        case Complex.name: {
-          organizationParent = this.selectedComplex;
-          break;
-        }
-        case UrbanZone.name: {
-          organizationParent = this.selectedUrbanZone;
-          break;
-        }
-        default:
-          organizationParent = undefined;
-          break;
-      }
-
-      const dialogRef = this.dialog.open(AddEditOrganizationDialogComponent, {
-        data: {
-          organizationType: !this.selectedToggleDisplay ? this.selectedOrganizationType : this.selectedToggleValue,
-          organizationParent: organizationParent,
-          complexOrUrbanZone: this.selectedToggleDisplay ? this.selectedToggleValue : undefined
-        }
-      });
+      const dialogRef = this.openEditDialog(false)
 
       dialogRef.afterClosed().subscribe((organizationResult: Organization) => {
         console.log(organizationResult);
+        organizationResult.geoJson = e.layer.toGeoJSON();
         this.organizationService.addOrganization(organizationResult);
+        const layer = e.layer;
+        layer.setStyle(DEFAULT_ZONE_STYLE)
+
+        const urbanType = organizationResult instanceof Urban_Zone ? (organizationResult as Urban_Zone).type : null;
+        if (urbanType) {
+          layer.setStyle(this.zoneStyleFactoryService.getUrbanZoneStyle(urbanType));
+        }
+
+        layer.on('click', this.selectZone);
+        this._drawnItems.addLayer(layer);
       })
     });
   }
 
   private getParentOrganizationType(): string {
-    if (this.selectedOrganizationType.constructor.name !== UrbanZone.name) {
+    if (this.selectedOrganizationType !== Urban_Zone.name) {
       // @ts-ignore
       return ORGANIZATION_HIERARCHY.has(this.selectedOrganizationType) ?
         ORGANIZATION_HIERARCHY.get(this.selectedOrganizationType) : '';
@@ -237,14 +226,18 @@ export class MapDisplayComponent {
   }
 
   selectZone(e: LeafletMouseEvent) {
-    self.deselectAll();
+    if (self.selectedZone) {
+      self.selectedZone.setStyle(self.previousSelectedStyle ? self.previousSelectedStyle : DEFAULT_ZONE_STYLE)
+    }
+    // self.deselectAll();
     let affectedZone = e.target;
     if (!e.target.editing) {
       affectedZone = e.layer;
     }
+    self.previousSelectedStyle = JSON.parse(JSON.stringify(affectedZone.options));
     affectedZone.setStyle(SELECTED_ZONE_STYLE);
 
-    if (self.selectedZone && self.selectedZone.editing._enabled) {
+    if (self.selectedZone && self.selectedZone.editing && self.selectedZone.editing._enabled) {
       self.selectedZone.editing.disable()
       affectedZone.editing.enable();
     }
@@ -252,6 +245,7 @@ export class MapDisplayComponent {
   }
 
   navigateIntoZone(e: LeafletMouseEvent) {
+    self.selectedZone = undefined;
     self.mapNavigationService.navigateIntoZone(self, e)
   }
 
@@ -283,19 +277,42 @@ export class MapDisplayComponent {
   saveEdit() {
     self.selectedZone.editing.disable();
     self.editEnabled = false;
+    if (self.selectedZone.feature.id) {
+      const orgId = self.selectedZone.feature.id;
+      const orgType: string = self.selectedOrganizationType.toUpperCase();
+      let org: Organization | undefined = self.findSelectedOrganization(orgId);
+      if (!org) return;
+
+      if (self.selectedOrganizationType !== Urban_Zone.name) {
+        org.geoJson = self.selectedZone.toGeoJSON();
+        self.organizationService.updateOrganization(orgType, org.id, org.name, org.geoJson);
+        return;
+      }
+
+      let updatedUrbanZone = org as Urban_Zone
+      updatedUrbanZone.geoJson = self.selectedZone.toGeoJSON();
+      self.organizationService.updateUrbanZone(
+        updatedUrbanZone.id,
+        updatedUrbanZone.name,
+        updatedUrbanZone.geoJson,
+        updatedUrbanZone.type,
+        updatedUrbanZone.ownerId
+      );
+    }
   }
 
   private changeTabHandlerMap: Map<string, Function> = new Map<string, Function>([
     [Sector.name, this.changeToSectorTab],
     [Neighborhood.name, this.changeToNeighborhoodTab],
     [Complex.name, this.changeToComplexAndUrbanZonesTab],
-    [UrbanZone.name, this.changeToComplexAndUrbanZonesTab],
+    [Urban_Zone.name, this.changeToComplexAndUrbanZonesTab],
   ])
 
   onChangeTabEvent(event: ChangeOrganizationTabEvent) {
     const orgType = event.orgType ? event.orgType : '';
 
     if (this.changeTabHandlerMap.has(orgType)) {
+      this.selectedOrganizationType = orgType;
       // @ts-ignore
       this.changeTabHandlerMap.get(orgType).call(this, event)
     }
@@ -329,28 +346,102 @@ export class MapDisplayComponent {
     }
   }
 
-  private changeToComplexAndUrbanZonesTab(event: MapOrganizationEvent){
-    if(!event.selectedOrganization && event.parentOrganization){
+  private changeToComplexAndUrbanZonesTab(event: MapOrganizationEvent) {
+    if (!event.selectedOrganization && event.parentOrganization) {
       const parentNeighborhood = event.parentOrganization as Neighborhood;
       this._drawnItems.clearLayers();
       this.mapNavigationService.navigateIntoNeighborhood(this, L.geoJson(parentNeighborhood.geoJson), parentNeighborhood);
     }
 
-    if(event.selectedOrganization){
+    if (event.selectedOrganization) {
       const orgParent = this.selectedToggleValue === Complex.name ?
         event.parentOrganization as Complex : event.parentOrganization as Neighborhood;
 
-      if(event.selectedOrganization instanceof Complex){
+      if (event.selectedOrganization instanceof Complex) {
         this._drawnItems.clearLayers();
         this.mapNavigationService.navigateIntoComplex(this, L.geoJson(event.selectedOrganization.geoJson), event.selectedOrganization, event.selectedOrganization.id);
         return;
       }
 
-      if(event.selectedOrganization instanceof UrbanZone){
+      if (event.selectedOrganization instanceof Urban_Zone) {
         this._drawnItems.clearLayers();
         this.mapNavigationService.navigateIntoUrbanZone(this, L.geoJson(event.selectedOrganization.geoJson));
         return;
       }
     }
+  }
+
+  findSelectedOrganization(orgId: string): Organization | undefined {
+    switch (this.selectedOrganizationType) {
+      case Sector.name:
+        return this.fetchedSectors?.find(sector => sector.id === orgId);
+      case Neighborhood.name:
+        return this.fetchedNeighborhoods?.find(neighborhood => neighborhood.id === orgId);
+      case Complex.name:
+        const result = this.fetchedComplexes?.find(complex => complex.id === orgId);
+        if(result) return result;
+        return this.fetchedUrbanZones?.find(urbanZone => urbanZone.id === orgId)
+      case Urban_Zone.name:
+        return this.fetchedUrbanZones?.find(urbanZone => urbanZone.id === orgId)
+    }
+    return undefined;
+  }
+
+  openEditDialog(is4SelectedOrganization: boolean = true) {
+    let selectedOrganization: Organization | undefined = undefined;
+    if (is4SelectedOrganization && self.selectedZone && self.selectedZone.feature && self.selectedZone.feature.id) {
+      selectedOrganization = this.findSelectedOrganization(self.selectedZone.feature.id)
+    }
+
+    this.drawEnabled = false;
+    let organizationParent;
+    const organizationParentType = this.getParentOrganizationType();
+    switch (organizationParentType) {
+      case Sector.name: {
+        organizationParent = this.selectedSector;
+        break;
+      }
+      case Neighborhood.name: {
+        organizationParent = this.selectedNeighborhood;
+        break;
+      }
+      case Complex.name: {
+        organizationParent = this.selectedComplex;
+        break;
+      }
+      case Urban_Zone.name: {
+        organizationParent = this.selectedUrbanZone;
+        break;
+      }
+      default:
+        organizationParent = undefined;
+        break;
+    }
+    const dialogRef = this.dialog.open(AddEditOrganizationDialogComponent, {
+      data: {
+        organizationType: !this.selectedToggleDisplay ? this.selectedOrganizationType : this.selectedToggleValue,
+        organizationParent: organizationParent,
+        complexOrUrbanZone: this.selectedToggleDisplay ? this.selectedToggleValue : undefined,
+        organizationData: selectedOrganization
+      }
+    });
+    if(!is4SelectedOrganization || !selectedOrganization) return dialogRef;
+    dialogRef.afterClosed().subscribe((organizationResult: Organization) => {
+      console.log(organizationResult);
+      if(organizationResult instanceof Urban_Zone){
+        const uz = organizationResult as Urban_Zone;
+        this.organizationService.updateUrbanZone(uz.id, uz.name, uz.geoJson, uz.type, uz.ownerId)
+        console.log("Updating Urban Zone ...")
+        return;
+      }
+      console.log("Updating Organization ...")
+      this.organizationService.updateOrganization(
+        organizationResult.constructor.name.toUpperCase(),
+        organizationResult.id,
+        organizationResult.name,
+        organizationResult.geoJson
+      )
+    })
+    return dialogRef;
   }
 }

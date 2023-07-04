@@ -6,21 +6,22 @@ import {Complex} from "./Complex";
 import * as geoJson from "geojson";
 
 export enum UrbanZoneType {
-  NONE,
-  RESIDENTIAL,
-  COMMERCIAL,
-  INDUSTRIAL,
-  EDUCATIONAL,
-  CULTURAL,
-  ADMINISTRATIVE,
-  BUSINESS,
-  PARK,
+  NONE= "NONE",
+  RESIDENTIAL= "RESIDENTIAL",
+  COMMERCIAL= "COMMERCIAL",
+  INDUSTRIAL= "INDUSTRIAL",
+  EDUCATIONAL= "EDUCATIONAL",
+  CULTURAL= "CULTURAL",
+  ADMINISTRATIVE= "ADMINISTRATIVE",
+  BUSINESS= "BUSINESS",
+  PARK= "PARK",
 }
 
-export class UrbanZone implements Organization{
+export class Urban_Zone implements Organization{
     constructor(
         public id: string = '',
-        public owner: string | null = null,
+        public name: string = '',
+        public ownerId: string | null = null,
         public type: UrbanZoneType = UrbanZoneType.NONE,
         public parentId: string = '',
         public utilityCosts: UtilityCost[] = [],

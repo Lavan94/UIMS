@@ -1,14 +1,19 @@
 <mat-form-field appearance="outline">
   <mat-label>Urban Zone Type</mat-label>
   <mat-select [(ngModel)]="urbanZone.type">
-    <mat-option value="residential">
-      Residential
-    </mat-option>
-    <mat-option value="commercial">
-      Commercial
-    </mat-option>
-    <mat-option value="industrial">
-      Industrial
+    <mat-option *ngFor="let type of urbanZoneTypes" [value]="type">
+      {{type}}
     </mat-option>
   </mat-select>
+</mat-form-field>
+<br>
+<mat-form-field appearance="outline">
+  <mat-label>Name</mat-label>
+  <input [(ngModel)]="urbanZone.name" matInput placeholder="Urban zone name ...">
+</mat-form-field>
+<br>
+<mat-form-field appearance="outline">
+  <mat-label>Owner Id</mat-label>
+  <input [(ngModel)]="urbanZone.ownerId" matInput placeholder="UUID">
+  <mat-hint>Copy the owner id from the owner page</mat-hint>
 </mat-form-field>

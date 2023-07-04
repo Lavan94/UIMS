@@ -1,10 +1,9 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 
 import {RouterModule, Routes} from "@angular/router";
 import {OrganizationManagerComponent} from "./organization-manager/organization-manager.component";
 import {OwnerManagerComponent} from "./owner-manager/owner-manager.component";
-import {HOME} from "@angular/cdk/keycodes";
 import {HomeLoginComponent} from "./home-login/home-login.component";
 import {AuthGuard} from "./auth/auth.guard";
 import {OwnerRole} from "./model/Owner";
@@ -21,7 +20,15 @@ export const routes: Routes = [
     path: ORGANIZATION_MANAGER_PAGE,
     component: OrganizationManagerComponent,
     title: 'UIA - Organizations',
-    canActivate:[AuthGuard]
+    canActivate:[AuthGuard],
+    data:{
+      role: [
+        OwnerRole.ADMINISTRATOR,
+        OwnerRole.SERVICE_PROVIDER,
+        OwnerRole.BUSINESS_OWNER,
+        OwnerRole.OWNER,
+      ]
+    }
   },
   {
     path: OWNER_MANAGER_PAGE,
@@ -29,7 +36,7 @@ export const routes: Routes = [
     title: 'UIA - Owners',
     canActivate:[AuthGuard],
     data:{
-      role: OwnerRole.ADMINISTRATOR
+      role: [OwnerRole.ADMINISTRATOR]
     }
   }
 ]

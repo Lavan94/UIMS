@@ -5,26 +5,26 @@ import java.util.*
 
 @Entity
 @Table(name = "organization_zone")
-open class OrganizationZone {
+open class OrganizationZone(
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id", nullable = false)
-    open var id: UUID? = null
+    open var id: UUID? = null,
 
     @Column(name = "name", nullable = false)
-    open var name: String = ""
+    open var name: String = "",
 
     @Enumerated(EnumType.STRING)
     @Column(name = "organization_zone_type", nullable = true)
-    open var organizationZoneType: OrganizationZoneType? = null
+    open var organizationZoneType: OrganizationZoneType? = null,
 
-    @Column(name = "geo_json", nullable = false)
-    open var geoJson: String = ""
+    @Column(name = "geo_json_file_path", nullable = false)
+    open var geoJsonFilePath: String = "",
 
     @ManyToOne
     @JoinColumn(name = "zone_id")
-    open var parentOrganizationZone: OrganizationZone? = null
+    open var parentOrganizationZone: OrganizationZone? = null,
 
     @OneToMany(targetEntity = OrganizationZone::class, mappedBy = "parentOrganizationZone")
-    open var zoneList: List<OrganizationZone>? = null
-}
+    open var zoneList: List<OrganizationZone>? = null,
+) {}
