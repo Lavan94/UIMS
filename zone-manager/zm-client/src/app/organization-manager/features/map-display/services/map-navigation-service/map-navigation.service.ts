@@ -47,6 +47,8 @@ export class MapNavigationService {
 
       if (selectedNeighborhoodId && selectedNeighborhoodId === neighborhood.id) {
         neighborhoodLayer.setStyle(SELECTED_ZONE_STYLE);
+        mapDisplay.selectedZone = neighborhoodLayer;
+        mapDisplay.previousSelectedStyle = DEFAULT_ZONE_STYLE;
       } else {
         neighborhoodLayer.setStyle(DEFAULT_ZONE_STYLE);
       }
@@ -77,6 +79,8 @@ export class MapNavigationService {
 
       if (selectedNeighborhoodId && selectedNeighborhoodId === child.id) {
         childLayer.setStyle(SELECTED_ZONE_STYLE);
+        mapDisplay.selectedZone = childLayer;
+        mapDisplay.previousSelectedStyle = DEFAULT_ZONE_STYLE;
       }
 
       mapDisplay.drawnItems.addLayer(childLayer);
@@ -101,6 +105,8 @@ export class MapNavigationService {
 
       if (selectedComplexId && selectedComplexId === child.id) {
         childLayer.setStyle(SELECTED_ZONE_STYLE);
+        mapDisplay.selectedZone = childLayer;
+        mapDisplay.previousSelectedStyle = DEFAULT_ZONE_STYLE;
       } else {
         childLayer.setStyle(this.zoneStyleFactoryService.getUrbanZoneStyle(child.type));
       }
