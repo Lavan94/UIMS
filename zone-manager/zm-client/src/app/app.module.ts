@@ -42,6 +42,7 @@ import {MatMenuModule} from "@angular/material/menu";
 import {AuthGuard} from "./auth/auth.guard";
 import {AuthInterceptor} from "./auth/auth.interceptor";
 import {OwnerService} from "./owner-manager/service/owner.service";
+import { AddEditFinancialDataDialogComponent } from './organization-manager/features/organization-display/organization-urban-zone/features/add-edit-financial-data-dialog/add-edit-financial-data-dialog.component';
 
 @NgModule({
   declarations: [
@@ -61,6 +62,7 @@ import {OwnerService} from "./owner-manager/service/owner.service";
     HomeLoginComponent,
     OwnerTableComponent,
     OwnerDetailsComponent,
+    AddEditFinancialDataDialogComponent,
   ],
   imports: [
     BrowserModule,

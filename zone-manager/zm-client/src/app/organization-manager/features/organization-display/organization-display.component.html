@@ -56,6 +56,11 @@
     </div>
   </mat-tab>
   <mat-tab [label]="urbanZoneTabName" [disabled]="urbanZoneDisabled">
-    <app-organization-urban-zone [currentUrbanZone]="this.selectedUrbanZone"></app-organization-urban-zone>
+    <app-organization-urban-zone
+      [currentUrbanZone]="this.selectedUrbanZone"
+      [parentSector]="sectorTabName"
+      [parentNeighbourhood]="neighborhoodTabName"
+      [parentComplex]="selectedComplex ? selectedComplex.name : 'None'"
+    ></app-organization-urban-zone>
   </mat-tab>
 </mat-tab-group>

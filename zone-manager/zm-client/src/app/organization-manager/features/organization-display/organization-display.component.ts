@@ -42,7 +42,7 @@ export class OrganizationDisplayComponent implements OnInit {
   complexAndUrbanZoneTabName = DEFAULT_COMPLEX_AND_URBAN_ZONE_NAME;
   selectedNeighborhoodComplexes: Complex[] = [];
   selectedNeighborhoodUrbanZones: Urban_Zone[] = [];
-  private selectedComplex?: Complex;
+  public selectedComplex?: Complex;
 
   urbanZoneDisabled: boolean = true;
   urbanZoneTabName = DEFAULT_URBAN_ZONE_NAME;

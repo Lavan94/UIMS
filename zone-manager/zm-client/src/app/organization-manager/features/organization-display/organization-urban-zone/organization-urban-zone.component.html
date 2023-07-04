@@ -26,17 +26,17 @@
       <mat-list-item>
         <span matListItemTitle>Sector</span>
         <hr>
-        <span matListItemLine>{{this.currentUrbanZone.id}}</span>
+        <span matListItemLine>{{this.parentSector}}</span>
       </mat-list-item>
       <mat-list-item>
         <span matListItemTitle>Neighborhood</span>
         <hr>
-        <span matListItemLine>{{this.currentUrbanZone.type}}</span>
+        <span matListItemLine>{{this.parentNeighbourhood}}</span>
       </mat-list-item>
       <mat-list-item>
         <span matListItemTitle>Complex</span>
         <hr>
-        <span matListItemLine>{{this.currentUrbanZone.ownerId}}</span>
+        <span matListItemLine>{{this.parentComplex}}</span>
       </mat-list-item>
     </div>
   </mat-list>
@@ -49,9 +49,23 @@
     </mat-panel-title>
   </mat-expansion-panel-header>
   <table mat-table [dataSource]="currentUrbanZone.utilityCosts" class="mat-elevation-z8" style="background: #C5CAE9">
-    <ng-container matColumnDef="id">
-      <th mat-header-cell *matHeaderCellDef> Id</th>
-      <td mat-cell *matCellDef="let element"> {{element.id}}</td>
+    <ng-container matColumnDef="date">
+      <th mat-header-cell *matHeaderCellDef> Month of pay</th>
+      <td mat-cell *matCellDef="let element"> {{getDate(element.date)}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="income">
+      <th mat-header-cell *matHeaderCellDef> Income</th>
+      <td mat-cell *matCellDef="let element">
+        {{getIncome(element)}}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="employee">
+      <th mat-header-cell *matHeaderCellDef> Employee Expense</th>
+      <td mat-cell *matCellDef="let element">
+        {{getEmployeeExpense(element)}}
+      </td>
     </ng-container>
 
     <ng-container matColumnDef="hotWater">
@@ -64,19 +78,19 @@
       <td mat-cell *matCellDef="let element"> {{element.coldWaterCost}} {{element.currency}}</td>
     </ng-container>
 
-    <ng-container matColumnDef="sewage">
-      <th mat-header-cell *matHeaderCellDef> Sewage</th>
-      <td mat-cell *matCellDef="let element"> {{element.sewageCost}} {{element.currency}}</td>
+    <ng-container matColumnDef="electricity">
+      <th mat-header-cell *matHeaderCellDef> Electricity</th>
+      <td mat-cell *matCellDef="let element"> {{element.electricityCost}} {{element.currency}}</td>
     </ng-container>
 
-    <ng-container matColumnDef="trash">
-      <th mat-header-cell *matHeaderCellDef> Trash</th>
-      <td mat-cell *matCellDef="let element"> {{element.trashCost}} {{element.currency}}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="date">
-      <th mat-header-cell *matHeaderCellDef> Date of Pay</th>
-      <td mat-cell *matCellDef="let element"> {{element.date.toLocaleDateString()}}</td>
+    <ng-container matColumnDef="action">
+      <th mat-header-cell *matHeaderCellDef>
+        <button *ngIf="role != 'OWNER'" mat-stroked-button color="primary" (click)="add()" style="width: 266px; margin-right: 5px; border-radius: 10px">Add</button>
+      </th>
+      <td mat-cell *matCellDef="let element">
+        <button *ngIf="role != 'OWNER'" mat-raised-button (click)="edit(element)" style="width: 128px; margin-right: 5px; border-radius: 10px" color="primary">Edit</button>
+        <button *ngIf="role != 'OWNER'" mat-raised-button (click)="delete(element)" style="width: 128px; margin-left: 5px; border-radius: 10px" color="accent">Delete</button>
+      </td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

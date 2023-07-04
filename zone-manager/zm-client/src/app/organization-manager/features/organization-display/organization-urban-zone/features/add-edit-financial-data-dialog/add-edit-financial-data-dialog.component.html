@@ -1,0 +1,33 @@
+<h1 mat-dialog-title>Financial Data Dialog</h1>
+<mat-divider></mat-divider>
+<mat-dialog-content>
+    <mat-form-field *ngIf="role !== 'SERVICE_PROVIDER'" appearance="outline">
+      <mat-label>Income</mat-label>
+      <input matInput [(ngModel)]="currentFinancialData.income">
+    </mat-form-field>
+    <br>
+    <mat-form-field *ngIf="role !== 'SERVICE_PROVIDER'" appearance="outline">
+      <mat-label>Employee Expense</mat-label>
+      <input matInput [(ngModel)]="currentFinancialData.employee">
+    </mat-form-field>
+    <br>
+    <mat-form-field *ngIf="['SERVICE_PROVIDER', 'ADMINISTRATOR'].includes(role)" appearance="outline">
+      <mat-label>Cold Water Cost</mat-label>
+      <input matInput [(ngModel)]="currentFinancialData.coldWaterCost">
+    </mat-form-field>
+    <br>
+    <mat-form-field *ngIf="['SERVICE_PROVIDER', 'ADMINISTRATOR'].includes(role)" appearance="outline">
+      <mat-label>Hot Water Cost</mat-label>
+      <input matInput [(ngModel)]="currentFinancialData.hotWaterCost">
+    </mat-form-field>
+    <br>
+    <mat-form-field *ngIf="['SERVICE_PROVIDER', 'ADMINISTRATOR'].includes(role)" appearance="outline">
+      <mat-label>Electricity Cost</mat-label>
+      <input matInput [(ngModel)]="currentFinancialData.electricityCost">
+    </mat-form-field>
+</mat-dialog-content>
+<mat-divider></mat-divider>
+<mat-dialog-actions>
+  <button mat-raised-button color="primary" [mat-dialog-close]="currentFinancialData">Save</button>
+  <button mat-raised-button color="accent" [mat-dialog-close]="undefined">Cancel</button>
+</mat-dialog-actions>
