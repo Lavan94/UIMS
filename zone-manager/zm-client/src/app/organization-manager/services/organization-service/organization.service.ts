@@ -40,11 +40,11 @@ export class OrganizationService {
   }
 
   fetchNeighborhoods(sectorId: string): Neighborhood[] {
-     const sector = this.sectorList.find(sector => sector.id === sectorId);
-     return sector ? sector.neighborhoods : [];
+    const sector = this.sectorList.find(sector => sector.id === sectorId);
+    return sector ? sector.neighborhoods : [];
   }
 
-  fetchComplexesAndUrbanZones(sectorId: string, neighborhoodId: string): (Complex|Urban_Zone)[] {
+  fetchComplexesAndUrbanZones(sectorId: string, neighborhoodId: string): (Complex | Urban_Zone)[] {
     const neighborhoods = this.fetchNeighborhoods(sectorId);
     if (!neighborhoods.length) return [];
 
@@ -54,14 +54,14 @@ export class OrganizationService {
 
   fetchUrbanZone(urbanZoneId: string, sectorId: string, neighborhoodId: string, complexId?: string): Urban_Zone | null {
     const complexesAndUrbanZones = this.fetchComplexesAndUrbanZones(sectorId, neighborhoodId);
-    if(!complexesAndUrbanZones.length) return null;
+    if (!complexesAndUrbanZones.length) return null;
 
     let urbanZone: Urban_Zone | null;
 
-    if(complexId){
+    if (complexId) {
       // @ts-ignore
       const complex: Complex = complexesAndUrbanZones.find(entry => typeof entry === Complex.name && entry.id === complexId);
-      if(!complex) return null;
+      if (!complex) return null;
       const result = complex.children.find(child => child.id === urbanZoneId);
       urbanZone = result ? result : null;
     } else {
@@ -74,7 +74,7 @@ export class OrganizationService {
 
   addOrganization(organizationResult: Organization) {
     const orgType: string = organizationResult.constructor.name;
-    if(organizationResult && this.orgMap.has(orgType)) {
+    if (organizationResult && this.orgMap.has(orgType)) {
       // @ts-ignore
       this.orgMap.get(orgType).call(this, organizationResult);
       return;
@@ -105,7 +105,7 @@ export class OrganizationService {
   }
 
   public addNeighborhood(neighborhood: Neighborhood) {
-    if(neighborhood.parent) {
+    if (neighborhood.parent) {
       neighborhood.parentId = neighborhood.parent.id;
       neighborhood.parent.neighborhoods.push(neighborhood);
     }
@@ -119,7 +119,7 @@ export class OrganizationService {
   }
 
   public addComplex(complex: Complex) {
-    if(complex.parent) {
+    if (complex.parent) {
       complex.parentId = complex.parent.id
       complex.parent.children.push(complex);
     }
@@ -133,7 +133,7 @@ export class OrganizationService {
   }
 
   public addUrbanZone(urbanZone: Urban_Zone) {
-    if(urbanZone.parent) {
+    if (urbanZone.parent) {
       urbanZone.parent.children.push(urbanZone);
       urbanZone.parentId = urbanZone.parent.id;
     }

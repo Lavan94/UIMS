@@ -195,7 +195,7 @@ export class MapDisplayComponent {
     this.map.addLayer(this._drawnItems);
 
     this.map.on(L.Draw.Event.CREATED, e => {
-      const dialogRef = this.openEditDialog()
+      const dialogRef = this.openEditDialog(false)
 
       dialogRef.afterClosed().subscribe((organizationResult: Organization) => {
         console.log(organizationResult);
@@ -387,9 +387,9 @@ export class MapDisplayComponent {
     return undefined;
   }
 
-  openEditDialog() {
+  openEditDialog(is4SelectedOrganization: boolean = true) {
     let selectedOrganization: Organization | undefined = undefined;
-    if (self.selectedZone && self.selectedZone.feature && self.selectedZone.feature.id) {
+    if (is4SelectedOrganization && self.selectedZone && self.selectedZone.feature && self.selectedZone.feature.id) {
       selectedOrganization = this.findSelectedOrganization(self.selectedZone.feature.id)
     }
 
@@ -425,7 +425,7 @@ export class MapDisplayComponent {
         organizationData: selectedOrganization
       }
     });
-    if(!selectedOrganization) return dialogRef;
+    if(!is4SelectedOrganization || !selectedOrganization) return dialogRef;
     dialogRef.afterClosed().subscribe((organizationResult: Organization) => {
       console.log(organizationResult);
       if(organizationResult instanceof Urban_Zone){

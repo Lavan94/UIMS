@@ -13,8 +13,11 @@ export class OrganizationMapper{
     if(sector.geoJson){
       sector.geoJson.id = organizationDto.id
     }
-    sector.neighborhoods = organizationDto.zoneList
-      .map(neighborhoodDto => OrganizationMapper.convertDto2Neighborhood(neighborhoodDto))
+
+    if(organizationDto.zoneList){
+      sector.neighborhoods = organizationDto.zoneList
+        .map(neighborhoodDto => OrganizationMapper.convertDto2Neighborhood(neighborhoodDto))
+    }
 
     return sector;
   }
