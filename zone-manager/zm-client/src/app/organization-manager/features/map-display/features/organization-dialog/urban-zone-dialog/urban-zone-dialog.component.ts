@@ -8,5 +8,7 @@ import {Urban_Zone, UrbanZoneType} from "../../../../../../model/Organization/Ur
 })
 export class UrbanZoneDialogComponent {
   @Input() public urbanZone: Urban_Zone = new Urban_Zone();
+  @Input() public readonlyData: boolean = false;
+
   public urbanZoneTypes: string[] = Object.values(UrbanZoneType)
 }

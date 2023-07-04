@@ -8,4 +8,5 @@ import {Complex} from "../../../../../../model/Organization/Complex";
 })
 export class ComplexDialogComponent {
   @Input() public complex: Complex = new Complex();
+  @Input() public readonlyData: boolean = false;
 }

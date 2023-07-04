@@ -1,13 +1,14 @@
 <h1 mat-dialog-title>{{organizationType}}</h1>
 <mat-divider></mat-divider>
 <mat-dialog-content>
-  <app-sector-dialog *ngIf="organizationType === 'Sector'" [sector]="organization" ></app-sector-dialog>
-  <app-neighborhood-dialog *ngIf="organizationType === 'Neighborhood'" [neighborhood]="organization"></app-neighborhood-dialog>
-  <app-complex-dialog *ngIf="complexOrUrbanZone && complexOrUrbanZone === 'Complex'" [complex]="organization"></app-complex-dialog>
-  <app-urban-zone-dialog *ngIf="complexOrUrbanZone && complexOrUrbanZone === 'Urban_Zone'" [urbanZone]="organization"></app-urban-zone-dialog>
+  <app-sector-dialog *ngIf="organizationType === 'Sector'" [sector]="organization" [readonlyData]="readonlyData"></app-sector-dialog>
+  <app-neighborhood-dialog *ngIf="organizationType === 'Neighborhood'" [neighborhood]="organization" [readonlyData]="readonlyData"></app-neighborhood-dialog>
+  <app-complex-dialog *ngIf="complexOrUrbanZone && complexOrUrbanZone === 'Complex'" [complex]="organization" [readonlyData]="readonlyData"></app-complex-dialog>
+  <app-urban-zone-dialog *ngIf="complexOrUrbanZone && complexOrUrbanZone === 'Urban_Zone'" [urbanZone]="organization" [readonlyData]="readonlyData"></app-urban-zone-dialog>
 </mat-dialog-content>
 <mat-divider></mat-divider>
 <mat-dialog-actions>
-  <button mat-raised-button color="primary" [mat-dialog-close]="organization">Save</button>
-  <button mat-raised-button color="accent" [mat-dialog-close]="undefined">Cancel</button>
+  <button *ngIf="!readonlyData" mat-raised-button color="primary" [mat-dialog-close]="organization">Save</button>
+  <button *ngIf="!readonlyData" mat-raised-button color="accent" [mat-dialog-close]="undefined">Cancel</button>
+  <button *ngIf="readonlyData" mat-raised-button color="accent" [mat-dialog-close]="undefined">Close</button>
 </mat-dialog-actions>

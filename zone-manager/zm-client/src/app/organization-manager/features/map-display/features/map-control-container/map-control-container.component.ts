@@ -4,6 +4,7 @@ import {MatIconRegistry} from "@angular/material/icon";
 import {IconPaths} from "../../../../../icon-store/IconPaths";
 import {MapAction} from "../../action/MapAction";
 import {MapDisplayComponent} from "../../map-display.component";
+import {OwnerAuthService} from "../../../../../service/owner-auth.service";
 
 @Component({
   selector: 'app-map-control-container',
@@ -14,9 +15,13 @@ export class MapControlContainerComponent implements OnInit{
   @Input() public mapActions: MapAction[] = [];
   @Input() public parentMap?: MapDisplayComponent = undefined;
 
+  public role: string = 'ADMINISTRATOR'
+
   constructor(private domSanitizer: DomSanitizer,
-              private matIconRegistry: MatIconRegistry
+              private matIconRegistry: MatIconRegistry,
+              private ownerAuthService: OwnerAuthService
   ) {
+    this.role = ownerAuthService.getRole()
     this.registerIcons();
   }
 

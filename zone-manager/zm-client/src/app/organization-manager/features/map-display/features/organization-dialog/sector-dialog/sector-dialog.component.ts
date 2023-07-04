@@ -8,4 +8,5 @@ import {Sector} from "../../../../../../model/Organization/Sector";
 })
 export class SectorDialogComponent {
   @Input() public sector: Sector = new Sector();
+  @Input() public readonlyData: boolean = false;
 }

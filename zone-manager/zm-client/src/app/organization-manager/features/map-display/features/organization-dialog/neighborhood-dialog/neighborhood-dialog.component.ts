@@ -8,4 +8,5 @@ import {Neighborhood} from "../../../../../../model/Organization/Neighborhood";
 })
 export class NeighborhoodDialogComponent {
   @Input() public neighborhood: Neighborhood = new Neighborhood();
+  @Input() public readonlyData: boolean = false;
 }

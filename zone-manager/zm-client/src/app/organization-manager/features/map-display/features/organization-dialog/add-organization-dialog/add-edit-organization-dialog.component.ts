@@ -5,6 +5,7 @@ import {Complex} from "../../../../../../model/Organization/Complex";
 import {Neighborhood} from "../../../../../../model/Organization/Neighborhood";
 import {Sector} from "../../../../../../model/Organization/Sector";
 import {Organization} from "../../../../../../model/Organization/Organization";
+import {OwnerAuthService} from "../../../../../../service/owner-auth.service";
 
 interface OrganizationDialogData {
   organizationType: string;
@@ -22,10 +23,15 @@ export class AddEditOrganizationDialogComponent {
   public organizationType: string = Sector.name;
   public organization?: any;
   public complexOrUrbanZone?: string;
+  public readonlyData: boolean = false;
 
   constructor(
     public dialogRef: MatDialogRef<AddEditOrganizationDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: OrganizationDialogData) {
+    @Inject(MAT_DIALOG_DATA) public data: OrganizationDialogData,
+    private ownerAuthService: OwnerAuthService
+  ) {
+    this.readonlyData = ownerAuthService.getRole() !== 'ADMINISTRATOR'
+
     this.organizationType = data.organizationParent ? data.organizationType : Sector.name;
     this.complexOrUrbanZone = data.complexOrUrbanZone;
     this.organization = this.getDefaultOrganization();
