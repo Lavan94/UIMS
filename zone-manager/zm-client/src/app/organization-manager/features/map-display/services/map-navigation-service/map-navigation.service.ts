@@ -106,6 +106,7 @@ export class MapNavigationService {
       }
       mapDisplay.drawnItems.addLayer(childLayer);
     });
+    mapDisplay.selectedOrganizationType = Urban_Zone.name;
   }
 
   public navigateIntoUrbanZone(mapDisplay: MapDisplayComponent, layer: any){
@@ -165,29 +166,35 @@ export class MapNavigationService {
       mapDisplay.navigatedOrganizationEventEmitter.emit(new SelectMapOrganizationEvent(currentComplex, mapDisplay.selectedNeighborhood));
       mapDisplay.selectedComplex = currentComplex;
       mapDisplay.selectedOrganizationType = Urban_Zone.name;
+      return;
     }
+    if(!mapDisplay.fetchedUrbanZones) return;
+    const urbanZone = mapDisplay.fetchedUrbanZones.find(uz => uz.geoJson && uz.geoJson.id && uz.geoJson.id === layer.feature.id);
+    this.navigateIntoUrbanZoneHandler(mapDisplay, layer, urbanZone);
   }
 
-  private navigateIntoUrbanZoneHandler(mapDisplay: MapDisplayComponent, layer: any) {
-    if (!mapDisplay.fetchedComplexes) {
-      if(!mapDisplay.selectedNeighborhood || !mapDisplay.selectedNeighborhood.children) return;
-      mapDisplay.fetchedComplexes = mapDisplay.selectedNeighborhood.children
-        .filter(child => child instanceof Complex)
-        .map(child => child as Complex)
+  private navigateIntoUrbanZoneHandler(mapDisplay: MapDisplayComponent, layer: any, urbanZone: Urban_Zone | undefined = undefined) {
+    let currentUrbanZone = urbanZone;
+    if(!currentUrbanZone){
+      if (!mapDisplay.fetchedComplexes) {
+        if(!mapDisplay.selectedNeighborhood || !mapDisplay.selectedNeighborhood.children) return;
+        mapDisplay.fetchedComplexes = mapDisplay.selectedNeighborhood.children
+          .filter(child => child instanceof Complex)
+          .map(child => child as Complex)
+      }
+
+      if(!mapDisplay.fetchedUrbanZones) {
+        mapDisplay.fetchedUrbanZones = [];
+        mapDisplay.fetchedComplexes.forEach(complex => mapDisplay.fetchedUrbanZones?.push(...complex.children))
+
+        if(!mapDisplay.selectedNeighborhood || !mapDisplay.selectedNeighborhood.children) return;
+        mapDisplay.fetchedUrbanZones?.push(
+          ...(mapDisplay.selectedNeighborhood.children.filter(child => child instanceof Urban_Zone).map(child => child as Urban_Zone))
+        )
+      }
+      currentUrbanZone = mapDisplay.fetchedUrbanZones
+        .find(urbanZone => urbanZone.geoJson && urbanZone.geoJson.id && urbanZone.geoJson.id === layer.feature.id);
     }
-
-    if(!mapDisplay.fetchedUrbanZones) {
-      mapDisplay.fetchedUrbanZones = [];
-      mapDisplay.fetchedComplexes.forEach(complex => mapDisplay.fetchedUrbanZones?.push(...complex.children))
-
-      if(!mapDisplay.selectedNeighborhood || !mapDisplay.selectedNeighborhood.children) return;
-      mapDisplay.fetchedUrbanZones?.push(
-        ...(mapDisplay.selectedNeighborhood.children.filter(child => child instanceof Urban_Zone).map(child => child as Urban_Zone))
-      )
-    }
-
-    const currentUrbanZone = mapDisplay.fetchedUrbanZones
-      .find(urbanZone => urbanZone.geoJson && urbanZone.geoJson.id && urbanZone.geoJson.id === layer.feature.id);
 
     if (currentUrbanZone) {
       this.navigateIntoUrbanZone(mapDisplay, layer);

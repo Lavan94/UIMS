@@ -173,6 +173,8 @@ export class MapDisplayComponent {
           sector.geoJson.id = sector.geoJson.id ? sector.geoJson.id : sector.id
           if (sector.geoJson.id === selectId) {
             sectorLayer.setStyle(SELECTED_ZONE_STYLE);
+            this.selectedZone = sectorLayer;
+            this.previousSelectedStyle = DEFAULT_ZONE_STYLE;
           } else {
             sectorLayer.setStyle(DEFAULT_ZONE_STYLE)
           }
@@ -235,7 +237,7 @@ export class MapDisplayComponent {
     self.previousSelectedStyle = JSON.parse(JSON.stringify(affectedZone.options));
     affectedZone.setStyle(SELECTED_ZONE_STYLE);
 
-    if (self.selectedZone && self.selectedZone.editing._enabled) {
+    if (self.selectedZone && self.selectedZone.editing && self.selectedZone.editing._enabled) {
       self.selectedZone.editing.disable()
       affectedZone.editing.enable();
     }
@@ -310,6 +312,7 @@ export class MapDisplayComponent {
     const orgType = event.orgType ? event.orgType : '';
 
     if (this.changeTabHandlerMap.has(orgType)) {
+      this.selectedOrganizationType = orgType;
       // @ts-ignore
       this.changeTabHandlerMap.get(orgType).call(this, event)
     }
@@ -386,7 +389,7 @@ export class MapDisplayComponent {
 
   openEditDialog() {
     let selectedOrganization: Organization | undefined = undefined;
-    if (self.selectedZone.feature.id) {
+    if (self.selectedZone && self.selectedZone.feature && self.selectedZone.feature.id) {
       selectedOrganization = this.findSelectedOrganization(self.selectedZone.feature.id)
     }
 
@@ -433,7 +436,7 @@ export class MapDisplayComponent {
       }
       console.log("Updating Organization ...")
       this.organizationService.updateOrganization(
-        organizationResult.constructor.name,
+        organizationResult.constructor.name.toUpperCase(),
         organizationResult.id,
         organizationResult.name,
         organizationResult.geoJson

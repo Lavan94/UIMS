@@ -48,6 +48,7 @@ export class OrganizationMapper{
     complex.name = organizationDto.name;
     complex.geoJson = JSON.parse(organizationDto.geoJson);
     complex.parentId = organizationDto.parentId
+    complex.children = organizationDto.zoneList.map(zone => OrganizationMapper.convertDto2UrbanZone(zone))
     if(complex.geoJson){
       complex.geoJson.id = organizationDto.id
     }
